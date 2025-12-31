@@ -12,7 +12,7 @@ $( () =>
     {
         $( "#en" ).prop( "required" , $( "#he" ).is( ":checked" ) ) ; 
     } ) ; 
-    $( "form" ).on( "submit" , () => 
+    $( "#l" ).on( "submit" , () => 
     {
         
         const now = new Date() ; 
