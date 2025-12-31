@@ -3,7 +3,7 @@ $( () =>
     let lr , l ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
-        lr = lll ; 
+        lr = lll[0] ; 
         l = lll[0].Laws ; 
         console.log( l ) ; 
     } ) ; 
