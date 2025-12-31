@@ -1,10 +1,9 @@
 $( () => 
 {
-    let updateDate , l ; 
+    let lr , l ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
-        updateDate = lll[0].UpdateDate ; 
-        console.log( updateDate ) ; 
+        lr = lll ; 
         l = lll[0].Laws ; 
         console.log( l ) ; 
     } ) ; 
@@ -16,6 +15,8 @@ $( () =>
     {
         
         const now = new Date() ; 
+        const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() ).padStart( 2 , "0" ) + "/" + String( now.getDay() ).padStart( 2 , "0" ) ; 
+        console.log( u ) ; 
         let out = "\t\t{\n" ; 
         out += "\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
         out += "\t\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
