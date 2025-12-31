@@ -1,19 +1,25 @@
 $( () => 
 {
-    let lr , l ; 
+    let updateDate , l ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
-        lr = lll ; 
+        updateDate = lll[0].UpdateDate ; 
+        console.log( updateDate ) ; 
         l = lll[0].Laws ; 
         console.log( l ) ; 
     } ) ; 
-    $("#confirm").on("click", () => 
+    $( "#he" ).on( "input" , () => 
     {
+        $( "#en" ).prop( "required" , $( "#he" ).is( ":checked" ) ) ; 
+    } ) ; 
+    $( "form" ).on( "submit" , () => 
+    {
+        
         const now = new Date() ; 
-        let out = "\t{\n" ; 
-        out += "\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
-        out += "\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
-        out += "\t\t\"LawURL\": \"" ; 
+        let out = "\t\t{\n" ; 
+        out += "\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
+        out += "\t\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawURL\": \"" ; 
         for( let a of l ) 
         {
             if( a.LawName == $( "#ln" ).val() ) 
@@ -23,18 +29,18 @@ $( () =>
             }
         }
         out += "\", \n" ; 
-        // out += "\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
-        out += "\t\t\"LawCategory\": \"" + $( "#lc" ).val() + "\", \n" ; 
-        out += "\t\t\"LawModifiedDate\": \"" + $( "#lm" ).val() + "\", \n" ; 
-        out += "\t\t\"LawEffectiveDate\": \"" + $( "#led" ).val() + "\", \n" ; 
-        out += "\t\t\"LawEffectiveNote\": \"\", \n" ; 
-        out += "\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
-        out += "\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
-        out += "\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
-        out += "\t\t\"LawAttachments\": [], \n" ; 
-        out += "\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
-        out += "\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
-        out += "\t\t\"LawArticles\": [\n\n\t\t] \n\t} " ; 
+        // out += "\t\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawCategory\": \"" + ( $( "#lc" ).val() == null ? "" : $( "#lc" ).val() ) + "\", \n" ; 
+        out += "\t\t\t\"LawModifiedDate\": \"" + $( "#lm" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawEffectiveDate\": \"" + $( "#led" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawEffectiveNote\": \"\", \n" ; 
+        out += "\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
+        out += "\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
+        out += "\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawAttachments\": [], \n" ; 
+        out += "\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
+        out += "\t\t\t\"LawArticles\": [\n\n\t\t\t] \n\t\t} " ; 
         $( "#out" ).text( out ) ; 
     } ) ; 
 } ) ; 
