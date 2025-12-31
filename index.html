@@ -41,11 +41,11 @@
                 </div>
                 <!-- <input type="text" id="len" /><!-- law effective note （目前應該用不到）-->
                 <div>
-                    <span>廢止勾沒廢別勾</span>
+                    <span>廢止勾；沒廢別勾</span>
                     <input type="checkbox" id="lan" /><!-- law abandon note -->
                 </div>
                 <div>
-                    <span>有英文版勾沒別勾</span>
+                    <span>有英文版勾；沒別勾</span>
                     <input type="checkbox" id="he" /><!-- has eng ver -->
                 </div>
                 <div>
@@ -53,7 +53,7 @@
                     <input type="text" id="en" /><!-- law eng name -->
                 </div>
                 <div>
-                    <span>沿革（換行用「\r\n」換行）</span>
+                    <span>沿革</span>
                     <input type="text" id="lh" /><!-- law history -->
                 </div>
                 <div>
@@ -62,6 +62,9 @@
                 </div>
                 <input type="submit" formmethod="dialog" id="confirm" />
             </form>
+            <div>
+                <small>換行都直接寫「\r\n」就好</small>
+            </div>
             <textarea id="out" rows="30" cols="100" readonly></textarea>
         </main>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
