@@ -1,15 +1,29 @@
 $( () => 
 {
-    fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( l ) => 
+    let lr , l ; 
+    fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
-        console.log( l[0] ) ; 
+        lr = lll ; 
+        l = lll[0].Laws ; 
+        console.log( l ) ; 
     } ) ; 
     $("#confirm").on("click", () => 
     {
+        const now = new Date() ; 
         let out = "\t{\n" ; 
         out += "\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
         out += "\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
-        out += "\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
+        out += "\t\t\"LawURL\": \"" ; 
+        for( let a of l ) 
+        {
+            if( a.LawName == $( "#ln" ).val() ) 
+            {
+                out += a.LawURL ; 
+                break ; 
+            }
+        }
+        out += "\", \n" ; 
+        // out += "\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
         out += "\t\t\"LawCategory\": \"" + $( "#lc" ).val() + "\", \n" ; 
         out += "\t\t\"LawModifiedDate\": \"" + $( "#lm" ).val() + "\", \n" ; 
         out += "\t\t\"LawEffectiveDate\": \"" + $( "#led" ).val() + "\", \n" ; 
