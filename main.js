@@ -11,6 +11,10 @@ $( () =>
     {
         $( "#en" ).prop( "required" , $( "#he" ).is( ":checked" ) ) ; 
     } ) ; 
+    $( "#lat" ).on( "input" , () => 
+    {
+        
+    } ) ; 
     $( "#l" ).on( "submit" , () => 
     {
         
