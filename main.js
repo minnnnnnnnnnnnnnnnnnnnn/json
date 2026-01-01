@@ -38,10 +38,10 @@ $( () =>
         out += "\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
         out += "\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
         out += "\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawAttachments\": [], \n" ; 
+        out += "\t\t\t\"LawAttachments\": [" + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
         out += "\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
         out += "\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
         out += "\t\t\t\"LawArticles\": [\n\n\t\t\t] \n\t\t} " ; 
-        $( "#out" ).text( out ) ; 
+        $( "#out" ).text( out.replaceAll( "\t" , "    " ) ) ; 
     } ) ; 
 } ) ; 
