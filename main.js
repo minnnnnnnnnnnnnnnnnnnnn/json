@@ -20,7 +20,7 @@ $( () =>
             first = false ; 
             $( "<div />" , 
             {
-                id : "att" + att_i , 
+                id : "att_" + att_i , 
                 append : "<span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" />" , 
                 appendTo : "#att" 
             } ) ; 
@@ -36,11 +36,45 @@ $( () =>
             {
                 $( "#add_att" ).before( $( "<div />" , 
                 {
+                    id : "att_" + att_i , 
                     append : "<span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" />" , 
                 } ) ) ; 
                 ++ att_i ; 
-                console.log( att_i ) ; 
+                if( $( "#rem_att" ).length ) 
+                {
+                    $( "#rem_att" ).remove() ; 
+                }
+                $( "<button />" , 
+                {
+                    id : "rem_att" , 
+                    type : "button" , 
+                    text : "-" , 
+                    appendTo : "#att" 
+                } ) ; 
+                $( "#rem_att" ).on( "click" , () => 
+                {
+                    -- att_i ; 
+                    $( "#att_" + att_i ).remove() ; 
+                    if( att_i < 2 ) 
+                    {
+                        console.log( att_i ) ; 
+                        $( "#rem_att" ).remove() ; 
+                    }
+                } ) ; 
             } ) ; 
+            // $( "<button />" , 
+            // {
+            //     id : "rem_att" , 
+            //     type : "button" , 
+            //     text : "-" , 
+            //     appendTo : "#att" 
+            // } ) ; 
+            // $( "#rem_att" ).on( "click" , () => 
+            // {
+            //     $( "#att" + att_i ).remove() ; 
+            //     -- att_i ; 
+            //     console.log( att_i ) ; 
+            // } ) ; 
             return ; 
         }
         if( $( "#lat" ).is( ":checked" ) ) 
