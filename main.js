@@ -21,7 +21,7 @@ $( () =>
             $( "<div />" , 
             {
                 id : "att_" + att_i , 
-                append : "<span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" />" , 
+                append : "<span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" />" , 
                 appendTo : "#att" 
             } ) ; 
             ++ att_i ; 
@@ -37,7 +37,7 @@ $( () =>
                 $( "#add_att" ).before( $( "<div />" , 
                 {
                     id : "att_" + att_i , 
-                    append : "<span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" />" , 
+                    append : "<span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" />" , 
                 } ) ) ; 
                 ++ att_i ; 
                 if( $( "#rem_att" ).length ) 
