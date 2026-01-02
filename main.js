@@ -1,6 +1,21 @@
 $( () => 
 {
+    // $( "#add_att" ).remove() ; 
+    // $( "<div />" , 
+    // {
+    //     append : "<input type=\"text\" id=\"att_f_u_" + att_i + "\" /><input type=\"text\" id=\"att_f_n_" + att_i + "\" />" , 
+    //     appendTo : "#att" 
+    // } ) ; 
+    // ++ att_i ; 
+    // $( "<button />" , 
+    // {
+    //     id : "add_att" , 
+    //     appendTo : "#att" 
+    // } ) ; 
+    // $( "#att" ).prop( "style" , "display:block;" ) ; 
     let lr , l ; 
+    let first = true ; 
+    let att_i = 0 ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
@@ -13,7 +28,40 @@ $( () =>
     } ) ; 
     $( "#lat" ).on( "input" , () => 
     {
-        
+        if( first && $( "#lat" ).is( ":checked" ) ) 
+        {
+            first = false ; 
+            $( "<div />" , 
+            {
+                append : "<input type=\"text\" id=\"att_f_u_" + att_i + "\" /><input type=\"text\" id=\"att_f_n_" + att_i + "\" />" , 
+                appendTo : "#att" 
+            } ) ; 
+            ++ att_i ; 
+            $( "<button />" , 
+            {
+                id : "add_att" , 
+                type : "button" , 
+                text : "+" , 
+                appendTo : "#att" 
+            } ) ; 
+            $( "#add_att" ).on( "click" , () => 
+            {
+                $( "#add_att" ).before( $( "<div />" , 
+                {
+                    append : "<input type=\"text\" id=\"att_f_u_" + att_i + "\" /><input type=\"text\" id=\"att_f_n_" + att_i + "\" />" , 
+                } ) ) ; 
+                ++ att_i ; 
+            } ) ; 
+            return ; 
+        }
+        if( $( "#lat" ).is( ":checked" ) ) 
+        {
+            $( "#att" ).prop( "style" , "display:block;" ) ; 
+        }
+        else 
+        {
+            $( "#att" ).prop( "style" , "display:none;" ) ; 
+        }
     } ) ; 
     $( "#l" ).on( "submit" , () => 
     {
