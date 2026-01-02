@@ -41,19 +41,6 @@ $( () =>
                 ++ att_i ; 
                 console.log( att_i ) ; 
             } ) ; 
-            // $( "<button />" , 
-            // {
-            //     id : "rem_att" , 
-            //     type : "button" , 
-            //     text : "-" , 
-            //     appendTo : "#att" 
-            // } ) ; 
-            // $( "#rem_att" ).on( "click" , () => 
-            // {
-            //     $( "#att" + att_i ).remove() ; 
-            //     -- att_i ; 
-            //     console.log( att_i ) ; 
-            // } ) ; 
             return ; 
         }
         if( $( "#lat" ).is( ":checked" ) ) 
@@ -97,14 +84,17 @@ $( () =>
         out += "\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
         out += "\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
         out += "\t\t\t\"LawAttachments\": [" // + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
-        for( let i = 0 ; i < att_i ; i ++ )
+        if( $( "#lat" ).is( ":checked" ) ) 
         {
-            out += ( i == 0 ? "" : ", " ) + "\n" ; 
-            out += "\t\t\t\t{\n" ; 
-            out += "\t\t\t\t\t\"FileName\": \"" + $( "#att_f_n_" + i ).val() + "\", \n" ; 
-            out += "\t\t\t\t\t\"FileURL\": \"" + $( "#att_f_u_" + i ).val() + "\" \n" ; 
-            out += "\t\t\t\t}" ; 
-            out += ( i == att_i - 1 ? "\n\t\t\t" : "" ) ; 
+            for( let i = 0 ; i < att_i ; i ++ )
+            {
+                out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                out += "\t\t\t\t{\n" ; 
+                out += "\t\t\t\t\t\"FileName\": \"" + $( "#att_f_n_" + i ).val() + "\", \n" ; 
+                out += "\t\t\t\t\t\"FileURL\": \"" + $( "#att_f_u_" + i ).val() + "\" \n" ; 
+                out += "\t\t\t\t}" ; 
+                out += ( i == att_i - 1 ? "\n\t\t\t" : "" ) ; 
+            }
         }
         out += "], \n" ; 
         out += "\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
