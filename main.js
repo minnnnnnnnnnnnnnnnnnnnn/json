@@ -1,18 +1,5 @@
 $( () => 
 {
-    // $( "#add_att" ).remove() ; 
-    // $( "<div />" , 
-    // {
-    //     append : "<input type=\"text\" id=\"att_f_u_" + att_i + "\" /><input type=\"text\" id=\"att_f_n_" + att_i + "\" />" , 
-    //     appendTo : "#att" 
-    // } ) ; 
-    // ++ att_i ; 
-    // $( "<button />" , 
-    // {
-    //     id : "add_att" , 
-    //     appendTo : "#att" 
-    // } ) ; 
-    // $( "#att" ).prop( "style" , "display:block;" ) ; 
     let lr , l ; 
     let first = true ; 
     let att_i = 0 ; 
@@ -33,7 +20,8 @@ $( () =>
             first = false ; 
             $( "<div />" , 
             {
-                append : "<input type=\"text\" id=\"att_f_u_" + att_i + "\" /><input type=\"text\" id=\"att_f_n_" + att_i + "\" />" , 
+                id : "att" + att_i , 
+                append : "<span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" />" , 
                 appendTo : "#att" 
             } ) ; 
             ++ att_i ; 
@@ -48,10 +36,24 @@ $( () =>
             {
                 $( "#add_att" ).before( $( "<div />" , 
                 {
-                    append : "<input type=\"text\" id=\"att_f_u_" + att_i + "\" /><input type=\"text\" id=\"att_f_n_" + att_i + "\" />" , 
+                    append : "<span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" />" , 
                 } ) ) ; 
                 ++ att_i ; 
+                console.log( att_i ) ; 
             } ) ; 
+            // $( "<button />" , 
+            // {
+            //     id : "rem_att" , 
+            //     type : "button" , 
+            //     text : "-" , 
+            //     appendTo : "#att" 
+            // } ) ; 
+            // $( "#rem_att" ).on( "click" , () => 
+            // {
+            //     $( "#att" + att_i ).remove() ; 
+            //     -- att_i ; 
+            //     console.log( att_i ) ; 
+            // } ) ; 
             return ; 
         }
         if( $( "#lat" ).is( ":checked" ) ) 
@@ -62,12 +64,16 @@ $( () =>
         {
             $( "#att" ).prop( "style" , "display:none;" ) ; 
         }
+        for( let i = 0 ; i < att_i ; i ++ ) 
+        {
+            $( "#att_f_n_" + i ).prop( "required" , $( "#lat" ).is( ":checked" ) ) ; 
+        }
     } ) ; 
     $( "#l" ).on( "submit" , () => 
     {
         
         const now = new Date() ; 
-        const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() ).padStart( 2 , "0" ) + "/" + String( now.getDay() ).padStart( 2 , "0" ) ; 
+        const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDay() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
         let out = "\t\t{\n" ; 
         out += "\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
@@ -90,7 +96,17 @@ $( () =>
         out += "\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
         out += "\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
         out += "\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawAttachments\": [" + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
+        out += "\t\t\t\"LawAttachments\": [" // + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
+        for( let i = 0 ; i < att_i ; i ++ )
+        {
+            out += ( i == 0 ? "" : ", " ) + "\n" ; 
+            out += "\t\t\t\t{\n" ; 
+            out += "\t\t\t\t\t\"FileName\": \"" + $( "#att_f_n_" + i ).val() + "\", \n" ; 
+            out += "\t\t\t\t\t\"FileURL\": \"" + $( "#att_f_u_" + i ).val() + "\" \n" ; 
+            out += "\t\t\t\t}" ; 
+            out += ( i == att_i - 1 ? "\n\t\t\t" : "" ) ; 
+        }
+        out += "], \n" ; 
         out += "\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
         out += "\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
         out += "\t\t\t\"LawArticles\": [\n\n\t\t\t] \n\t\t} " ; 
