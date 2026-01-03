@@ -62,19 +62,6 @@ $( () =>
                     }
                 } ) ; 
             } ) ; 
-            // $( "<button />" , 
-            // {
-            //     id : "rem_att" , 
-            //     type : "button" , 
-            //     text : "-" , 
-            //     appendTo : "#att" 
-            // } ) ; 
-            // $( "#rem_att" ).on( "click" , () => 
-            // {
-            //     $( "#att" + att_i ).remove() ; 
-            //     -- att_i ; 
-            //     console.log( att_i ) ; 
-            // } ) ; 
             return ; 
         }
         if( $( "#lat" ).is( ":checked" ) ) 
