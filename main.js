@@ -3,6 +3,7 @@ $( () =>
     let lr , l ; 
     let first = true ; 
     let att_i = 0 ; 
+    let f = null ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
@@ -122,5 +123,16 @@ $( () =>
         out += "\t\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"LawArticles\": [\n\n\t\t\t\t] \n\t\t\t} " ; 
         $( "#out" ).text( out.replaceAll( "\t" , "    " ) ) ; 
+    } ) ; 
+    $( "#create" ).on( "click" , () => 
+    {
+        let d = new Blob( [ out ] , { type : "application/json" } ) ; 
+        if( f !== null ) 
+        {
+            window.URL.revokeObjectURL( f ) ; 
+        }
+        f = window.URL.createObjectURL( d ) ; 
+        // window.location.replace( f ) ; 
+        $( "#save" ).attr( "href" , f ) ; 
     } ) ; 
 } ) ; 
