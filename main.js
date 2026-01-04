@@ -122,17 +122,18 @@ $( () =>
         out += "\t\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"LawArticles\": [\n\n\t\t\t\t] \n\t\t\t} " ; 
-        $( "#out" ).text( out.replaceAll( "\t" , "    " ) ) ; 
-    } ) ; 
-    $( "#create" ).on( "click" , () => 
-    {
-        let d = new Blob( [ out ] , { type : "application/json" } ) ; 
+        out = out.replaceAll( "\t" , "    " ) ; 
+        $( "#out" ).text( out ) ; 
+        // let d = new Blob( [ out ] , { type : "application/json" } ) ; 
         if( f !== null ) 
         {
             window.URL.revokeObjectURL( f ) ; 
         }
-        f = window.URL.createObjectURL( d ) ; 
-        // window.location.replace( f ) ; 
-        $( "#save" ).attr( "href" , f ) ; 
+        f = window.URL.createObjectURL( /* d */ new Blob( [ out ] , { type : "application/json" } ) ) ; 
+        $( "<div />" , 
+        {
+            append: "<a href=\"" + f + "\" download>下載</a>", 
+            appendTo: "main" 
+        } ) ; 
     } ) ; 
 } ) ; 
