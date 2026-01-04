@@ -91,7 +91,11 @@ $( () =>
         const now = new Date() ; 
         const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
-        let out = "\t\t\t{\n" ; 
+        let out = "[\n" ; 
+        out += "\t{\n" ; 
+        out += "\t\t\"UpdateDate\": \"" + u + "\",\n" ; 
+        out += "\t\t\"Laws\": [\n" ; 
+        out += "\t\t\t{\n" ; 
         out += "\t\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
         out += "\t\t\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"LawURL\": \"" ; 
@@ -128,7 +132,11 @@ $( () =>
         out += "], \n" ; 
         out += "\t\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawArticles\": [\n\n\t\t\t\t] \n\t\t\t} " ; 
+        out += "\t\t\t\t\"LawArticles\": [\n\n\t\t\t\t] \n" ; 
+        out += "\t\t\t} \n" ; 
+        out += "\t\t] \n" ; 
+        out += "\t} \n" ; 
+        out += "] " ; 
         out = out.replaceAll( "\t" , "    " ) ; 
         $( "#out" ).text( out ) ; 
         // let d = new Blob( [ out ] , { type : "application/json" } ) ; 

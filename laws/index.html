@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>...</title>
+        <style></style>
+    </head>
+    <body>
+        <main>
+            <form id="l">
+                <select required id="ll"><!-- law level -->
+                    <option selected disabled value="">法律位階</option>
+                    <option value="章程">章程</option>
+                    <option value="法律">法律</option>
+                    <option value="命令">命令</option>
+                </select>
+                <div>
+                    <span>法規名稱</span>
+                    <input required type="text" id="ln" /><!-- law name -->
+                </div>
+                <div>
+                    <small>（法規名稱寫對的話law url會自動生成）</small>
+                </div>
+                <!-- <input type="text" id="lu" value="https://tcfshsu.github.io/law/laws/law?a=" /><!-- law url （可用script生成）-->
+                <select required id="lc"><!-- law category -->
+                    <option selected disabled value="">法規類別</option>
+                    <option value="中央法規">中央法規</option>
+                    <option value="行政法規">行政法規</option>
+                    <option value="立法法規">立法法規</option>
+                    <option value="司法法規">司法法規</option>
+                    <option value="選舉法規">選舉法規</option>
+                    <option value="中央法規/選舉法規">中央法規/選舉法規</option>
+                    <option value="行政法規/選舉法規">行政法規/選舉法規</option>
+                    <option value="立法法規/選舉法規">立法法規/選舉法規</option>
+                </select>
+                <div>
+                    <span>最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）</span>
+                    <input required type="text" id="lm" /><!-- law modified date （章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）-->
+                </div>
+                <div>
+                    <span>生效日<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small></span>
+                    <input type="text" id="led" /><!-- law effective date （有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）-->
+                </div>
+                <!-- <input type="text" id="len" /><!-- law effective note （目前應該用不到）-->
+                <div>
+                    <span>廢止勾；沒廢別勾</span>
+                    <input type="checkbox" id="lan" /><!-- law abandon note -->
+                </div>
+                <div>
+                    <span>有英文版勾；沒別勾</span>
+                    <input type="checkbox" id="he" /><!-- has eng ver -->
+                </div>
+                <div>
+                    <span>有附件就勾</span>
+                    <input type="checkbox" id="lat" /><!-- law abandon note -->
+                </div>
+                <div id="att"></div>
+                <div>
+                    <span>沿革</span>
+                    <input required type="text" id="lh" /><!-- law history -->
+                </div>
+                <div>
+                    <span>法規前言或宗旨那種東西</span>
+                    <input type="text" id="lf" /><!-- law foreword -->
+                </div>
+                <input type="submit" formmethod="dialog" />
+            </form>
+            <div>
+                <small>換行都直接寫「\r\n」就好</small>
+            </div>
+            <textarea id="out" rows="30" cols="100" readonly></textarea>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
