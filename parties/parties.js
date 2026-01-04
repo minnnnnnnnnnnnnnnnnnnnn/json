@@ -68,10 +68,6 @@ $( () =>
         {
             $( "#rul" ).prop( "style" , "display:none;" ) ; 
         }
-        for( let i = 0 ; i < cr_i ; i ++ ) 
-        {
-            $( "#rul_n_" + i ).prop( "required" , $( "#cr" ).is( ":checked" ) ) ; 
-        }
     } ) ; 
     $( "#co" ).on( "input" , () => 
     {
@@ -175,7 +171,7 @@ $( () =>
         $( "<div />" , 
         {
             id: "dl", 
-            append: "<a href=\"" + f + "\" download>下載</a>", 
+            append: "<a href=\"" + f + "\" download=\"parties.json\">下載</a>", 
             appendTo: "main" 
         } ) ; 
     } ) ; 

@@ -70,7 +70,7 @@ $( () =>
         }
         for( let i = 0 ; i < cr_i ; i ++ ) 
         {
-            $( "#rul_n_" + i ).prop( "required" , $( "#cr" ).is( ":checked" ) ) ; 
+            $( "#cr_n_" + i ).prop( "required" , $( "#cr" ).is( ":checked" ) ) ; 
         }
     } ) ; 
     $( "#co" ).on( "input" , () => 
@@ -133,7 +133,9 @@ $( () =>
         }
         for( let i = 0 ; i < co_i ; i ++ ) 
         {
-            $( "#co_n_" + i ).prop( "required" , $( "#co" ).is( ":checked" ) ) ; 
+            $( "#co_t_" + i ).prop( "required" , $( "#co" ).is( ":checked" ) ) ; 
+            $( "#co_m_" + i ).prop( "required" , $( "#co" ).is( ":checked" ) ) ; 
+            $( "#co_u_" + i ).prop( "required" , $( "#co" ).is( ":checked" ) ) ; 
         }
     } ) ; 
     $( "#c" ).on( "submit" , () => 
@@ -205,7 +207,7 @@ $( () =>
         $( "<div />" , 
         {
             id: "dl", 
-            append: "<a href=\"" + f + "\" download>下載</a>", 
+            append: "<a href=\"" + f + "\" download=\"cases.json\">下載</a>", 
             appendTo: "main" 
         } ) ; 
     } ) ; 

@@ -137,7 +137,7 @@ $( () =>
         $( "<div />" , 
         {
             id: "dl", 
-            append: "<a href=\"" + f + "\" download>下載</a>", 
+            append: "<a href=\"" + f + "\" download=\"laws.json\">下載</a>", 
             appendTo: "main" 
         } ) ; 
     } ) ; 
