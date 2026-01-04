@@ -6,8 +6,31 @@
         <title>索引點超文本標記語言</title>
     </head>
     <body>
-        <a href="laws">laws</a>
-        <a href="parties">parties</a>
-        <a href="cases">cases</a>
+        <a id="l" href="laws">laws.json</a>
+        <a id="p" href="parties">parties.json</a>
+        <a id="c" href="cases">cases.json</a>
+        <button type="button" id="lang">中</button>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script>
+            let b = true ; 
+            $( "#lang" ).on( "click" , () => 
+            {
+                if( b ) 
+                {
+                    $( "#l" ).text( "陋室點傑森" ) ; 
+                    $( "#p" ).text( "派對與爪哇筆跡物品符號系統的內積" ) ; 
+                    $( "#c" ).text( "案件點爪哇手稿物件譜" ) ; 
+                    $( "#lang" ).text( "en" ) ; 
+                }
+                else 
+                {
+                    $( "#l" ).text( "laws.json" ) ; 
+                    $( "#p" ).text( "parties.json" ) ; 
+                    $( "#c" ).text( "cases.json" ) ; 
+                    $( "#lang" ).text( "中" ) ; 
+                }
+                b = !b ; 
+            } ) ; 
+        </script>
     </body>
 </html>
