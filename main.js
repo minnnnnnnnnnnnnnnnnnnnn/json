@@ -81,12 +81,12 @@ $( () =>
     {
         
         const now = new Date() ; 
-        const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDay() ).padStart( 2 , "0" ) ; 
+        const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
-        let out = "\t\t{\n" ; 
-        out += "\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
-        out += "\t\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawURL\": \"" ; 
+        let out = "\t\t\t{\n" ; 
+        out += "\t\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawURL\": \"" ; 
         for( let a of l ) 
         {
             if( a.LawName == $( "#ln" ).val() ) 
@@ -96,31 +96,31 @@ $( () =>
             }
         }
         out += "\", \n" ; 
-        // out += "\t\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawCategory\": \"" + ( $( "#lc" ).val() == null ? "" : $( "#lc" ).val() ) + "\", \n" ; 
-        out += "\t\t\t\"LawModifiedDate\": \"" + $( "#lm" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawEffectiveDate\": \"" + $( "#led" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawEffectiveNote\": \"\", \n" ; 
-        out += "\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
-        out += "\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
-        out += "\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawAttachments\": [" // + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
+        // out += "\t\t\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawCategory\": \"" + ( $( "#lc" ).val() == null ? "" : $( "#lc" ).val() ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawModifiedDate\": \"" + $( "#lm" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawEffectiveDate\": \"" + $( "#led" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawEffectiveNote\": \"\", \n" ; 
+        out += "\t\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
+        out += "\t\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawAttachments\": [" // + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
         if( $( "#lat" ).is( ":checked" ) ) 
         {
             for( let i = 0 ; i < att_i ; i ++ )
             {
                 out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                out += "\t\t\t\t{\n" ; 
-                out += "\t\t\t\t\t\"FileName\": \"" + $( "#att_f_n_" + i ).val() + "\", \n" ; 
-                out += "\t\t\t\t\t\"FileURL\": \"" + $( "#att_f_u_" + i ).val() + "\" \n" ; 
-                out += "\t\t\t\t}" ; 
-                out += ( i == att_i - 1 ? "\n\t\t\t" : "" ) ; 
+                out += "\t\t\t\t\t{\n" ; 
+                out += "\t\t\t\t\t\t\"FileName\": \"" + $( "#att_f_n_" + i ).val() + "\", \n" ; 
+                out += "\t\t\t\t\t\t\"FileURL\": \"" + $( "#att_f_u_" + i ).val() + "\" \n" ; 
+                out += "\t\t\t\t\t}" ; 
+                out += ( i == att_i - 1 ? "\n\t\t\t\t" : "" ) ; 
             }
         }
         out += "], \n" ; 
-        out += "\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
-        out += "\t\t\t\"LawArticles\": [\n\n\t\t\t] \n\t\t} " ; 
+        out += "\t\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"LawArticles\": [\n\n\t\t\t\t] \n\t\t\t} " ; 
         $( "#out" ).text( out.replaceAll( "\t" , "    " ) ) ; 
     } ) ; 
 } ) ; 
