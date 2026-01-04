@@ -156,20 +156,6 @@ $( () =>
         out += "\t\t\t\t\"PartyEstablishedDate\": \"" + $( "#est" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"PartyRegisteredDate\": \"" + $( "#reg" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"PartyURL\": \"" + $( "#pu" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Rulings\": [" // + ( $( "#cr" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
-        if( $( "#cr" ).is( ":checked" ) ) 
-        {
-            for( let i = 0 ; i < cr_i ; i ++ )
-            {
-                out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                out += "\t\t\t\t\t{\n" ; 
-                out += "\t\t\t\t\t\t\"RulingNo\": \"" + $( "#cr_n_" + i ).val() + "\", \n" ; 
-                out += "\t\t\t\t\t\t\"FullRulingURL\": \"" + $( "#cr_u_" + i ).val() + "\" \n" ; 
-                out += "\t\t\t\t\t}" ; 
-                out += ( i == cr_i - 1 ? "\n\t\t\t\t" : "" ) ; 
-            }
-        }
-        out += "], \n" ; 
         out += "\t\t\t} \n" ; 
         out += "\t\t] \n" ; 
         out += "\t} \n" ; 
