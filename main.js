@@ -12,7 +12,14 @@ $( () =>
     } ) ; 
     $( "#he" ).on( "input" , () => 
     {
-        $( "#en" ).prop( "required" , $( "#he" ).is( ":checked" ) ) ; 
+        if( $( "#he" ).is( ":checked" ) ) 
+        {
+            $( "#he" ).after( $( "<div />" , { id : "en_container" , append : "<span>法規英文名稱</span><input type=\"text\" required id=\"en\" />" } ) ) ; 
+        }
+        else 
+        {
+            $( "#en_container" ).remove() ; 
+        }
     } ) ; 
     $( "#lat" ).on( "input" , () => 
     {
@@ -104,7 +111,7 @@ $( () =>
         out += "\t\t\t\t\"LawEffectiveNote\": \"\", \n" ; 
         out += "\t\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
         out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
-        out += "\t\t\t\t\"EngLawName\": \"" + $( "#en" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"EngLawName\": \"" + ( $( "#he" ).is( ":checked" ) ? $( "#en" ).val() : "" ) + "\", \n" ; 
         out += "\t\t\t\t\"LawAttachments\": [" // + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
         if( $( "#lat" ).is( ":checked" ) ) 
         {
