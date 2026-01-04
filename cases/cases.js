@@ -3,6 +3,7 @@ $( () =>
     let cr , c ; 
     let first_r = true , first_o = true ; 
     let cr_i = 0 , co_i = 0 ; 
+    let f = null ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/cases.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         cr = lll[0] ; 
@@ -189,6 +190,18 @@ $( () =>
         out += "\t\t] \n" ; 
         out += "\t} \n" ; 
         out += "] " ; 
-        $( "#out" ).text( out.replaceAll( "\t" , "    " ) ) ; 
+        out = out.replaceAll( "\t" , "    " ) ; 
+        $( "#out" ).text( out ) ; 
+        // let d = new Blob( [ out ] , { type : "application/json" } ) ; 
+        if( f !== null ) 
+        {
+            window.URL.revokeObjectURL( f ) ; 
+        }
+        f = window.URL.createObjectURL( /* d */ new Blob( [ out ] , { type : "application/json" } ) ) ; 
+        $( "<div />" , 
+        {
+            append: "<a href=\"" + f + "\" download>下載</a>", 
+            appendTo: "main" 
+        } ) ; 
     } ) ; 
 } ) ; 
