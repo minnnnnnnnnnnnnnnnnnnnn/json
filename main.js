@@ -130,8 +130,13 @@ $( () =>
             window.URL.revokeObjectURL( f ) ; 
         }
         f = window.URL.createObjectURL( /* d */ new Blob( [ out ] , { type : "application/json" } ) ) ; 
+        if( $( "#dl" ).length ) 
+        {
+            $( "#dl" ).remove() ; 
+        }
         $( "<div />" , 
         {
+            id: "dl", 
             append: "<a href=\"" + f + "\" download>下載</a>", 
             appendTo: "main" 
         } ) ; 

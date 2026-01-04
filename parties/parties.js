@@ -1,14 +1,14 @@
 $( () => 
 {
-    let cr , c ; 
+    let pr , p ; 
     let first_r = true , first_o = true ; 
     let cr_i = 0 , co_i = 0 ; 
     let f = null ; 
-    fetch( new Request( "https://tcfshsu.github.io/law/json/cases.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
+    fetch( new Request( "https://tcfshsu.github.io/law/json/parties.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
-        cr = lll[0] ; 
-        c = lll[0].Cases ; 
-        console.log( c ) ; 
+        pr = lll[0] ; 
+        p = lll[0].Parties ; 
+        console.log( p ) ; 
     } ) ; 
     $( "#cr" ).on( "input" , () => 
     {
@@ -136,7 +136,7 @@ $( () =>
             $( "#co_n_" + i ).prop( "required" , $( "#co" ).is( ":checked" ) ) ; 
         }
     } ) ; 
-    $( "#c" ).on( "submit" , () => 
+    $( "#p" ).on( "submit" , () => 
     {
         
         const now = new Date() ; 
@@ -145,18 +145,17 @@ $( () =>
         let out = "[\n" ; 
         out += "\t{\n" ; 
         out += "\t\t\"UpdateDate\": \"" + u + "\",\n" ; 
-        out += "\t\t\"Cases\": [\n" ; 
+        out += "\t\t\"Parties\": [\n" ; 
         out += "\t\t\t{\n" ; 
-        out += "\t\t\t\t\"No\": \"" + $( "#cn" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Category\": \"" + ( $( "#cc" ).val() == null ? "" : $( "#cc" ).val() ) + "\", \n" ; 
-        out += "\t\t\t\t\"DeliberationDate\": \"" + $( "#dd" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Petitioner\": \"" + $( "#pt" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Plaintiff\": \"" + $( "#plt" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Defendant\": \"" + $( "#df" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Title\": \"" + $( "#t" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Cause\": \"" + $( "#pt" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"Syllabus\": \"" + $( "#s" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"State\": \"" + $( "#st" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"Party\": \"" + $( "#p" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyName\": \"" + $( "#pn" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyAbbreviation\": \"" + $( "#pa" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyLogo\": [\"" + ( $( "#lgi" ).val() == null ? "" : $( "#lgi" ).val() ) + "\"" + ( $( "#lga" ).val() == "" ? "" : " , \"" + $( "#lga" ).val() + "\"" ) + "], \n" ; 
+        out += "\t\t\t\t\"Chairman\": \"" + $( "#cm" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyState\": \"" + $( "#st" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyEstablishedDate\": \"" + $( "#est" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyRegisteredDate\": \"" + $( "#reg" ).val() + "\", \n" ; 
+        out += "\t\t\t\t\"PartyURL\": \"" + $( "#pu" ).val() + "\", \n" ; 
         out += "\t\t\t\t\"Rulings\": [" // + ( $( "#cr" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
         if( $( "#cr" ).is( ":checked" ) ) 
         {
@@ -171,21 +170,6 @@ $( () =>
             }
         }
         out += "], \n" ; 
-        out += "\t\t\t\t\"Opinions\": [" ; 
-        if( $( "#co" ).is( ":checked" ) ) 
-        {
-            for( let i = 0 ; i < co_i ; i ++ )
-            {
-                out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                out += "\t\t\t\t\t{\n" ; 
-                out += "\t\t\t\t\t\t\"Type\": \"" + $( "#co_t_" + i ).val() + "\", \n" ; 
-                out += "\t\t\t\t\t\t\"Member\": \"" + $( "#co_m_" + i ).val() + "\" \n" ; 
-                out += "\t\t\t\t\t\t\"URL\": \"" + $( "#co_u_" + i ).val() + "\" \n" ; 
-                out += "\t\t\t\t\t}" ; 
-                out += ( i == co_i - 1 ? "\n\t\t\t\t" : "" ) ; 
-            }
-        }
-        out += "] \n" ; 
         out += "\t\t\t} \n" ; 
         out += "\t\t] \n" ; 
         out += "\t} \n" ; 
