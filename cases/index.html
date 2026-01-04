@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>cases</title>
+        <style></style>
+    </head>
+    <body>
+        <main>
+            <form id="c">
+                <div>
+                    <span>案號</span>
+                    <input required type="text" id="cn" /><!-- case no. -->
+                </div>
+                <!-- <input type="text" id="lu" value="https://tcfshsu.github.io/law/laws/law?a=" /><!-- law url （可用script生成）-->
+                <select required id="cc"><!-- case category -->
+                    <option selected disabled value="">案件類別</option>
+                    <option value="章程訴訟">章程訴訟</option>
+                    <option value="一般訴訟">一般訴訟</option>
+                    <option value="懲戒">懲戒</option>
+                </select>
+                <div>
+                    <span>判決日</span>
+                    <input type="text" id="dd" /><!-- deliberation date （章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）-->
+                </div>
+                <div>
+                    <span>聲請人</span>
+                    <input type="text" id="pt" /><!-- petitioner -->
+                </div>
+                <div>
+                    <span>原告</span>
+                    <input type="text" id="plt" /><!-- plaintiff -->
+                </div>
+                <div>
+                    <span>被告</span>
+                    <input type="text" id="df" /><!-- defendant -->
+                </div>
+                <div>
+                    <span>標題</span>
+                    <input type="text" id="t" /><!-- title -->
+                </div>
+                <div>
+                    <span>案由</span>
+                    <input type="text" id="c" /><!-- cause -->
+                </div>
+                <div>
+                    <span>判決主文</span>
+                    <input type="text" id="s" /><!-- syllabus -->
+                </div>
+                <div>
+                    <span>案件狀態</span>
+                    <input type="text" id="st" /><!-- state -->
+                </div>
+                <div>
+                    <span>判決全文網址</span>
+                    <input type="text" id="fj" /><!-- full judgement -->
+                </div>
+                <div>
+                    <span>有裁定就勾</span>
+                    <input type="checkbox" id="cr" /><!-- case rulings -->
+                </div>
+                <div id="rul"></div>
+                <div>
+                    <span>有意見書就勾</span>
+                    <input type="checkbox" id="co" /><!-- case opinions -->
+                </div>
+                <div id="op"></div>
+                <input type="submit" formmethod="dialog" />
+            </form>
+            <div>
+                <small>換行都直接寫「\r\n」就好</small>
+            </div>
+            <textarea id="out" rows="30" cols="100" readonly></textarea>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="cases.js"></script>
+    </body>
+</html>
