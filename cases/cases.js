@@ -81,7 +81,7 @@ $( () =>
             $( "<div />" , 
             {
                 id : "op_" + co_i , 
-                append : "<select required id=\"co_t_" + co_i + "\"><option selected disabled value=\"\">意見書 " + ( co_i + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i + 1 ) + " 評議委員</span><input type=\"text\" required id=\"co_m_" + co_i + "\" /><br /><span>意見書 " + ( co_i + 1 ) + " 全文網址</span><input type=\"text\" required id=\"co_u_" + co_i + "\" />" , 
+                append : "<select required id=\"co_t_" + co_i + "\"><option selected disabled value=\"\">意見書 " + ( co_i + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"協同意見書\">部分協同意見書</option><option value=\"不同意見書\">部分不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i + 1 ) + " 評議委員</span><input type=\"text\" required id=\"co_m_" + co_i + "\" /><br /><span>意見書 " + ( co_i + 1 ) + " 全文網址</span><input type=\"text\" required id=\"co_u_" + co_i + "\" />" , 
                 appendTo : "#op" 
             } ) ; 
             ++ co_i ; 
@@ -97,7 +97,7 @@ $( () =>
                 $( "#add_op" ).before( $( "<div />" , 
                 {
                     id : "op_" + co_i , 
-                    append : "<select required id=\"co_t_" + co_i + "\"><option selected disabled value=\"\">意見書 " + ( co_i + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i + 1 ) + " 評議委員</span><input type=\"text\" required id=\"co_m_" + co_i + "\" /><br /><span>意見書 " + ( co_i + 1 ) + " 全文網址</span><input type=\"text\" required id=\"co_u_" + co_i + "\" />" , 
+                    append : "<select required id=\"co_t_" + co_i + "\"><option selected disabled value=\"\">意見書 " + ( co_i + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"協同意見書\">部分協同意見書</option><option value=\"不同意見書\">部分不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i + 1 ) + " 評議委員</span><input type=\"text\" required id=\"co_m_" + co_i + "\" /><br /><span>意見書 " + ( co_i + 1 ) + " 全文網址</span><input type=\"text\" required id=\"co_u_" + co_i + "\" />" , 
                 } ) ) ; 
                 ++ co_i ; 
                 if( $( "#rem_op" ).length ) 
