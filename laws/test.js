@@ -57,11 +57,15 @@ $( () =>
                     {
                         aNote[i] = true ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "text-decoration" , "line-through" ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).prop( "disabled" , aNote[i] ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).hide() ; 
                     }
                     else 
                     {
                         aNote[i] = false ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "text-decoration" , "none" ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).prop( "disabled" , aNote[i] ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).show() ; 
                     }
                 } ) ; 
             }
@@ -78,11 +82,11 @@ $( () =>
         const now = new Date() ; 
         const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
-        const a = ai ; 
         let out = "[\n" ; 
         out += "\t{\n" ; 
         out += "\t\t\"UpdateDate\": \"" + u + "\",\n" ; 
         out += "\t\t\"Laws\": [\n" ; 
+        let iii = 0 ; 
         for( let a of l ) 
         {
             if( a.LawURL == domain + "/laws/law?a=c000000001" ) 
@@ -93,7 +97,7 @@ $( () =>
             {
                 out += ", \n\t\t\t{ \n"
             }
-            if( aNote[ai] )
+            if( aNote[iii] )
             {
                 out += "\t\t\t\t\"LawLevel\": \"" + a.LawLevel.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawName\": \"" + a.LawName.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
@@ -319,9 +323,8 @@ $( () =>
                 out += "] \n" ; 
                 out += "\t\t\t}" ; 
             }
-            --ai ; 
+            ++iii ; 
         }
-        ai = a ; 
         out += "\t\t] \n" ; 
         out += "\t} \n" ; 
         out += "] " ; 
