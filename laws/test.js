@@ -1,7 +1,7 @@
 $( () => 
 {
-    let lr , l , f = null ; 
-    fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
+    let lr , l , f = null , domain = "https://tcfshsu.github.io/law"; 
+    fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
         l = lll[0].Laws ; 
@@ -14,12 +14,12 @@ $( () =>
                 {
                     type: "checkbox", 
                     disabled: a.LawAbandonNote == "廢", 
-                    id: a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" )
+                    id: a.LawURL.replace( domain + "/laws/law?a=" , "" )
                 } )
             } ) ) ; 
-            $( "#" + a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" ) ).on( "input" , () => 
+            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).on( "input" , () => 
             {
-                if( $("#" + a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" ) ).is( ":checked" ) ) 
+                if( $("#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) 
                 {
                     console.log( a.LawName + " on" ) ; 
                 }
@@ -42,7 +42,15 @@ $( () =>
         out += "\t\t\"Laws\": [\n" ; 
         for( let a of l ) 
         {
-            if( $( "#" + a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" ) ).is( ":checked" ) ) 
+            if( a.LawURL == domain + "/laws/law?a=c000000001" ) 
+            {
+                out += "\t\t\t{ \n" ; 
+            }
+            else 
+            {
+                out += ", \n\t\t\t{ \n"
+            }
+            if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) 
             {
                 $
             }
@@ -63,7 +71,8 @@ $( () =>
                 out += "\t\t\t\t\"LawHistories\": \"" + a.LawHistories.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawForeword\": \"" + a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawArticles\": [" ; 
-                out += "], \n" ; 
+                out += "] \n" ; 
+                out += "\t\t\t}" ; 
             }
         }
         out += "\t\t] \n" ; 
