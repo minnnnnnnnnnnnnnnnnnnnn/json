@@ -87,7 +87,6 @@ $( () =>
     } ) ; 
     $( "#l" ).on( "submit" , () => 
     {
-        
         const now = new Date() ; 
         const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
