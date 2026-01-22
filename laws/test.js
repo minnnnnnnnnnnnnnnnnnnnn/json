@@ -1,41 +1,84 @@
 $( () => 
 {
-    let lr , l , f = null , domain = "https://tcfshsu.github.io/law"; 
+    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , ai = 0 ; 
     fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
         l = lll[0].Laws ; 
+        aNote = Array( l.length ) ; 
         for( let a of l ) 
         {
-            $( "#gen" ).before( $( "<div />" , 
+            $( "#gen" ).before( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" , append: $( "<span />" , { text: a.LawAbandonNote + a.LawName } ) } ) ) ; 
+            $( "<input />" , 
             {
-                text: a.LawAbandonNote + a.LawName, 
-                append: $( "<input />" , 
-                {
-                    type: "checkbox", 
-                    disabled: a.LawAbandonNote == "廢", 
-                    id: a.LawURL.replace( domain + "/laws/law?a=" , "" )
-                } )
-            } ) ) ; 
+                type: "checkbox", 
+                disabled: a.LawAbandonNote == "廢", 
+                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ), 
+                appendTo: "#l div:last-of-type"
+            } ) ; 
             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).on( "input" , () => 
             {
-                if( $("#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) 
+                if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) 
                 {
                     console.log( a.LawName + " on" ) ; 
+                    if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).length ) 
+                    {
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).show() ; 
+                    }
+                    else 
+                    {
+                        $( "<div />" , 
+                        {
+                            text: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
+                            appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
+                        } ) ; 
+                    }
                 }
                 else 
                 {
                     console.log( a.LawName + " off" ) ; 
+                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).hide() ; 
                 }
             } ) ; 
+            if( a.LawAbandonNote != "廢" ) 
+            {
+                $( "<span />" , 
+                {
+                    text: "×", 
+                    style: "cursor:pointer;", 
+                    id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_x", 
+                    appendTo: "#l div:last-of-type" 
+                } ) ; 
+                const i = ai ; 
+                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_x" ).on( "click" , () => 
+                {
+                    if( !aNote[i] ) 
+                    {
+                        aNote[i] = true ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "text-decoration" , "line-through" ) ; 
+                    }
+                    else 
+                    {
+                        aNote[i] = false ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "text-decoration" , "none" ) ; 
+                    }
+                } ) ; 
+            }
+            ++ai ; 
         }
-        $( "#gen" ).before() ; 
+        fetch_done = true ; 
     } ) ; 
     $( "#l" ).on( "submit" , () => 
     {
+        if( !fetch_done ) 
+        {
+            return ; 
+        }
         const now = new Date() ; 
         const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
+        const a = ai ; 
         let out = "[\n" ; 
         out += "\t{\n" ; 
         out += "\t\t\"UpdateDate\": \"" + u + "\",\n" ; 
@@ -50,7 +93,7 @@ $( () =>
             {
                 out += ", \n\t\t\t{ \n"
             }
-            if(0)
+            if( aNote[ai] )
             {
                 out += "\t\t\t\t\"LawLevel\": \"" + a.LawLevel.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawName\": \"" + a.LawName.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
@@ -276,7 +319,9 @@ $( () =>
                 out += "] \n" ; 
                 out += "\t\t\t}" ; 
             }
+            --ai ; 
         }
+        ai = a ; 
         out += "\t\t] \n" ; 
         out += "\t} \n" ; 
         out += "] " ; 
@@ -294,8 +339,26 @@ $( () =>
         $( "<div />" , 
         {
             id: "dl", 
-            append: "<a href=\"" + f + "\" download=\"laws.json\">下載</a>", 
+            append: "<a href=\"" + f + "\" download=\"laws.json\">下載laws.json</a>", 
             appendTo: "main" 
         } ) ; 
+        // let lout = "[" ; 
+        // lout += "\t{" ; 
+        // lout += "\t\t\"No: \"" + "" + "\"" ; 
+        // if( fl !== null ) 
+        // {
+        //     window.URL.revokeObjectURL( fl ) ; 
+        // }
+        // fl = window.URL.createObjectURL( new Blob( [ lout ] , { type : "application/json" } ) ) ; 
+        // if( $( "#ldl" ).length ) 
+        // {
+        //     $( "#ldl" ).remove() ; 
+        // }
+        // $( "<div />" , 
+        // {
+        //     id: "ldl", 
+        //     append: "<a href=\"" + f + "\" download=\"latest.json\">下載latest.json</a>", 
+        //     appendTo: "main" 
+        // } ) ; 
     } ) ; 
 } ) ; 
