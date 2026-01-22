@@ -7,7 +7,7 @@ $( () =>
         l = lll[0].Laws ; 
         for( let a of l ) 
         {
-            $( "<div />" , 
+            $( "#gen" ).before( $( "<div />" , 
             {
                 text: a.LawAbandonNote + a.LawName, 
                 append: $( "<input />" , 
@@ -15,9 +15,8 @@ $( () =>
                     type: "checkbox", 
                     disabled: a.LawAbandonNote == "廢", 
                     id: a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" )
-                } ), 
-                appendTo: "main"
-            } ) ; 
+                } )
+            } ) ) ; 
             $( "#" + a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" ) ).on( "input" , () => 
             {
                 if( $("#" + a.LawURL.replace( "https://tcfshsu.github.io/law/laws/law?a=" , "" ) ).is( ":checked" ) ) 
@@ -30,6 +29,7 @@ $( () =>
                 }
             } ) ; 
         }
+        $( "#gen" ).before() ; 
     } ) ; 
     // should be local
         const now = new Date() ; 
