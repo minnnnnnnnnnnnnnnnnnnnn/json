@@ -71,8 +71,8 @@ $( () =>
                 {
                     out += ( i == 0 ? "" : ", " ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
-                    out += "\t\t\t\t\t\t\"FileName\": \"" + a.LawAttachments.FileName + "\", \n" ; 
-                    out += "\t\t\t\t\t\t\"FileURL\": \"" + a.LawAttachments.FileURL + "\" \n" ; 
+                    out += "\t\t\t\t\t\t\"FileName\": \"" + a.LawAttachments[i].FileName + "\", \n" ; 
+                    out += "\t\t\t\t\t\t\"FileURL\": \"" + a.LawAttachments[i].FileURL + "\" \n" ; 
                     out += "\t\t\t\t\t}" ; 
                     out += ( i == a.LawAttachments.length - 1 ? "\n\t\t\t\t" : "" ) ; 
                 }
