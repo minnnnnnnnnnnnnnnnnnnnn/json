@@ -1,13 +1,19 @@
 $( () => 
 {
-    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , ai = 0 ; 
+    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 ; 
     fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
         l = lll[0].Laws ; 
         aNote = Array( l.length ) ; 
+        aNote.fill( false ) ; 
+        first = Array( l.length ) ; 
+        first.fill( true ) ; 
+        att_i = Array( l.length ) ; 
+        att_i.fill( 0 ) ; 
         for( let a of l ) 
         {
+            const i = ai ; 
             $( "#gen" ).before( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" , append: $( "<span />" , { text: a.LawAbandonNote + a.LawName } ) } ) ) ; 
             $( "<input />" , 
             {
@@ -27,19 +33,148 @@ $( () =>
                     }
                     else 
                     {
-                        $( "<div />" , 
+                        let block = $( "<div />" , 
                         {
-                            text: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
+                            // text: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
                             id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
+                            style: "background:#ddd", 
                             appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
                         } ) ; 
+                        block.append( $( "<div />" , 
+                        {
+                            append: $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) 
+                        } ).append( $( "<input />" , 
+                        {
+                            type: "text", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm", 
+                            required: true
+                        } ) ) ) ; 
+                        block.append( $( "<div />" , 
+                        {
+                            append: $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) 
+                        } ).append( $( "<input />" , 
+                        {
+                            type: "text", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_led"
+                        } ) ) ) ; 
+                        block.append( $( "<div />" , 
+                        {
+                            append: $( "<span />" , { text: "有英文版勾；沒別勾；原本就有英文版並且英文名沒改也別勾" } ) 
+                        } ).append( $( "<input />" , 
+                        {
+                            type: "checkbox", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he"
+                        } ) ) ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).on( "input" , () => 
+                        {
+                            if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).is( ":checked" ) ) 
+                            {
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).after( $( "<div />" , { id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_en_container" , append : "<span>法規英文名稱</span><input type=\"text\" required id=\"en\" />" } ) ) ; 
+                            }
+                            else 
+                            {
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) +  "_en_container" ).remove() ; 
+                            }
+                        } ) ; 
+                        block.append( $( "<div />" , 
+                        {
+                            append: $( "<span />" , { text: "附件有變動才勾" } ) 
+                        } ).append( $( "<input />" , 
+                        {
+                            type: "checkbox", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat"
+                        } ) ) ) ; 
+                        block.append( "<div id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att\"></div>" ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).on( "input" , () => 
+                        {
+                            if( first[i] && $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) 
+                            {
+                                first[i] = false ; 
+                                $( "<div />" , 
+                                {
+                                    id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_" + att_i[i] , 
+                                    append : "<span>附件 " + ( att_i[i] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + att_i[i] + "\" /><br /><span>附件 " + ( att_i[i] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_u_" + att_i[i] + "\" />" , 
+                                    appendTo : "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att" 
+                                } ) ; 
+                                ++ att_i[i] ; 
+                                $( "<button />" , 
+                                {
+                                    id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_add_att" , 
+                                    type : "button" , 
+                                    text : "+" , 
+                                    appendTo : "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att" 
+                                } ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_add_att" ).on( "click" , () => 
+                                {
+                                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_add_att" ).before( $( "<div />" , 
+                                    {
+                                        id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_" + att_i[i] , 
+                                        append : "<span>附件 " + ( att_i[i] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + att_i[i] + "\" /><br /><span>附件 " + ( att_i[i] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_u_" + att_i[i] + "\" />" , 
+                                    } ) ) ; 
+                                    ++ att_i[i] ; 
+                                    if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_rem_att" ).length ) 
+                                    {
+                                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_rem_att" ).remove() ; 
+                                    }
+                                    $( "<button />" , 
+                                    {
+                                        id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_rem_att" , 
+                                        type : "button" , 
+                                        text : "-" , 
+                                        appendTo : "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att" 
+                                    } ) ; 
+                                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_rem_att" ).on( "click" , () => 
+                                    {
+                                        -- att_i[i] ; 
+                                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_" + att_i[i] ).remove() ; 
+                                        if( att_i[i] < 2 ) 
+                                        {
+                                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_rem_att" ).remove() ; 
+                                        }
+                                    } ) ; 
+                                } ) ; 
+                                return ; 
+                            }
+                            if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) 
+                            {
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att" ).prop( "style" , "display:block;" ) ; 
+                            }
+                            else 
+                            {
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att" ).prop( "style" , "display:none;" ) ; 
+                            }
+                            for( let ii = 0 ; ii < att_i[i] ; ii ++ ) 
+                            {
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + ii ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) ; 
+                            }
+                        } ) ; 
+                        block.append( $( "<div />" , 
+                        {
+                            append: $( "<span />" , { text: "沿革" } ) 
+                        } ).append( $( "<input />" , 
+                        {
+                            type: "text", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh", 
+                            required: true
+                        } ) ) ) ; 
+                        block.append( $( "<div />" , 
+                        {
+                            append: $( "<span />" , { text: "法規前言或宗旨那種東西" } ) 
+                        } ).append( $( "<input />" , 
+                        {
+                            type: "text", 
+                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
+                        } ) ) ) ; 
                     }
                 }
                 else 
                 {
-                    console.log( a.LawName + " off" ) ; 
+                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).prop( "checked" , false ).triggerHandler( "input" ) ; 
+                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).prop( "checked" , false ).triggerHandler( "input" ) ; 
                     $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).hide() ; 
                 }
+                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm" ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) ; 
+                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh" ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) ; 
             } ) ; 
             if( a.LawAbandonNote != "廢" ) 
             {
