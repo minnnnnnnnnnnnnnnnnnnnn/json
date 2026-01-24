@@ -33,38 +33,63 @@ $( () =>
                     }
                     else 
                     {
-                        let block = $( "<div />" , 
-                        {
-                            // text: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
-                            style: "background:#ddd", 
-                            appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
-                        } ) ; 
-                        block.append( $( "<div />" , 
-                        {
-                            append: $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) 
-                        } ).append( $( "<input />" , 
-                        {
-                            type: "text", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm", 
-                            required: true
-                        } ) ) ) ; 
-                        block.append( $( "<div />" , 
-                        {
-                            append: $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) 
-                        } ).append( $( "<input />" , 
-                        {
-                            type: "text", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_led"
-                        } ) ) ) ; 
-                        block.append( $( "<div />" , 
-                        {
-                            append: $( "<span />" , { text: "有英文版勾；沒別勾；原本就有英文版並且英文名沒改也別勾" } ) 
-                        } ).append( $( "<input />" , 
-                        {
-                            type: "checkbox", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he"
-                        } ) ) ) ; 
+                        $( "<div />" , 
+                            {
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
+                                style: "background:#ddd", 
+                                appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
+                            } )
+                        .append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) 
+                            } ).append( $( "<input />" , 
+                            {
+                                type: "text", 
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm", 
+                                required: true
+                            } ) ) )
+                        .append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) 
+                            } ).append( $( "<input />" , 
+                            {
+                                type: "text", 
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_led"
+                            } ) ) )
+                        .append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: "有英文版勾；沒別勾；原本就有英文版並且英文名沒改也別勾" } ) 
+                            } ).append( $( "<input />" , 
+                            {
+                                type: "checkbox", 
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he"
+                            } ) ) )
+                        .append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: "附件有變動才勾" } ) 
+                            } ).append( $( "<input />" , 
+                            {
+                                type: "checkbox", 
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat"
+                            } ) ) )
+                        .append( "<div id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att\"></div>" ) 
+                        .append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: "沿革" } ) 
+                            } ).append( $( "<input />" , 
+                            {
+                                type: "text", 
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh", 
+                                required: true
+                            } ) ) )
+                        .append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: "法規前言或宗旨那種東西" } ) 
+                            } ).append( $( "<input />" , 
+                            {
+                                type: "text", 
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
+                            } ) ) ) ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).on( "input" , () => 
                         {
                             if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).is( ":checked" ) ) 
@@ -76,15 +101,6 @@ $( () =>
                                 $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) +  "_en_container" ).remove() ; 
                             }
                         } ) ; 
-                        block.append( $( "<div />" , 
-                        {
-                            append: $( "<span />" , { text: "附件有變動才勾" } ) 
-                        } ).append( $( "<input />" , 
-                        {
-                            type: "checkbox", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat"
-                        } ) ) ) ; 
-                        block.append( "<div id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att\"></div>" ) ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).on( "input" , () => 
                         {
                             if( first[i] && $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) 
@@ -148,23 +164,6 @@ $( () =>
                                 $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + ii ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) ; 
                             }
                         } ) ; 
-                        block.append( $( "<div />" , 
-                        {
-                            append: $( "<span />" , { text: "沿革" } ) 
-                        } ).append( $( "<input />" , 
-                        {
-                            type: "text", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh", 
-                            required: true
-                        } ) ) ) ; 
-                        block.append( $( "<div />" , 
-                        {
-                            append: $( "<span />" , { text: "法規前言或宗旨那種東西" } ) 
-                        } ).append( $( "<input />" , 
-                        {
-                            type: "text", 
-                            id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
-                        } ) ) ) ; 
                     }
                 }
                 else 
@@ -215,6 +214,7 @@ $( () =>
     {
         if( !fetch_done ) 
         {
+            console.log( "太快了吧" ) ; 
             return ; 
         }
         const now = new Date() ; 
