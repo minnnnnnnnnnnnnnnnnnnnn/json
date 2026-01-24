@@ -36,7 +36,7 @@ $( () =>
                         $( "<div />" , 
                             {
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
-                                style: "background:#ddd", 
+                                style: "background:#333;color:#efeeee;", 
                                 appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
                             } )
                         .append( $( "<div />" , 
