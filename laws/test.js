@@ -185,14 +185,17 @@ $( () =>
                     id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_x", 
                     appendTo: "#l div:last-of-type" 
                 } ) ; 
-                const i = ai ; 
                 $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_x" ).on( "click" , () => 
                 {
+                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm" ).prop( "required" , aNote[i] ) ; 
+                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh" ).prop( "required" , aNote[i] ) ; 
                     if( !aNote[i] ) 
                     {
                         aNote[i] = true ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "text-decoration" , "line-through" ) ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).prop( "disabled" , aNote[i] ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).prop( "checked" , false ).triggerHandler( "input" ) ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).prop( "checked" , false ).triggerHandler( "input" ) ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).hide() ; 
                     }
                     else 
@@ -321,14 +324,17 @@ $( () =>
                 out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
                 out += "\t\t\t\t\"EngLawName\": \"" + ( $( "#he" ).is( ":checked" ) ? ( $( "#en" ).val() == null ? a.EngLawName.replaceAll( "\r\n" , "\\r\\n" ) : $( "#en" ).val() ) : "" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawAttachments\": [" ; 
-                for( let i = 0 ; i < a.LawAttachments.length ; i ++ )
+                if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) 
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                    out += "\t\t\t\t\t{\n" ; 
-                    out += "\t\t\t\t\t\t\"FileName\": \"" + a.LawAttachments[i].FileName + "\", \n" ; 
-                    out += "\t\t\t\t\t\t\"FileURL\": \"" + a.LawAttachments[i].FileURL + "\" \n" ; 
-                    out += "\t\t\t\t\t}" ; 
-                    out += ( i == a.LawAttachments.length - 1 ? "\n\t\t\t\t" : "" ) ; 
+                    for( let i = 0 ; i < att_i[iii] ; i ++ )
+                    {
+                        out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        out += "\t\t\t\t\t{\n" ; 
+                        out += "\t\t\t\t\t\t\"FileName\": \"" + $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + i ).val() + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\"FileURL\": \"" + $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_u_" + i ).val() + "\" \n" ; 
+                        out += "\t\t\t\t\t}" ; 
+                        out += ( i == att_i[iii] - 1 ? "\n\t\t\t\t" : "" ) ; 
+                    }
                 }
                 out += "], \n" ; 
                 out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "#lh" ).val() == null ? a.LawHistories.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#lh" ).val() ) + "\", \n" ; 
