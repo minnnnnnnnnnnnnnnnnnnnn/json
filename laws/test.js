@@ -1,6 +1,6 @@
 $( () => 
 {
-    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 ; 
+    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la ; 
     fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
@@ -11,6 +11,7 @@ $( () =>
         first.fill( true ) ; 
         att_i = Array( l.length ) ; 
         att_i.fill( 0 ) ; 
+        la = Array() ; 
         for( let a of l ) 
         {
             const i = ai ; 
@@ -39,6 +40,7 @@ $( () =>
                                 style: "background:#333;color:#efeeee;", 
                                 appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
                             } )
+                        // law last modified date
                         .append( $( "<div />" , 
                             {
                                 append: $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) 
@@ -48,6 +50,7 @@ $( () =>
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm", 
                                 required: true
                             } ) ) )
+                        // law effective date
                         .append( $( "<div />" , 
                             {
                                 append: $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) 
@@ -56,6 +59,7 @@ $( () =>
                                 type: "text", 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_led"
                             } ) ) )
+                        // law has eng ver.
                         .append( $( "<div />" , 
                             {
                                 append: $( "<span />" , { text: "有英文版勾；沒別勾；原本就有英文版並且英文名沒改也別勾" } ) 
@@ -64,6 +68,7 @@ $( () =>
                                 type: "checkbox", 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he"
                             } ) ) )
+                        // law attachments
                         .append( $( "<div />" , 
                             {
                                 append: $( "<span />" , { text: "附件有變動才勾" } ) 
@@ -73,6 +78,7 @@ $( () =>
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat"
                             } ) ) )
                         .append( "<div id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att\"></div>" ) 
+                        // law histories
                         .append( $( "<div />" , 
                             {
                                 append: $( "<span />" , { text: "沿革" } ) 
@@ -82,6 +88,7 @@ $( () =>
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh", 
                                 required: true
                             } ) ) )
+                        // law foreword
                         .append( $( "<div />" , 
                             {
                                 append: $( "<span />" , { text: "法規前言或宗旨那種東西" } ) 
@@ -90,6 +97,13 @@ $( () =>
                                 type: "text", 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
                             } ) ) ) ; 
+                        for( let aa of a.LawArticles )
+                        {
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , 
+                            {
+                                append: $( "<span />" , { text: aa.ArticleType == "C" ? aa.ArticleContent : aa.ArticleNo } ) 
+                            } ) ) ; 
+                        }
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).on( "input" , () => 
                         {
                             if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).is( ":checked" ) ) 
@@ -180,7 +194,7 @@ $( () =>
                 $( "<span />" , 
                 {
                     text: "×", 
-                    style: "cursor:pointer;", 
+                    style: "cursor:pointer;user-select:none;", 
                     id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_x", 
                     appendTo: "#l div:last-of-type" 
                 } ) ; 
@@ -208,6 +222,44 @@ $( () =>
             }
             ++ai ; 
         }
+        $( "#gen" ).before( $( "<button />" , { id: "add_law" , type: "button" , text: "+" } ) ) ; 
+        $( "#add_law" ).on( "click" , () => 
+        {
+            $( "#add_law" ).before( $( "<div />" , { id: String( li ) , style: "position:relative;background:#333;color:#fff;border:#f00 3pt solid;margin:1rem;" } )
+            .append( $( "<span />" , { id: String( li ) + "_x" , text: "×" , style: "cursor:pointer;position:absolute;right:0;top:0;user-select:none;" , onmouseenter: "$( this ).css( \"background\" , \"#f00\" )" , onmouseleave: "$( this ).css( \"background\" , \"\" )" } ) )
+            .append( $( "<select />" , { id: "ll" } )
+                .append( $( "<option />" , { text: "法規位階" , value: "" , disabled: true , selected: true } ) ) 
+                .append( $( "<option />" , { text: "章程" , value: "章程" } ) ) 
+                .append( $( "<option />" , { text: "法律" , value: "法律" } ) ) 
+                .append( $( "<option />" , { text: "命令" , value: "命令" } ) ) 
+            ) 
+            .append( $( "<div />" , { append: $( "<span />" , { text: "法規名稱" } ) } ).append( $( "<input />" , { id: "ln" , type: "text" } ) ) ) 
+            .append( $( "<select />" , { id: "lc" } ) 
+                .append( $( "<option />" , { text: "法規類別" , value: "" , disabled: true , selected: true } ) ) 
+                .append( $( "<option />" , { text: "中央法規" , value: "中央法規" } ) ) 
+                .append( $( "<option />" , { text: "行政法規" , value: "行政法規" } ) ) 
+                .append( $( "<option />" , { text: "立法法規" , value: "立法法規" } ) ) 
+                .append( $( "<option />" , { text: "司法法規" , value: "司法法規" } ) ) 
+                .append( $( "<option />" , { text: "選舉法規" , value: "選舉法規" } ) ) 
+                .append( $( "<option />" , { text: "中央法規/選舉法規" , value: "中央法規/選舉法規" } ) ) 
+                .append( $( "<option />" , { text: "行政法規/選舉法規" , value: "行政法規/選舉法規" } ) ) 
+                .append( $( "<option />" , { text: "立法法規/選舉法規" , value: "立法法規/選舉法規" } ) ) 
+            ) 
+            .append( $( "<div />" , { append: $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) } ).append( $( "<input />" , { id: "lm" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) } ).append( $( "<input />" , { id: "led" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: $( "<span />" , { text: "沿革" } ) } ).append( $( "<input />" , { id: "lh" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: $( "<span />" , { text: "法規前言或宗旨那種東西" } ) } ).append( $( "<input />" , { id: "lf" , type: "text" } ) ) ) 
+            ) ; 
+            la.push( li ) ; 
+            const iii = li ; 
+            $( "#" + String( li ) + "_x" ).on( "click" , () => 
+            {
+                $( "#" + String( iii ) ).remove() ; 
+                la.splice( la.indexOf( iii ) ) ; 
+            } ) ; 
+            console.log( li ) ; 
+            ++li ; 
+        } ) ; 
         fetch_done = true ; 
     } ) ; 
     $( "#l" ).on( "submit" , () => 
