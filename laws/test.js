@@ -1,6 +1,6 @@
 $( () => 
 {
-    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la ; 
+    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la , lfirst , l_att_i ; 
     fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
@@ -12,6 +12,8 @@ $( () =>
         att_i = Array( l.length ) ; 
         att_i.fill( 0 ) ; 
         la = Array() ; 
+        lfirst = Array() ; 
+        l_att_i = Array() ; 
         for( let a of l ) 
         {
             const i = ai ; 
@@ -108,7 +110,7 @@ $( () =>
                         {
                             if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).is( ":checked" ) ) 
                             {
-                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).after( $( "<div />" , { id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_en_container" , append : "<span>法規英文名稱</span><input type=\"text\" required id=\"en\" />" } ) ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).after( $( "<div />" , { id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_en_container" , append : "<span>法規英文名稱</span><input type=\"text\" required id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_en\" />" } ) ) ; 
                             }
                             else 
                             {
@@ -227,14 +229,16 @@ $( () =>
         {
             $( "#add_law" ).before( $( "<div />" , { id: String( li ) , style: "position:relative;background:#333;color:#fff;border:#f00 3pt solid;margin:1rem;" } )
             .append( $( "<span />" , { id: String( li ) + "_x" , text: "×" , style: "cursor:pointer;position:absolute;right:0;top:0;user-select:none;" , onmouseenter: "$( this ).css( \"background\" , \"#f00\" )" , onmouseleave: "$( this ).css( \"background\" , \"\" )" } ) )
-            .append( $( "<select />" , { id: "ll" } )
+            .append( $( "<select />" , { id: String( li ) + "_ll" } )
                 .append( $( "<option />" , { text: "法規位階" , value: "" , disabled: true , selected: true } ) ) 
                 .append( $( "<option />" , { text: "章程" , value: "章程" } ) ) 
                 .append( $( "<option />" , { text: "法律" , value: "法律" } ) ) 
                 .append( $( "<option />" , { text: "命令" , value: "命令" } ) ) 
             ) 
-            .append( $( "<div />" , { append: $( "<span />" , { text: "法規名稱" } ) } ).append( $( "<input />" , { id: "ln" , type: "text" } ) ) ) 
-            .append( $( "<select />" , { id: "lc" } ) 
+            .append( $( "<div />" , { append: 
+                  $( "<span />" , { text: "法規名稱" } ) } )
+                  .append( $( "<input />" , { id: String( li ) + "_ln" , type: "text" } ) ) ) 
+            .append( $( "<select />" , { id: String( li ) + "_lc" } ) 
                 .append( $( "<option />" , { text: "法規類別" , value: "" , disabled: true , selected: true } ) ) 
                 .append( $( "<option />" , { text: "中央法規" , value: "中央法規" } ) ) 
                 .append( $( "<option />" , { text: "行政法規" , value: "行政法規" } ) ) 
@@ -245,10 +249,25 @@ $( () =>
                 .append( $( "<option />" , { text: "行政法規/選舉法規" , value: "行政法規/選舉法規" } ) ) 
                 .append( $( "<option />" , { text: "立法法規/選舉法規" , value: "立法法規/選舉法規" } ) ) 
             ) 
-            .append( $( "<div />" , { append: $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) } ).append( $( "<input />" , { id: "lm" , type: "text" } ) ) ) 
-            .append( $( "<div />" , { append: $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) } ).append( $( "<input />" , { id: "led" , type: "text" } ) ) ) 
-            .append( $( "<div />" , { append: $( "<span />" , { text: "沿革" } ) } ).append( $( "<input />" , { id: "lh" , type: "text" } ) ) ) 
-            .append( $( "<div />" , { append: $( "<span />" , { text: "法規前言或宗旨那種東西" } ) } ).append( $( "<input />" , { id: "lf" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: 
+                $( "<span />" , { text: "最後更改日期（章程、法律或議會命令：全案表決通過大會日期；學生會或評委會命令：公布日）" } ) } )
+                .append( $( "<input />" , { id: String( li ) + "_lm" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: 
+                $( "<span />" , { text: "生效日" , append: "<small>（有特殊條件（如待命令完成後實施等，不含明訂實施日期或自公布日（通過日）實施者）才生效才要填）</small>" } ) } )
+                .append( $( "<input />" , { id: String( li ) + "_led" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: 
+                $( "<span />" , { text: "有英文版勾；沒別勾" } ) } )
+                .append( $( "<input />" , { type: "checkbox", id: String( li ) + "_he" } ) ) ) 
+            .append( $( "<div />" , { append: 
+                $( "<span />" , { text: "有附件才勾" } ) } )
+                .append( $( "<input />" , { type: "checkbox", id: String( li ) + "_lat" } ) ) )
+            .append( "<div id=\"" + String( li ) + "_att\"></div>" ) 
+            .append( $( "<div />" , { append: 
+                $( "<span />" , { text: "沿革" } ) } )
+                .append( $( "<input />" , { id: String( li ) + "_lh" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { append: 
+                $( "<span />" , { text: "法規前言或宗旨那種東西" } ) } )
+                .append( $( "<input />" , { id: String( li ) + "_lf" , type: "text" } ) ) ) 
             ) ; 
             la.push( li ) ; 
             const iii = li ; 
@@ -257,7 +276,82 @@ $( () =>
                 $( "#" + String( iii ) ).remove() ; 
                 la.splice( la.indexOf( iii ) ) ; 
             } ) ; 
-            console.log( li ) ; 
+            $( "#" + String( li ) + "_he" ).on( "input" , () => 
+            {
+                if( $( "#" + String( iii ) + "_he" ).is( ":checked" ) ) 
+                {
+                    $( "#" + String( iii ) + "_he" ).after( $( "<div />" , { id : String( iii ) + "_en_container" , append : "<span>法規英文名稱</span><input type=\"text\" required id=\"" + String( iii ) + "_en\" />" } ) ) ; 
+                }
+                else 
+                {
+                    $( "#" + String( iii ) +  "_en_container" ).remove() ; 
+                }
+            } ) ; 
+            lfirst.push( true ) ; 
+            l_att_i.push( 0 ) ; 
+            $( "#" + String( li ) + "_lat" ).on( "input" , () => 
+            {
+                if( lfirst[iii] && $( "#" + String( iii ) + "_lat" ).is( ":checked" ) ) 
+                {
+                    lfirst[iii] = false ; 
+                    $( "<div />" , 
+                    {
+                        id : String( iii ) + "_att_" + l_att_i[iii] , 
+                        append : "<span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + String( iii ) + "_att_f_n_" + l_att_i[iii] + "\" /><br /><span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + String( iii ) + "_att_f_u_" + l_att_i[iii] + "\" />" , 
+                        appendTo : "#" + String( iii ) + "_att" 
+                    } ) ; 
+                    ++ l_att_i[iii] ; 
+                    $( "<button />" , 
+                    {
+                        id : String( iii ) + "_add_att" , 
+                        type : "button" , 
+                        text : "+" , 
+                        appendTo : "#" + String( iii ) + "_att" 
+                    } ) ; 
+                    $( "#" + String( iii ) + "_add_att" ).on( "click" , () => 
+                    {
+                        $( "#" + String( iii ) + "_add_att" ).before( $( "<div />" , 
+                        {
+                            id : String( iii ) + "_att_" + l_att_i[iii] , 
+                            append : "<span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + String( iii ) + "_att_f_n_" + l_att_i[iii] + "\" /><br /><span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + String( iii ) + "_att_f_u_" + l_att_i[iii] + "\" />" , 
+                        } ) ) ; 
+                        ++ l_att_i[iii] ; 
+                        if( $( "#" + String( iii ) + "_rem_att" ).length ) 
+                        {
+                            $( "#" + String( iii ) + "_rem_att" ).remove() ; 
+                        }
+                        $( "<button />" , 
+                        {
+                            id : String( iii ) + "_rem_att" , 
+                            type : "button" , 
+                            text : "-" , 
+                            appendTo : "#" + String( iii ) + "_att" 
+                        } ) ; 
+                        $( "#" + String( iii ) + "_rem_att" ).on( "click" , () => 
+                        {
+                            -- l_att_i[iii] ; 
+                            $( "#" + String( iii ) + "_att_" + l_att_i[iii] ).remove() ; 
+                            if( l_att_i[iii] < 2 ) 
+                            {
+                                $( "#" + String( iii ) + "_rem_att" ).remove() ; 
+                            }
+                        } ) ; 
+                    } ) ; 
+                    return ; 
+                }
+                if( $( "#" + String( iii ) + "_lat" ).is( ":checked" ) ) 
+                {
+                    $( "#" + String( iii ) + "_att" ).prop( "style" , "display:block;" ) ; 
+                }
+                else 
+                {
+                    $( "#" + String( iii ) + "_att" ).prop( "style" , "display:none;" ) ; 
+                }
+                for( let ii = 0 ; ii < l_att_i[iii] ; ii ++ ) 
+                {
+                    $( "#" + String( iii ) + "_att_f_n_" + ii ).prop( "required" , $( "#" + String( iii ) + "_lat" ).is( ":checked" ) ) ; 
+                }
+            } ) ; 
             ++li ; 
         } ) ; 
         fetch_done = true ; 
