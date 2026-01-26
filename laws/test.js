@@ -39,7 +39,7 @@ $( () =>
                         $( "<div />" , 
                             {
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b", 
-                                style: "background:#333;color:#efeeee;", 
+                                style: "background:#333;color:#efeeee;padding:.5rem;border:#f00 3pt solid;margin:.25rem;margin-left:1rem;", 
                                 appendTo: $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ) 
                             } )
                         // law last modified date
