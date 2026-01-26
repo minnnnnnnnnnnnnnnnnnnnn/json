@@ -458,33 +458,33 @@ $( () =>
             }
             else if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) 
             {
-                const id = "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + " " ; 
-                out += "\t\t\t\t\"LawLevel\": \"" + ( $( id + "#ll" ).val() == null ? a.LawLevel.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#ll" ).val() ) + "\", \n" ; 
-                out += "\t\t\t\t\"LawName\": \"" + ( $( id + "#ln" ).val() == null ? a.LawName.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#ln" ).val() ) + "\", \n" ; 
+                const id = "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" ; 
+                out += "\t\t\t\t\"LawLevel\": \"" + ( $( id + "ll" ).val() == null ? a.LawLevel.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "ll" ).val() ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawName\": \"" + ( $( id + "ln" ).val() == null ? a.LawName.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "ln" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawURL\": \"" + a.LawURL.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawCategory\": \"" + a.LawCategory.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
-                out += "\t\t\t\t\"LawModifiedDate\": \"" + ( $( id + "#lm" ).val() == null ? a.LawModifiedDate.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#lm" ).val() ) + "\", \n" ; 
-                out += "\t\t\t\t\"LawEffectiveDate\": \"" + ( $( id + "#led" ).val() == null ? a.LawEffectiveDate.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#led" ).val() ) + "\", \n" ; 
-                out += "\t\t\t\t\"LawEffectiveNote\": \"" + ( $( id + "#efn" ).val() == null ? a.LawEffectiveNote.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#efn" ).val() ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawModifiedDate\": \"" + ( $( id + "lm" ).val() == null ? a.LawModifiedDate.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lm" ).val() ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawEffectiveDate\": \"" + ( $( id + "led" ).val() == null ? a.LawEffectiveDate.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "led" ).val() ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawEffectiveNote\": \"" + ( $( id + "efn" ).val() == null ? a.LawEffectiveNote.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "efn" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawAbandonNote\": \"\", \n" ; 
-                out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
-                out += "\t\t\t\t\"EngLawName\": \"" + ( $( "#he" ).is( ":checked" ) ? ( $( "#en" ).val() == null ? a.EngLawName.replaceAll( "\r\n" , "\\r\\n" ) : $( "#en" ).val() ) : "" ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( $( id + "he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
+                out += "\t\t\t\t\"EngLawName\": \"" + ( $( id + "he" ).is( ":checked" ) ? ( $( id + "en" ).val() == null ? a.EngLawName.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "en" ).val() ) : "" ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawAttachments\": [" ; 
-                if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lat" ).is( ":checked" ) ) 
+                if( $( id + "lat" ).is( ":checked" ) ) 
                 {
                     for( let i = 0 ; i < att_i[iii] ; i ++ )
                     {
                         out += ( i == 0 ? "" : ", " ) + "\n" ; 
                         out += "\t\t\t\t\t{\n" ; 
-                        out += "\t\t\t\t\t\t\"FileName\": \"" + $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + i ).val() + "\", \n" ; 
-                        out += "\t\t\t\t\t\t\"FileURL\": \"" + $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_u_" + i ).val() + "\" \n" ; 
+                        out += "\t\t\t\t\t\t\"FileName\": \"" + $( id + "att_f_n_" + i ).val() + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\"FileURL\": \"" + $( id + "att_f_u_" + i ).val() + "\" \n" ; 
                         out += "\t\t\t\t\t}" ; 
                         out += ( i == att_i[iii] - 1 ? "\n\t\t\t\t" : "" ) ; 
                     }
                 }
                 out += "], \n" ; 
-                out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "#lh" ).val() == null ? a.LawHistories.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#lh" ).val() ) + "\", \n" ; 
-                out += "\t\t\t\t\"LawForeword\": \"" + ( $( id + "#lf" ).val() == null ? a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "#lf" ).val() ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "lh" ).val() == null ? a.LawHistories.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lh" ).val() ) + "\", \n" ; 
+                out += "\t\t\t\t\"LawForeword\": \"" + ( $( id + "lf" ).val() == null ? a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lf" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawArticles\": [" ; 
                 for( let i = 0 ; i < a.LawArticles.length ; i ++ )
                 {
