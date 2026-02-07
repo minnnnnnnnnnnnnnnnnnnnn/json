@@ -514,7 +514,14 @@ $( () =>
             const spaces = { "條": "" , "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
             function a_n( n , a , nf ) 
             {
-                return "a" ; 
+                let nn = n.split( "." ) ; 
+                let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
+                switch( nf ) 
+                {
+                    case "ch":
+                    default:
+                }
+                return "第 " + nn[0] + " 條" + aa ; 
             }
             for( let i = 0 ; i < $( id + "art div" ).length ; i ++ )
             {
@@ -522,7 +529,7 @@ $( () =>
                 out += "\t\t\t\t\t{\n" ; 
                 const AorC = $( id + "art_" + i + "_t" ).val() == "條" ; 
                 out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
-                out += "\t\t\t\t\t\t\"ArticleNo\": \"" + ( AorC ? a_n( $( id + "art_" + i + "_n" ).val() , $( id + "art_" + i + "_a" ).val() , $( id + "nf_a" ) ) : "" ) + "\", \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleNo\": \"" + ( AorC ? a_n( $( id + "art_" + i + "_n" ).val() , $( id + "art_" + i + "_a" ).val() , $( id + "nf_a" ).val() ) : "" ) + "\", \n" ; 
                 out += "\t\t\t\t\t\t\"ArticleContent\": \"" + $( id + "art_" + i + "_c" ).val().replace( /^\s*/ , spaces[$( id + "art_" + i + "_t" ).val()] ).replaceAll( "\r\n" , "\\r\\n" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
                 if( AorC ) 
                 {
