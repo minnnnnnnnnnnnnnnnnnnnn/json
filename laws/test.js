@@ -278,6 +278,10 @@ $( () =>
             .append( $( "<div />" , { append: 
                 $( "<span />" , { text: "法規前言或宗旨那種東西" } ) } )
                 .append( $( "<input />" , { id: String( li ) + "_lf" , type: "text" } ) ) ) 
+            .append( $( "<div />" , { id: "" , append: 
+                $( "<span />" , { text: "條文" } ) } ) 
+                .append( "<div id=\"" + String( li ) + "_art\"></div>" )
+                .append( $( "<button />" , { id: String( li ) + "_art_btn" , type: "button" , text: "+" , style: "cursor:pointer;user-select:none;" } ) ) )
             ) ; 
             la.push( li ) ; 
             const iii = li ; 
@@ -362,6 +366,11 @@ $( () =>
                     $( "#" + String( iii ) + "_att_f_n_" + ii ).prop( "required" , $( "#" + String( iii ) + "_lat" ).is( ":checked" ) ) ; 
                 }
             } ) ; 
+            $( "#" + String( li ) + "_art_btn" ).on( "click" , () => 
+       			{
+        				console.log( "hi" ) ; 
+        				$( "#" + String( iii ) + "_art" ).append( "<span>hi" + String( iii ) + "</span>" ) ; 
+       			} ) ; 
             ++li ; 
         } ) ; 
         fetch_done = true ; 
@@ -701,6 +710,7 @@ $( () =>
                 out += "\t\t\t}" ; 
             }
             ++ iii ; 
+            // last of each category check
             if( ( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] != "j" && a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] != l[iii].LawURL.replace( domain + "/laws/law?a=" , "" )[0] ) || a == l[l.length - 1] ) 
             {
                 for( let ii of la ) 
@@ -792,6 +802,7 @@ $( () =>
             append: "<a href=\"" + f + "\" download=\"laws.json\">下載laws.json</a>", 
             appendTo: "main" 
         } ) ; 
+        // ---latest.json-----------------
         // let lout = "[" ; 
         // lout += "\t{" ; 
         // lout += "\t\t\"No: \"" + "" + "\"" ; 
