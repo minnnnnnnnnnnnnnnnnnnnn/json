@@ -1,7 +1,8 @@
 $( () => 
 {
     let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la , lfirst , l_att_i , n_art ; 
-    const ch_num = "○一二三四五六七八九十" ; 
+    const ch_num_lt_ten = "○一二三四五六七八九十" ; 
+    const ch_num = { ...ch_num_lt_ten , 11: "十一" , 12: "十二" , 13: "十三" , 14: "十四" , 15: "十五" , 16: "十六" , 17: "十七" , 18: "十八" , 19: "十九" , 100: "百" , 110: "百一十" } ; 
     fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
@@ -516,12 +517,62 @@ $( () =>
             {
                 let nn = n.split( "." ) ; 
                 let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
+                let num = "" ; 
                 switch( nf ) 
                 {
                     case "ch":
+                        if( Number( nn[0] ) < 20 ) 
+                        {
+                            num = ch_num[nn[0]] ; 
+                        }
+                        else 
+                        {
+                            for( let i = 0 ; i < nn[0].length ; i ++ ) 
+                            {
+                                if( i == 1 ) 
+                                {
+                                    num += ch_num[10] ; 
+                                    if( !Number( nn[0][i] ) ) 
+                                    {
+                                        break ; 
+                                    }
+                                }
+                                num += ch_num[nn[0][i]] ; 
+                            }
+                        }
+                        if( nn.length - 1 && Number( nn[1] ) ) 
+                        {
+                            num += "之" ; 
+                            if( Number( nn[1] ) < 20 ) 
+                            {
+                                num += ch_num[nn[1]] ; 
+                            }
+                            else 
+                            {
+                                for( let i = 0 ; i < nn[1].length ; i ++ ) 
+                                {
+                                    if( i == 1 ) 
+                                    {
+                                        num += ch_num[10] ; 
+                                        if( !Number( nn[1][i] ) ) 
+                                        {
+                                            break ; 
+                                        }
+                                    }
+                                    num += ch_num[nn[1][i]] ; 
+                                }
+                            }
+                        }
+                        break ; 
                     default:
+                        num += nn[0] ; 
+                        if( nn.length - 1 && Number( nn[1] ) ) 
+                        {
+                            num += " - " + nn[1] ; 
+                        }
+                        break ; 
                 }
-                return "第 " + nn[0] + " 條" + aa ; 
+                return "第 " + num + " 條" + aa ; 
             }
             for( let i = 0 ; i < $( id + "art div" ).length ; i ++ )
             {
