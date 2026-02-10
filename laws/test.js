@@ -2,7 +2,9 @@ $( () =>
 {
     let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la , lfirst , l_att_i , n_art ; 
     const ch_num_lt_ten = "○一二三四五六七八九十" ; 
-    const ch_num = { ...ch_num_lt_ten , 11: "十一" , 12: "十二" , 13: "十三" , 14: "十四" , 15: "十五" , 16: "十六" , 17: "十七" , 18: "十八" , 19: "十九" , 100: "百" , 110: "百一十" } ; 
+    const ch_num = { ...ch_num_lt_ten , 11: ch_num_lt_ten[10] + ch_num_lt_ten[1] , 12: ch_num_lt_ten[10] + ch_num_lt_ten[2] , 13: ch_num_lt_ten[10] + ch_num_lt_ten[3] , 14: ch_num_lt_ten[10] + ch_num_lt_ten[4] , 15: ch_num_lt_ten[10] + ch_num_lt_ten[5] , 16: ch_num_lt_ten[10] + ch_num_lt_ten[6] , 17: ch_num_lt_ten[10] + ch_num_lt_ten[7] , 18: ch_num_lt_ten[10] + ch_num_lt_ten[8] , 19: ch_num_lt_ten[10] + ch_num_lt_ten[9] , 100: "百" , 110: "百一十" } ; 
+    const ch_cap_num_lt_ten = "零壹貳參肆伍陸柒捌玖拾" ; 
+    const ch_cap_num = { ...ch_cap_num_lt_ten , 11: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[1] , 12: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[2] , 13: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[3] , 14: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[4] , 15: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[5] , 16: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[6] , 17: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[7] , 18: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[8] , 19: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[9] , 100: "佰" , 110: "佰壹拾" } ; 
     fetch( new Request( domain + "/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         lr = lll[0] ; 
@@ -516,6 +518,8 @@ $( () =>
             function a_n( n , a , nf ) 
             {
                 let nn = n.split( "." ) ; 
+                nn[0] = String( Number( nn[0] ) ) ; 
+                nn[1] = String( Number( nn[1] ) ) ; 
                 let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
                 let num = "" ; 
                 switch( nf ) 
@@ -565,10 +569,10 @@ $( () =>
                         }
                         break ; 
                     default:
-                        num += nn[0] ; 
+                        num = nn[0] ; 
                         if( nn.length - 1 && Number( nn[1] ) ) 
                         {
-                            num += " - " + nn[1] ; 
+                            num += "-" + nn[1] ; 
                         }
                         break ; 
                 }
@@ -874,7 +878,6 @@ $( () =>
                         case "中央法規":
                             if( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] == 'c' ) 
                             {
-                                console.log( 'c' ) ; 
                                 outPlusEquals( ii , a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] , a.LawURL.replace( domain + "/laws/law?a=" , "" ).substring( 1 ) ) ; 
                             }
                             else 
@@ -885,7 +888,6 @@ $( () =>
                         case "行政法規":
                             if( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] == 'x' ) 
                             {
-                                console.log( 'x' ) ; 
                                 outPlusEquals( ii , a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] , a.LawURL.replace( domain + "/laws/law?a=" , "" ).substring( 1 ) ) ; 
                             }
                             else 
@@ -896,7 +898,6 @@ $( () =>
                         case "立法法規":
                             if( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] == 'l' ) 
                             {
-                                console.log( 'l' ) ; 
                                 outPlusEquals( ii , a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] , a.LawURL.replace( domain + "/laws/law?a=" , "" ).substring( 1 ) ) ; 
                             }
                             else 
@@ -907,7 +908,6 @@ $( () =>
                         case "司法法規":
                             if( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] == 'j' ) 
                             {
-                                console.log( 'j' ) ; 
                                 outPlusEquals( ii , a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] , a.LawURL.replace( domain + "/laws/law?a=" , "" ).substring( 1 ) ) ; 
                             }
                             else 
@@ -921,7 +921,6 @@ $( () =>
                         case "立法法規/選舉法規":
                             if( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] == 'e' ) 
                             {
-                                console.log( 'e' ) ; 
                                 outPlusEquals( ii , a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] , a.LawURL.replace( domain + "/laws/law?a=" , "" ).substring( 1 ) ) ; 
                             }
                             else 
