@@ -514,14 +514,15 @@ $( () =>
             out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "lh" ).val() == undefined ? "" : $( id + "lh" ).val() ) + "\", \n" ; 
             out += "\t\t\t\t\"LawForeword\": \"" + ( $( id + "lf" ).val() == undefined ? "" : $( id + "lf" ).val() ) + "\", \n" ; 
             out += "\t\t\t\t\"LawArticles\": [" ; 
-            const spaces = { "條": "" , "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
-            function a_n( n , a , nf ) 
+            const spaces = { /* "條": "" , */ "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
+            function a_n( n , a , t , nf ) 
             {
                 let nn = n.split( "." ) ; 
                 nn[0] = String( Number( nn[0] ) ) ; 
                 nn[1] = String( Number( nn[1] ) ) ; 
                 let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
                 let num = "" ; 
+                let tt = t + ( t == "條" ? "" : " " ) ; 
                 switch( nf ) 
                 {
                     case "ch":
@@ -576,7 +577,7 @@ $( () =>
                         }
                         break ; 
                 }
-                return "第 " + num + " 條" + aa ; 
+                return "第 " + num + " " + tt + aa ; 
             }
             for( let i = 0 ; i < $( id + "art div" ).length ; i ++ )
             {
@@ -584,8 +585,8 @@ $( () =>
                 out += "\t\t\t\t\t{\n" ; 
                 const AorC = $( id + "art_" + i + "_t" ).val() == "條" ; 
                 out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
-                out += "\t\t\t\t\t\t\"ArticleNo\": \"" + ( AorC ? a_n( $( id + "art_" + i + "_n" ).val() , $( id + "art_" + i + "_a" ).val() , $( id + "nf_a" ).val() ) : "" ) + "\", \n" ; 
-                out += "\t\t\t\t\t\t\"ArticleContent\": \"" + $( id + "art_" + i + "_c" ).val().replace( /^\s*/ , spaces[$( id + "art_" + i + "_t" ).val()] ).replaceAll( "\r\n" , "\\r\\n" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleNo\": \"" + ( AorC ? a_n( $( id + "art_" + i + "_n" ).val() , $( id + "art_" + i + "_a" ).val() , $( id + "art_" + i + "_t" ).val() , $( id + "nf_a" ).val() ) : "" ) + "\", \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleContent\": \"" + ( AorC ? "" : a_n( $( id + "art_" + i + "_n" ).val() , $( id + "art_" + i + "_a" ).val() , $( id + "art_" + i + "_t" ).val() , $( id + "nf_c" ).val() ).replace( /^\s*/ , spaces[$( id + "art_" + i + "_t" ).val()] ) ) + $( id + "art_" + i + "_c" ).val().replaceAll( "\r\n" , "\\r\\n" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
                 if( AorC ) 
                 {
                     out += "\t\t\t\t\t\t\"Cases\": [" ; 
