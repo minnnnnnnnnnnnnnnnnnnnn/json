@@ -10,12 +10,9 @@ $( () =>
     {
         lr = lll[0] ; 
         l = lll[0].Laws ; 
-        aNote = Array( l.length ) ; 
-        aNote.fill( false ) ; 
-        first = Array( l.length ) ; 
-        first.fill( true ) ; 
-        att_i = Array( l.length ) ; 
-        att_i.fill( 0 ) ; 
+        aNote = Array( l.length ).fill( false ) ; 
+        first = Array( l.length ).fill( true ) ; 
+        att_i = Array( l.length ).fill( 0 ) ; 
         la = Array() ; 
         lfirst = Array() ; 
         l_att_i = Array() ; 
