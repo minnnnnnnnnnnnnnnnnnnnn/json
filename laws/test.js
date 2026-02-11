@@ -287,11 +287,13 @@ $( () =>
                 $( "<select />" , { id: String( li ) + "_nf_a" , required: true } )
                     .append( $( "<option />" , { text: "條號" , selected: true , disabled: true , value: "" } ) )
                     .append( $( "<option />" , { text: "中文小寫數字" , value: "ch" } ) )
+                    .append( $( "<option />" , { text: "中文大寫數字" , value: "ch_cap" } ) )
                     .append( $( "<option />" , { text: "阿拉伯數字" , value: "" } ) ) } ) ) 
             .append( $( "<div />" , { append: 
                 $( "<select />" , { id: String( li ) + "_nf_c" , required: true } )
                     .append( $( "<option />" , { text: "編章節款目序號" , selected: true , disabled: true , value: "" } ) )
                     .append( $( "<option />" , { text: "中文小寫數字" , value: "ch" } ) )
+                    .append( $( "<option />" , { text: "中文大寫數字" , value: "ch_cap" } ) )
                     .append( $( "<option />" , { text: "阿拉伯數字" , value: "" } ) ) } ) ) 
             .append( $( "<div />" , { id: "" , append: 
                 $( "<span />" , { text: "條文" , append: "<small>（註：條號部分小數點代表「之」，例：1.1代表1之1，1.10代表1之10，最多接受小數點後兩位（即最多「之99」））</small>" } ) } ) 
@@ -565,6 +567,50 @@ $( () =>
                                         }
                                     }
                                     num += ch_num[nn[1][i]] ; 
+                                }
+                            }
+                        }
+                        break ; 
+                    case "ch_cap":
+                        if( Number( nn[0] ) < 20 ) 
+                        {
+                            num = ch_cap_num[nn[0]] ; 
+                        }
+                        else 
+                        {
+                            for( let i = 0 ; i < nn[0].length ; i ++ ) 
+                            {
+                                if( i == 1 ) 
+                                {
+                                    num += ch_cap_num[10] ; 
+                                    if( !Number( nn[0][i] ) ) 
+                                    {
+                                        break ; 
+                                    }
+                                }
+                                num += ch_cap_num[nn[0][i]] ; 
+                            }
+                        }
+                        if( nn.length - 1 && Number( nn[1] ) ) 
+                        {
+                            num += "之" ; 
+                            if( Number( nn[1] ) < 20 ) 
+                            {
+                                num += ch_cap_num[nn[1]] ; 
+                            }
+                            else 
+                            {
+                                for( let i = 0 ; i < nn[1].length ; i ++ ) 
+                                {
+                                    if( i == 1 ) 
+                                    {
+                                        num += ch_cap_num[10] ; 
+                                        if( !Number( nn[1][i] ) ) 
+                                        {
+                                            break ; 
+                                        }
+                                    }
+                                    num += ch_cap_num[nn[1][i]] ; 
                                 }
                             }
                         }
