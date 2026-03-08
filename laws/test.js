@@ -20,7 +20,7 @@ $( () =>
         for( let a of l ) 
         {
             const i = ai ; 
-            $( "#gen" ).before( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" , append: $( "<span />" , { text: a.LawAbandonNote + a.LawName } ) } ) ) ; 
+            $( "#gen" ).before( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ,/* style: "text-decoration:" + ( a.LawAbandonNote == "廢" ? "line-through" : "none" ) + ";text-decoration-color:#f00;" , */append: "<span><span style=\"color:#f00;\">" + a.LawAbandonNote + "</span><span>" + a.LawName + "</span></span>" } ) ) ; 
             $( "<input />" , 
             {
                 type: "checkbox", 
@@ -231,7 +231,7 @@ $( () =>
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "text-decoration" , "none" ) ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ).css( "color" , "" ) ; 
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).prop( "disabled" , aNote[i] ) ; 
-                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).show() ; 
+                        $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).css( "display" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ? "block" : "none" ) ; 
                     }
                 } ) ; 
             }
