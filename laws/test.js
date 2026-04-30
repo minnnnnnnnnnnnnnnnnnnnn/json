@@ -101,6 +101,7 @@ $( () =>
                             } ).append( $( "<input />" , 
                             {
                                 type: "text", 
+                                value: a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ), 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
                             } ) ) ) ; 
                         for( let aa of a.LawArticles )
