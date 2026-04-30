@@ -8,59 +8,15 @@
     </head>
     <body>
         <main>
+            <small>註：有修改的既有政黨資料再勾，修改既有政黨資料留白代表如舊，政黨廢止則按「X」，新增政黨資料按最下面提交旁的「+」</small>
             <form id="p">
-                <div>
-                    <span>政黨編號（從零開始）</span>
-                    <input required type="number" min="0" step="1" value="0" id="p" /><!-- party -->
-                </div>
-                <div>
-                    <span>政黨名稱</span>
-                    <input type="text" required id="pn" /><!-- party name -->
-                </div>
-                <div>
-                    <span>政黨簡稱</span>
-                    <input type="text" id="pa" /><!-- party abbreviation -->
-                </div>
-                <div>
-                    <span>政黨標章檔案名稱</span>
-                    <div>
-                        <span>＞ 圖檔</span>
-                        <input type="text" id="lgi" /><!-- party logo image -->
-                    </div>
-                    <div>
-                        <span>＞ 音檔</span>
-                        <input type="text" id="lga" /><!-- party logo audio -->
-                    </div>
-                </div>
-                <div>
-                    <span>政黨負責人</span>
-                    <input type="text" required id="cm" /><!-- chairman -->
-                </div>
-                <select required id="st"><!-- party state -->
-                    <option selected disabled value="">政黨狀態</option>
-                    <option value="一般">一般</option>
-                    <option value="廢止備案">廢止備案</option>
-                    <option value="自行解散">自行解散（因合併而解散亦在此列）</option>
-                </select>
-                <div>
-                    <span>政黨成立大會日期</span>
-                    <input type="text" id="est" /><!-- party established date -->
-                </div>
-                <div>
-                    <span>政黨登記日期</span>
-                    <input type="text" id="reg" /><!-- party registered date -->
-                </div>
-                <div>
-                    <span>政黨官網</span>
-                    <input type="text" id="pu" /><!-- party url -->
-                </div>
-                <input type="submit" formmethod="dialog" />
+                <input id="gen" type="submit" formmethod="dialog" />
             </form>
-            <div>
-                <small>換行都直接寫「\r\n」就好</small>
+            <div id="preview">
+                <code>Preview</code>
             </div>
             <textarea id="out" rows="30" cols="100" readonly></textarea>
-        </main>
+         </main>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="parties.js"></script>
     </body>

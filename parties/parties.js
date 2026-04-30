@@ -1,140 +1,172 @@
 $( () => 
 {
     let pr , p ; 
-    let first_r = true , first_o = true ; 
-    let cr_i = 0 , co_i = 0 ; 
+    let pl = Array() ; 
+    let pi = 0 ; 
     let f = null ; 
     fetch( new Request( "https://tcfshsu.github.io/law/json/parties.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
     {
         pr = lll[0] ; 
         p = lll[0].Parties ; 
         console.log( p ) ; 
-    } ) ; 
-    $( "#cr" ).on( "input" , () => 
-    {
-        if( first_r && $( "#cr" ).is( ":checked" ) ) 
+        for( let pp of p ) 
         {
-            first_r = false ; 
-            $( "<div />" , 
+            $( "#gen" ).before( $( "<div />" , { id: "p" + pp.Party + "_div" , append: $( "<span />" , { text: pp.PartyName } ) } ).append( $( "<input />" , { id: "p" + pp.Party , disabled: pp.PartyState == "廢止備案" , type: "checkbox" } ) ).append( $( "<span />" , { style: "cursor:pointer;user-select:none;-webkit-user-select:none;" , id: "p" + pp.Party + "_x" , text: "×" } ) ) ) ; 
+            $( "#p" + pp.Party ).on( "input" , () => 
             {
-                id : "rul_" + cr_i , 
-                append : "<span>裁定 " + ( cr_i + 1 ) + " 字號</span><input type=\"text\" required id=\"cr_n_" + cr_i + "\" /><br /><span>裁定 " + ( cr_i + 1 ) + " 全文網址</span><input type=\"text\" id=\"cr_u_" + cr_i + "\" />" , 
-                appendTo : "#rul" 
-            } ) ; 
-            ++ cr_i ; 
-            $( "<button />" , 
-            {
-                id : "add_rul" , 
-                type : "button" , 
-                text : "+" , 
-                appendTo : "#rul" 
-            } ) ; 
-            $( "#add_rul" ).on( "click" , () => 
-            {
-                $( "#add_rul" ).before( $( "<div />" , 
+                if( $( "#p" + pp.Party + "_box" ).length ) 
                 {
-                    id : "rul_" + cr_i , 
-                    append : "<span>裁定 " + ( cr_i + 1 ) + " 字號</span><input type=\"text\" required id=\"cr_n_" + cr_i + "\" /><br /><span>裁定 " + ( cr_i + 1 ) + " 全文網址</span><input type=\"text\" id=\"cr_u_" + cr_i + "\" />" , 
-                } ) ) ; 
-                ++ cr_i ; 
-                if( $( "#rem_rul" ).length ) 
-                {
-                    $( "#rem_rul" ).remove() ; 
+                    $( "#p" + pp.Party + "_box" ).toggle() ; 
+                    $( "#p" + pp.Party + "_pn" ).prop( "required" , !$( "#p" + pp.Party + "_pn" ).prop( "required" ) ) ; 
+                    $( "#p" + pp.Party + "_st" ).prop( "required" , !$( "#p" + pp.Party + "_st" ).prop( "required" ) ) ; 
                 }
-                $( "<button />" , 
+                else if( $( "#p" + pp.Party ).is( ":checked" ) ) 
                 {
-                    id : "rem_rul" , 
-                    type : "button" , 
-                    text : "-" , 
-                    appendTo : "#rul" 
-                } ) ; 
-                $( "#rem_rul" ).on( "click" , () => 
-                {
-                    -- cr_i ; 
-                    $( "#rul_" + cr_i ).remove() ; 
-                    if( cr_i < 2 ) 
-                    {
-                        $( "#rem_rul" ).remove() ; 
-                    }
-                } ) ; 
-            } ) ; 
-            return ; 
-        }
-        if( $( "#cr" ).is( ":checked" ) ) 
-        {
-            $( "#rul" ).prop( "style" , "display:block;" ) ; 
-        }
-        else 
-        {
-            $( "#rul" ).prop( "style" , "display:none;" ) ; 
-        }
-    } ) ; 
-    $( "#co" ).on( "input" , () => 
-    {
-        if( first_o && $( "#co" ).is( ":checked" ) ) 
-        {
-            first_o = false ; 
-            $( "<div />" , 
-            {
-                id : "op_" + co_i , 
-                append : "<select required id=\"co_t_" + co_i + "\"><option selected disabled value=\"\">意見書 " + ( co_i + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i + 1 ) + " 評議委員</span><input type=\"text\" required id=\"co_m_" + co_i + "\" /><br /><span>意見書 " + ( co_i + 1 ) + " 全文網址</span><input type=\"text\" required id=\"co_u_" + co_i + "\" />" , 
-                appendTo : "#op" 
-            } ) ; 
-            ++ co_i ; 
-            $( "<button />" , 
-            {
-                id : "add_op" , 
-                type : "button" , 
-                text : "+" , 
-                appendTo : "#op" 
-            } ) ; 
-            $( "#add_op" ).on( "click" , () => 
-            {
-                $( "#add_op" ).before( $( "<div />" , 
-                {
-                    id : "op_" + co_i , 
-                    append : "<select required id=\"co_t_" + co_i + "\"><option selected disabled value=\"\">意見書 " + ( co_i + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i + 1 ) + " 評議委員</span><input type=\"text\" required id=\"co_m_" + co_i + "\" /><br /><span>意見書 " + ( co_i + 1 ) + " 全文網址</span><input type=\"text\" required id=\"co_u_" + co_i + "\" />" , 
-                } ) ) ; 
-                ++ co_i ; 
-                if( $( "#rem_op" ).length ) 
-                {
-                    $( "#rem_op" ).remove() ; 
+                    $( "#p" + pp.Party + "_div" ).after( $( "<div />" , { id: "p" + pp.Party + "_box" , style: "position:relative;background:#333;color:#fff;border:#f00 3pt solid;margin:1rem;" } )
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨編號" } ) } )
+                              .append( $( "<input />" , { value: pp.Party , id: "p" + pp.Party + "_p" , type: "number" , min: 0 , step: 1 , required: true } ) ) ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨名稱" } ) } )
+                              .append( $( "<input />" , { value: pp.PartyName , id: "p" + pp.Party + "_pn" , type: "text" , required: true } ) ) ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨簡稱" } ) } )
+                              .append( $( "<input />" , { value: pp.PartyAbbreviation , id: "p" + pp.Party + "_pa" , type: "text" } ) ) ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨標章檔案名稱" } ) } )
+                              .append( $( "<div />" , { append: 
+                                  $( "<span />" , { text: "＞ 圖檔" } ) } )
+                                  .append( $( "<input />" , { value: pp.Logo[0] , id: "p" + pp.Party + "_lgi" , type: "text" } ) ) 
+                              )
+                              .append( $( "<div />" , { append: 
+                                  $( "<span />" , { text: "＞ 音檔" } ) } )
+                                  .append( $( "<input />" , { value: pp.Logo[1] , id: "p" + pp.Party + "_lga" , type: "text" } ) ) 
+                              ) ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨負責人" } ) } )
+                              .append( $( "<input />" , { value: pp.Chairman , id: "p" + pp.Party + "_cm" , type: "text" } ) ) ) 
+                        .append( $( "<select />" , { id: "p" + pp.Party + "_st" , required: true } )
+                            .append( $( "<option />" , { text: "政黨狀態" , value: "" , disabled: true } ) ) 
+                            .append( $( "<option />" , { selected: pp.PartyState == "一般" , text: "一般" , value: "一般" } ) ) 
+                            .append( $( "<option />" , { selected: pp.PartyState == "廢止備案" , text: "廢止備案" , value: "廢止備案" } ) ) 
+                            .append( $( "<option />" , { selected: pp.PartyState == "自行解散" , text: "自行解散" , value: "自行解散（因合併而解散亦在此列）" } ) ) 
+                        ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨成立大會日期" } ) } )
+                              .append( $( "<input />" , { value: pp.PartyEstablishedDate , id: "p" + pp.Party + "_est" , type: "text" } ) ) ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨登記日期" } ) } )
+                              .append( $( "<input />" , { value: pp.PartyRegisteredDate , id: "p" + pp.Party + "_reg" , type: "text" } ) ) ) 
+                        .append( $( "<div />" , { append: 
+                              $( "<span />" , { text: "政黨官網" } ) } )
+                              .append( $( "<input />" , { value: pp.PartyURL , id: "p" + pp.Party + "_pu" , type: "text" } ) ) ) 
+                    ) ; 
                 }
-                $( "<button />" , 
-                {
-                    id : "rem_op" , 
-                    type : "button" , 
-                    text : "-" , 
-                    appendTo : "#op" 
-                } ) ; 
-                $( "#rem_op" ).on( "click" , () => 
-                {
-                    -- co_i ; 
-                    $( "#op_" + co_i ).remove() ; 
-                    if( co_i < 2 ) 
-                    {
-                        $( "#rem_op" ).remove() ; 
-                    }
-                } ) ; 
             } ) ; 
-            return ; 
+            $( "#p" + pp.Party + "_x" ).on( "click" , () => 
+            {
+                $( "#p" + pp.Party ).prop( "disabled" , !$( "#p" + pp.Party ).prop( "disabled" ) ) ; 
+                $( "#p" + pp.Party + "_pn" ).prop( "required" , !$( "#p" + pp.Party + "_pn" ).prop( "required" ) ) ; 
+                $( "#p" + pp.Party + "_st" ).prop( "required" , !$( "#p" + pp.Party + "_st" ).prop( "required" ) ) ; 
+                if( $( "#p" + pp.Party ).is( ":checked" ) ) 
+                {
+                    $( "#p" + pp.Party + "_box" ).toggle() ; 
+                }
+            } ) ; 
         }
-        if( $( "#co" ).is( ":checked" ) ) 
+        $( "#gen" ).before( $( "<button />" , { id: "add_party" , type: "button" , text: "+" } ) ) ; 
+        $( "#add_party" ).on( "click" , () => 
         {
-            $( "#op" ).prop( "style" , "display:block;" ) ; 
-        }
-        else 
-        {
-            $( "#op" ).prop( "style" , "display:none;" ) ; 
-        }
-        for( let i = 0 ; i < co_i ; i ++ ) 
-        {
-            $( "#co_n_" + i ).prop( "required" , $( "#co" ).is( ":checked" ) ) ; 
-        }
+            pl.push( pi ) ; 
+            $( "#add_party" ).before( $( "<div />" , { id: pi , style: "position:relative;background:#333;color:#fff;border:#f00 3pt solid;margin:1rem;" } )
+                .append( $( "<span />" , { id: pi + "_x" , text: "×" , style: "cursor:pointer;position:absolute;right:0;top:0;user-select:none;" , onmouseenter: "$( this ).css( \"background\" , \"#f00\" )" , onmouseleave: "$( this ).css( \"background\" , \"\" )" } ) )
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨編號" } ) } )
+                      .append( $( "<input />" , { id: pi + "_p" , type: "number" , min: 0 , step: 1 , value: p.length + pi , required: true } ) ) ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨名稱" } ) } )
+                      .append( $( "<input />" , { id: pi + "_pn" , type: "text" , required: true } ) ) ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨簡稱" } ) } )
+                      .append( $( "<input />" , { id: pi + "_pa" , type: "text" } ) ) ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨標章檔案名稱" } ) } )
+                      .append( $( "<div />" , { append: 
+                          $( "<span />" , { text: "＞ 圖檔" } ) } )
+                          .append( $( "<input />" , { id: pi + "_lgi" , type: "text" } ) ) 
+                      )
+                      .append( $( "<div />" , { append: 
+                          $( "<span />" , { text: "＞ 音檔" } ) } )
+                          .append( $( "<input />" , { id: pi + "_lga" , type: "text" } ) ) 
+                      ) ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨負責人" } ) } )
+                      .append( $( "<input />" , { id: pi + "_cm" , type: "text" } ) ) ) 
+                .append( $( "<select />" , { id: pi + "_st" , required: true } )
+                    .append( $( "<option />" , { text: "政黨狀態" , value: "" , disabled: true , selected: true } ) ) 
+                    .append( $( "<option />" , { text: "一般" , value: "一般" } ) ) 
+                    .append( $( "<option />" , { text: "廢止備案" , value: "廢止備案" } ) ) 
+                    .append( $( "<option />" , { text: "自行解散" , value: "自行解散（因合併而解散亦在此列）" } ) ) 
+                ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨成立大會日期" } ) } )
+                      .append( $( "<input />" , { id: pi + "_est" , type: "text" } ) ) ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨登記日期" } ) } )
+                      .append( $( "<input />" , { id: pi + "_reg" , type: "text" } ) ) ) 
+                .append( $( "<div />" , { append: 
+                      $( "<span />" , { text: "政黨官網" } ) } )
+                      .append( $( "<input />" , { id: pi + "_pu" , type: "text" } ) ) ) 
+            ) ; 
+            const iii = pi ; 
+            $( "#" + pi + "_x" ).on( "click" , () => 
+            {
+                let check = ( () => 
+                {
+                    for( const v of $( "#" + iii + " input[type=\"text\"]" ) ) 
+                    {
+                        if( v.value != "" ) 
+                        {
+                            return true ; 
+                        }
+                    }
+                    for( const v of $( "#" + iii + " input[type=\"checkbox\"]" ) ) 
+                    {
+                        if( v.checked ) 
+                        {
+                            return true ; 
+                        }
+                    }
+                    for( const v of $( "#" + iii + " select" ) ) 
+                    {
+                        if( v.value != "" ) 
+                        {
+                            return true ; 
+                        }
+                    }
+                    return $( "#" + iii + " input[type=\"number\"]" ).val() != 0 ; 
+                } )() ; 
+                if( check )
+                {
+                    if( !confirm( "此欄非空，確定刪去？" ) )
+                    {
+                        return ; 
+                    }
+                }
+                $( "#" + iii ).remove() ; 
+                pl.splice( pl.indexOf( iii ) ) ; 
+            } ) ; 
+            ++ pi ; 
+        } ) ; 
+        fetch_done = true ; 
     } ) ; 
     $( "#p" ).on( "submit" , () => 
     {
-        
+        if( !fetch_done ) 
+        {
+            console.log( "太快了吧" ) ; 
+            return ; 
+        }
         const now = new Date() ; 
         const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
         console.log( u ) ; 
@@ -142,37 +174,48 @@ $( () =>
         out += "\t{\n" ; 
         out += "\t\t\"UpdateDate\": \"" + u + "\",\n" ; 
         out += "\t\t\"Parties\": [\n" ; 
-        out += "\t\t\t{\n" ; 
-        out += "\t\t\t\t\"Party\": \"" + $( "#p" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyName\": \"" + $( "#pn" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyAbbreviation\": \"" + $( "#pa" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyLogo\": [\"" + ( $( "#lgi" ).val() == null ? "" : $( "#lgi" ).val() ) + "\"" + ( $( "#lga" ).val() == "" ? "" : " , \"" + $( "#lga" ).val() + "\"" ) + "], \n" ; 
-        out += "\t\t\t\t\"Chairman\": \"" + $( "#cm" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyState\": \"" + $( "#st" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyEstablishedDate\": \"" + $( "#est" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyRegisteredDate\": \"" + $( "#reg" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"PartyURL\": \"" + $( "#pu" ).val() + "\", \n" ; 
-        out += "\t\t\t} \n" ; 
+        for( let i = 0 ; i < p.length ; ++ i ) 
+        {
+            out += "\t\t\t{\n" ; 
+            out += "\t\t\t\t\"Party\": \"" + ( $( "#p" + i + "_p" ).val() ? $( "#p" + i + "_p" ).val() : p[i].Party ) + "\", \n" ; 
+            out += "\t\t\t\t\"PartyName\": \"" + ( $( "#p" + i + "_pn" ).val() ? $( "#p" + i + "_pn" ).val() : p[i].PartyName ) + "\", \n" ; 
+            out += "\t\t\t\t\"PartyAbbreviation\": \"" + ( $( "#p" + i + "_pa" ).val() ? $( "#p" + i + "_pa" ).val() : p[i].PartyAbbreviation ) + "\", \n" ; 
+            out += "\t\t\t\t\"Logo\": [\"" + ( !$( "#p" + i + "_lgi" ).val() ? p[i].Logo[0] : $( "#p" + i + "_lgi" ).val() ) + "\"" + ( $( "#p" + i + "_lga" ).val() ? " , \"" + $( "#p" + i + "_lga" ).val() + "\"" : ( p[i].Logo[1] ? " , \"" + p[i].Logo[1] + "\"" : "" ) ) + "], \n" ; 
+            out += "\t\t\t\t\"Chairman\": \"" + ( $( "#p" + i + "_cm" ).val() ? $( "#p" + i + "_cm" ).val() : p[i].Chairman ) + "\", \n" ; 
+            out += "\t\t\t\t\"PartyState\": \"" + ( $( "#p" + i + "_st" ).val() ? $( "#p" + i + "_st" ).val() : p[i].PartyState ) + "\", \n" ; 
+            out += "\t\t\t\t\"PartyEstablishedDate\": \"" + ( $( "#p" + i + "_est" ).val() ? $( "#p" + i + "_est" ).val() : p[i].PartyEstablishedDate ) + "\", \n" ; 
+            out += "\t\t\t\t\"PartyRegisteredDate\": \"" + ( $( "#p" + i + "_reg" ).val() ? $( "#p" + i + "_reg" ).val() : p[i].PartyRegisteredDate ) + "\", \n" ; 
+            out += "\t\t\t\t\"PartyURL\": \"" + ( $( "#p" + i + "_pu" ).val() ? $( "#p" + i + "_pu" ).val() : p[i].PartyURL ) + "\", \n" ; 
+            out += "\t\t\t}" + ( i == p.length - 1 ? "" : "," ) + " \n" ; 
+        }
+        for( let i = 0 ; i < pl.length ; ++ i ) 
+        {
+            out += "\t\t\t{\n" ; 
+            out += "\t\t\t\t\"Party\": \"" + $( "#" + i + "_p" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"PartyName\": \"" + $( "#" + i + "_pn" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"PartyAbbreviation\": \"" + $( "#" + i + "_pa" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"Logo\": [\"" + ( !$( "#" + i + "_lgi" ).val() ? "" : $( "#" + i + "_lgi" ).val() ) + "\"" + ( !$( "#" + i + "_lga" ).val() ? "" : " , \"" + $( "#" + i + "_lga" ).val() + "\"" ) + "], \n" ; 
+            out += "\t\t\t\t\"Chairman\": \"" + $( "#" + i + "_cm" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"PartyState\": \"" + $( "#" + i + "_st" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"PartyEstablishedDate\": \"" + $( "#" + i + "_est" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"PartyRegisteredDate\": \"" + $( "#" + i + "_reg" ).val() + "\", \n" ; 
+            out += "\t\t\t\t\"PartyURL\": \"" + $( "#" + i + "_pu" ).val() + "\", \n" ; 
+            out += "\t\t\t}" + ( i == pl.length - 1 ? "" : "," ) + " \n" ; 
+        }
         out += "\t\t] \n" ; 
         out += "\t} \n" ; 
         out += "] " ; 
         out = out.replaceAll( "\t" , "    " ) ; 
         $( "#out" ).text( out ) ; 
-        // let d = new Blob( [ out ] , { type : "application/json" } ) ; 
         if( f !== null ) 
         {
             window.URL.revokeObjectURL( f ) ; 
         }
-        f = window.URL.createObjectURL( /* d */ new Blob( [ out ] , { type : "application/json" } ) ) ; 
+        f = window.URL.createObjectURL( new Blob( [ out ] , { type : "application/json" } ) ) ; 
         if( $( "#dl" ).length ) 
         {
             $( "#dl" ).remove() ; 
         }
-        $( "<div />" , 
-        {
-            id: "dl", 
-            append: "<a href=\"" + f + "\" download=\"parties.json\">下載</a>", 
-            appendTo: "main" 
-        } ) ; 
+        $( "#preview" ).before( $( "<div />" , { id: "dl" , append: "<a href=\"" + f + "\" download=\"parties.json\">下載</a>" } ) ) ; 
     } ) ; 
 } ) ; 
