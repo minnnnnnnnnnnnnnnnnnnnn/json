@@ -11,7 +11,7 @@ $( () =>
         console.log( p ) ; 
         for( let pp of p ) 
         {
-            $( "#gen" ).before( $( "<div />" , { id: "p" + pp.Party + "_div" , append: $( "<span />" , { text: pp.PartyName } ) } ).append( $( "<input />" , { id: "p" + pp.Party , disabled: pp.PartyState == "廢止備案" , type: "checkbox" } ) ).append( $( "<span />" , { style: "cursor:pointer;user-select:none;-webkit-user-select:none;" , id: "p" + pp.Party + "_x" , text: "×" } ) ) ) ; 
+            $( "#gen" ).before( $( "<div />" , { id: "p" + pp.Party + "_div" , append: $( "<span />" , { text: pp.PartyName } ) } ).append( $( "<input />" , { id: "p" + pp.Party , disabled: pp.PartyState == "廢止備案" , type: "checkbox" } ) ) ) ; 
             $( "#p" + pp.Party ).on( "input" , () => 
             {
                 if( $( "#p" + pp.Party + "_box" ).length ) 
@@ -63,16 +63,16 @@ $( () =>
                     ) ; 
                 }
             } ) ; 
-            $( "#p" + pp.Party + "_x" ).on( "click" , () => 
-            {
-                $( "#p" + pp.Party ).prop( "disabled" , !$( "#p" + pp.Party ).prop( "disabled" ) ) ; 
-                $( "#p" + pp.Party + "_pn" ).prop( "required" , !$( "#p" + pp.Party + "_pn" ).prop( "required" ) ) ; 
-                $( "#p" + pp.Party + "_st" ).prop( "required" , !$( "#p" + pp.Party + "_st" ).prop( "required" ) ) ; 
-                if( $( "#p" + pp.Party ).is( ":checked" ) ) 
-                {
-                    $( "#p" + pp.Party + "_box" ).toggle() ; 
-                }
-            } ) ; 
+            // $( "#p" + pp.Party + "_x" ).on( "click" , () => 
+            // {
+            //     $( "#p" + pp.Party ).prop( "disabled" , !$( "#p" + pp.Party ).prop( "disabled" ) ) ; 
+            //     $( "#p" + pp.Party + "_pn" ).prop( "required" , !$( "#p" + pp.Party + "_pn" ).prop( "required" ) ) ; 
+            //     $( "#p" + pp.Party + "_st" ).prop( "required" , !$( "#p" + pp.Party + "_st" ).prop( "required" ) ) ; 
+            //     if( $( "#p" + pp.Party ).is( ":checked" ) ) 
+            //     {
+            //         $( "#p" + pp.Party + "_box" ).toggle() ; 
+            //     }
+            // } ) ; 
         }
         $( "#gen" ).before( $( "<button />" , { id: "add_party" , type: "button" , text: "+" } ) ) ; 
         $( "#add_party" ).on( "click" , () => 
