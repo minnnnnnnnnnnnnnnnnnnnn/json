@@ -4,7 +4,7 @@ $( () =>
     let cr_i , co_i ; 
     let ci , cl = Array() ; 
     let f = null ; 
-    fetch( new Request( "https://tcfshsu.github.io/law/json/cases.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
+    fetch( new Request( "https://tcfshsu.github.io/law/json/cases.json" ) ).then( r=> r.json() ).then( lll => 
     {
         cr = lll[0] ; 
         c = lll[0].Cases ; 

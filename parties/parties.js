@@ -4,7 +4,7 @@ $( () =>
     let pl = Array() ; 
     let pi = 0 ; 
     let f = null ; 
-    fetch( new Request( "https://tcfshsu.github.io/law/json/parties.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
+    fetch( new Request( "https://tcfshsu.github.io/law/json/parties.json" ) ).then( r => r.json() ).then( ( lll ) => 
     {
         pr = lll[0] ; 
         p = lll[0].Parties ; 
