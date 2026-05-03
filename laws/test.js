@@ -208,7 +208,7 @@ $( () =>
                 $( "<span />" , 
                 {
                     text: "×", 
-                    style: "cursor:pointer;user-select:none;", 
+                    style: "cursor:pointer;-webkit-user-select:none;user-select:none;", 
                     id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_x", 
                     appendTo: "#l div:last-of-type" 
                 } ) ; 
@@ -242,7 +242,7 @@ $( () =>
         $( "#add_law" ).on( "click" , () => 
         {
             $( "#add_law" ).before( $( "<div />" , { id: String( li ) , style: "position:relative;background:#333;color:#fff;border:#f00 3pt solid;margin:1rem;" } )
-            .append( $( "<span />" , { id: String( li ) + "_x" , text: "×" , style: "cursor:pointer;position:absolute;right:0;top:0;user-select:none;" , onmouseenter: "$( this ).css( \"background\" , \"#f00\" )" , onmouseleave: "$( this ).css( \"background\" , \"\" )" } ) )
+            .append( $( "<span />" , { id: String( li ) + "_x" , text: "×" , style: "cursor:pointer;position:absolute;right:0;top:0;-webkit-user-select:none;user-select:none;" , onmouseenter: "$( this ).css( \"background\" , \"#f00\" )" , onmouseleave: "$( this ).css( \"background\" , \"\" )" } ) )
             .append( $( "<select />" , { id: String( li ) + "_ll" , required: true } )
                 .append( $( "<option />" , { text: "法規位階" , value: "" , disabled: true , selected: true } ) ) 
                 .append( $( "<option />" , { text: "章程" , value: "章程" } ) ) 
@@ -297,7 +297,7 @@ $( () =>
             .append( $( "<div />" , { id: "" , append: 
                 $( "<span />" , { text: "條文" , append: "<small>（註：條號部分小數點代表「之」，例：1.1代表1之1，1.10代表1之10，最多接受小數點後兩位（即最多「之99」））</small>" } ) } ) 
                 .append( "<div id=\"" + String( li ) + "_art\"></div>" )
-                .append( $( "<button />" , { id: String( li ) + "_art_add" , type: "button" , text: "+" , style: "cursor:pointer;user-select:none;" } ) ) )
+                .append( $( "<button />" , { id: String( li ) + "_art_add" , type: "button" , text: "+" , style: "cursor:pointer;-webkit-user-select:none;user-select:none;" } ) ) )
             ) ; 
             la.push( li ) ; 
             n_art.push( { first: true , art: Array() } ) ; 
@@ -452,7 +452,7 @@ $( () =>
                 if( n_art[iii].first ) 
                 {
                     n_art[iii].first = false ; 
-                    $( "#" + String( iii ) + "_art_add" ).after( $( "<button />" , { id: String( iii ) + "_art_rem" , type: "button" , text: "-" , style: "cursor:pointer;user-select:none;" } ) ) ; 
+                    $( "#" + String( iii ) + "_art_add" ).after( $( "<button />" , { id: String( iii ) + "_art_rem" , type: "button" , text: "-" , style: "cursor:pointer;-webkit-user-select:none;user-select:none;" } ) ) ; 
                     $( "#" + String( iii ) + "_art_rem" ).on( "click" , () => 
                     {
                         $( n_art[iii].art[n_art[iii].art.length - 1].id ).remove() ; 
