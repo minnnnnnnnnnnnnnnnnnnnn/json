@@ -119,7 +119,7 @@ $( () =>
                       .append( $( "<input />" , { id: pi + "_pu" , type: "text" } ) ) ) 
             ) ; 
             const iii = pi ; 
-            $( "#" + pi + "_x" ).on( "click" , () => 
+            $( "#" + iii + "_x" ).on( "click" , () => 
             {
                 let check = ( () => 
                 {
