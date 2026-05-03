@@ -440,17 +440,17 @@ $( () =>
         {
             const pre = "#" + i + "_" ; 
             out += "\t\t\t{\n" ; 
-            out += "\t\t\t\t\"No\": \"" + ( $( pre + "cn" ).val() ? $( pre + "cn" ).val() : c[i].No ) + "\", \n" ; 
-            out += "\t\t\t\t\"Category\": \"" + ( $( pre + "cc" ).val() ? $( pre + "cc" ).val() : c[i].Category ) + "\", \n" ; 
-            out += "\t\t\t\t\"DeliberationDate\": \"" + ( $( pre + "dd" ).val() ? $( pre + "dd" ).val() : c[i].DeliberationDate ) + "\", \n" ; 
-            out += "\t\t\t\t\"Petitioner\": \"" + ( $( pre + "pt" ).val() ? $( pre + "pt" ).val() : c[i].Petitioner ) + "\", \n" ; 
-            out += "\t\t\t\t\"Plaintiff\": \"" + ( $( pre + "plt" ).val() ? $( pre + "plt" ).val() : c[i].Plaintiff ) + "\", \n" ; 
-            out += "\t\t\t\t\"Defendant\": \"" + ( $( pre + "df" ).val() ? $( pre + "df" ).val() : c[i].Defendant ) + "\", \n" ; 
-            out += "\t\t\t\t\"Title\": \"" + ( $( pre + "t" ).val() ? $( pre + "t" ).val() : c[i].Title ) + "\", \n" ; 
-            out += "\t\t\t\t\"Cause\": \"" + ( $( pre + "c" ).val() ? $( pre + "c" ).val() : c[i].Cause ) + "\", \n" ; 
-            out += "\t\t\t\t\"Syllabus\": \"" + ( $( pre + "s" ).val() ? $( pre + "s" ).val() : c[i].Syllabus ) + "\", \n" ; 
-            out += "\t\t\t\t\"State\": \"" + ( $( pre + "st" ).val() ? $( pre + "st" ).val() : c[i].State ) + "\", \n" ; 
-            out += "\t\t\t\t\"FullJudgement\": \"" + ( $( pre + "fj" ).val() ? $( pre + "fj" ).val() : c[i].FullJudgement ) + "\", \n" ; 
+            out += "\t\t\t\t\"No\": \"" + ( $( pre + "cn" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "cn" ).val() : c[i].No ) + "\", \n" ; 
+            out += "\t\t\t\t\"Category\": \"" + ( $( pre + "cc" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "cc" ).val() : c[i].Category ) + "\", \n" ; 
+            out += "\t\t\t\t\"DeliberationDate\": \"" + ( $( pre + "dd" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "dd" ).val() : c[i].DeliberationDate ) + "\", \n" ; 
+            out += "\t\t\t\t\"Petitioner\": \"" + ( $( pre + "pt" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "pt" ).val() : c[i].Petitioner ) + "\", \n" ; 
+            out += "\t\t\t\t\"Plaintiff\": \"" + ( $( pre + "plt" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "plt" ).val() : c[i].Plaintiff ) + "\", \n" ; 
+            out += "\t\t\t\t\"Defendant\": \"" + ( $( pre + "df" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "df" ).val() : c[i].Defendant ) + "\", \n" ; 
+            out += "\t\t\t\t\"Title\": \"" + ( $( pre + "t" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "t" ).val() : c[i].Title ) + "\", \n" ; 
+            out += "\t\t\t\t\"Cause\": \"" + ( $( pre + "c" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "c" ).val() : c[i].Cause ) + "\", \n" ; 
+            out += "\t\t\t\t\"Syllabus\": \"" + ( $( pre + "s" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "s" ).val() : c[i].Syllabus ) + "\", \n" ; 
+            out += "\t\t\t\t\"State\": \"" + ( $( pre + "st" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "st" ).val() : c[i].State ) + "\", \n" ; 
+            out += "\t\t\t\t\"FullJudgement\": \"" + ( $( pre + "fj" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "fj" ).val() : c[i].FullJudgement ) + "\", \n" ; 
             out += "\t\t\t\t\"Rulings\": [" 
             if( $( pre + "cr" ).is( ":checked" ) ) 
             {
