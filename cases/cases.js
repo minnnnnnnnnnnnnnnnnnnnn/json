@@ -60,11 +60,11 @@ $( () =>
                             $( "<span />" , { text: "判決全文網址" } ) } )
                             .append( $( "<input />" , { value: a.FullJudgement , id: id + "_fj" , type: "text" } ) ) ) 
                         .append( $( "<div />" , { append: 
-                            $( "<span />" , { text: "有裁定就勾" } ) } )
+                            $( "<span />" , { text: "有新裁定就勾" } ) } )
                             .append( $( "<input />" , { id: id + "_cr" , type: "checkbox" } ) ) ) 
                         .append( "<div id=\"" + id + "_rul\"></div>" ) 
                         .append( $( "<div />" , { append: 
-                            $( "<span />" , { text: "有意見書就勾" } ) } )
+                            $( "<span />" , { text: "有新意見書就勾" } ) } )
                             .append( $( "<input />" , { id: id + "_co" , type: "checkbox" } ) ) ) 
                         .append( "<div id=\"" + id + "_op\"></div>" ) ; 
                         cr_i[id] = a.Rulings.length ; 
@@ -138,7 +138,7 @@ $( () =>
                                 $( "<div />" , 
                                 {
                                     id : id + "_op_" + co_i[id] , 
-                                    append : "<select required id=\"" + id + "_co_t_" + co_i[id] + "\"><option selected disabled value=\"\">意見書 " + ( co_i[id] + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"協同意見書\">部分協同意見書</option><option value=\"不同意見書\">部分不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i[id] + 1 ) + " 評議委員</span><input type=\"text\" required id=\"" + id + "_co_m_" + co_i[id] + "\" /><br /><span>意見書 " + ( co_i[id] + 1 ) + " 全文網址</span><input type=\"text\" required id=\"" + id + "_co_u_" + co_i[id] + "\" />" , 
+                                    append : "<select required id=\"" + id + "_co_t_" + co_i[id] + "\"><option selected disabled value=\"\">意見書 " + ( co_i[id] + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"協同意見書\">部分協同意見書</option><option value=\"不同意見書\">部分不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i[id] + 1 ) + " 評議委員</span><input type=\"text\" required id=\"" + id + "_co_m_" + co_i[id] + "\" /><br /><span>意見書 " + ( co_i[id] + 1 ) + " 全文網址</span><input type=\"text\" id=\"" + id + "_co_u_" + co_i[id] + "\" />" , 
                                     appendTo : "#" + id + "_op" 
                                 } ) ; 
                                 ++ co_i[id] ; 
@@ -331,7 +331,7 @@ $( () =>
                     $( "<div />" , 
                     {
                         id : iii + "_op_" + co_i[iii] , 
-                        append : "<select required id=\"" + iii + "_co_t_" + co_i[iii] + "\"><option selected disabled value=\"\">意見書 " + ( co_i[iii] + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"協同意見書\">部分協同意見書</option><option value=\"不同意見書\">部分不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i[iii] + 1 ) + " 評議委員</span><input type=\"text\" required id=\"" + iii + "_co_m_" + co_i[iii] + "\" /><br /><span>意見書 " + ( co_i[iii] + 1 ) + " 全文網址</span><input type=\"text\" required id=\"" + iii + "_co_u_" + co_i[iii] + "\" />" , 
+                        append : "<select required id=\"" + iii + "_co_t_" + co_i[iii] + "\"><option selected disabled value=\"\">意見書 " + ( co_i[iii] + 1 ) + " 類型</option><option value=\"協同意見書\">協同意見書</option><option value=\"不同意見書\">不同意見書</option><option value=\"協同意見書\">部分協同意見書</option><option value=\"不同意見書\">部分不同意見書</option><option value=\"部分協同部分不同意見書\">部分協同部分不同意見書</option></select><br /><span>意見書 " + ( co_i[iii] + 1 ) + " 評議委員</span><input type=\"text\" required id=\"" + iii + "_co_m_" + co_i[iii] + "\" /><br /><span>意見書 " + ( co_i[iii] + 1 ) + " 全文網址</span><input type=\"text\" id=\"" + iii + "_co_u_" + co_i[iii] + "\" />" , 
                         appendTo : "#" + iii + "_op" 
                     } ) ; 
                     ++ co_i[iii] ; 
