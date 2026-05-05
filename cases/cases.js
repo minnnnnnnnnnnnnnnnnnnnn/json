@@ -67,6 +67,8 @@ $( () =>
                             $( "<span />" , { text: "有意見書就勾" } ) } )
                             .append( $( "<input />" , { id: id + "_co" , type: "checkbox" } ) ) ) 
                         .append( "<div id=\"" + id + "_op\"></div>" ) ; 
+                        cr_i[id] = a.Rulings.length ; 
+                        co_i[id] = a.Opinions.length ; 
                         $( "#" + id + "_cr" ).on( "input" , () => 
                         {
                             if( !$( "#" + id + "_rul div" ).length && $( "#" + id + "_cr" ).is( ":checked" ) ) 
@@ -439,7 +441,7 @@ $( () =>
         for( let i = 0 ; i < c.length ; ++ i )
         {
             const pre = "#" + i + "_" ; 
-            out += "\t\t\t{\n" ; 
+            out += ( i == 0 ? "" : " \n" ) + "\t\t\t{\n" ; 
             out += "\t\t\t\t\"No\": \"" + ( $( pre + "cn" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "cn" ).val() : c[i].No ) + "\", \n" ; 
             out += "\t\t\t\t\"Category\": \"" + ( $( pre + "cc" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "cc" ).val() : c[i].Category ) + "\", \n" ; 
             out += "\t\t\t\t\"DeliberationDate\": \"" + ( $( pre + "dd" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "dd" ).val() : c[i].DeliberationDate ) + "\", \n" ; 
@@ -452,9 +454,18 @@ $( () =>
             out += "\t\t\t\t\"State\": \"" + ( $( pre + "st" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "st" ).val() : c[i].State ) + "\", \n" ; 
             out += "\t\t\t\t\"FullJudgement\": \"" + ( $( pre + "fj" ).val() && $( "#" + i ).is( ":checked" ) ? $( pre + "fj" ).val() : c[i].FullJudgement ) + "\", \n" ; 
             out += "\t\t\t\t\"Rulings\": [" 
+            for( let ii = 0 ; ii < c[i].Rulings.length ; ii ++ )
+            {
+                out += ( ii == 0 ? "" : ", " ) + "\n" ; 
+                out += "\t\t\t\t\t{\n" ; 
+                out += "\t\t\t\t\t\t\"RulingNo\": \"" + c[i].Rulings[ii].RulingNo + "\", \n" ; 
+                out += "\t\t\t\t\t\t\"FullRulingURL\": \"" + c[i].Rulings[ii].FullRulingURL + "\" \n" ; 
+                out += "\t\t\t\t\t}" ; 
+                out += ( ii == c[i].Rulings.length - 1 ? "\n\t\t\t\t" : "" ) ; 
+            }
             if( $( pre + "cr" ).is( ":checked" ) ) 
             {
-                for( let ii = 0 ; ii < cr_i[i] ; ii ++ )
+                for( let ii = c[i].Rulings.length ; ii < cr_i[i] ; ii ++ )
                 {
                     out += ( ii == 0 ? "" : ", " ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
@@ -466,9 +477,19 @@ $( () =>
             }
             out += "], \n" ; 
             out += "\t\t\t\t\"Opinions\": [" ; 
+            for( let ii = 0 ; ii < c[i].Opinions.length ; ii ++ )
+            {
+                out += ( ii == 0 ? "" : ", " ) + "\n" ; 
+                out += "\t\t\t\t\t{\n" ; 
+                out += "\t\t\t\t\t\t\"Type\": \"" + c[i].Opinions[ii].Type + "\", \n" ; 
+                out += "\t\t\t\t\t\t\"Member\": \"" + c[i].Opinions[ii].Member + "\" \n" ; 
+                out += "\t\t\t\t\t\t\"URL\": \"" + c[i].Opinions[ii].URL + "\" \n" ; 
+                out += "\t\t\t\t\t}" ; 
+                out += ( ii == c[i].Opinions.length - 1 ? "\n\t\t\t\t" : "" ) ; 
+            }
             if( $( pre + "co" ).is( ":checked" ) ) 
             {
-                for( let ii = 0 ; ii < co_i[i] ; ii ++ )
+                for( let ii = c[i].Opinions.length ; ii < co_i[i] ; ii ++ )
                 {
                     out += ( i == 0 ? "" : ", " ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
