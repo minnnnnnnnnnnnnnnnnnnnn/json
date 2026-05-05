@@ -62,7 +62,7 @@ $( () =>
                         // law has eng ver.
                         .append( $( "<div />" , 
                             {
-                                append: $( "<span />" , { text: "有英文版勾；沒別勾；原本就有英文版並且英文名沒改也別勾" } ) 
+                                append: $( "<span />" , { value: a.EngLawName , text: "有英文版勾；沒別勾；原本就有英文版並且英文名沒改也別勾" } ) 
                             } ).append( $( "<input />" , 
                             {
                                 type: "checkbox", 
