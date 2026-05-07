@@ -226,27 +226,28 @@ $( () =>
                                 value: a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ), 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
                             } ) ) )
-                        .append( $( "<textarea />" , 
+                        // law articles 
+                        // .append( $( "<textarea />" , 
+                            // {
+                                // id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_art" , 
+                                // rows: 30, 
+                                // cols: 100 
+                            // }
+                            // ) ) ; 
+                        for( let aa of a.LawArticles )
+                        {
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , 
                             {
-                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_art" , 
-                                rows: 30, 
-                                cols: 100 
-                            }
-                            ) ) ; 
-                        // for( let aa of a.LawArticles )
-                        // {
-                        //     $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , 
-                        //     {
-                        //         append: $( "<span />" , { text: aa.ArticleType == "C" ? aa.ArticleContent : aa.ArticleNo } ) 
-                        //     } ) )
-                        //         .append( $( "<div />" , { append: "<small style=\"margin-left:.5rem;\"><button id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" + "\" style=\"width:.8rem;margin:0;padding:0;\" type=\"button\">↓</button>原條文 </small>" } )
-                        //             .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) , disabled: true } ) ) 
-                        //             .append( "<br />" ) 
-                        //             .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
-                        //             .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) } ) ) 
-                        //     ) ; 
-                        //     $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" ).on( "click" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) ).val( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" ).val() ) } ) ; 
-                        // }
+                                append: $( "<span />" , { text: aa.ArticleType == "C" ? aa.ArticleContent : aa.ArticleNo } ) 
+                            } ) )
+                                .append( $( "<div />" , { append: "<small style=\"margin-left:.5rem;\"><button id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" + "\" style=\"width:.8rem;margin:0;padding:0;\" type=\"button\">↓</button>原條文 </small>" } )
+                                    .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) , disabled: true } ) ) 
+                                    .append( "<br />" ) 
+                                    .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
+                                    .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) } ) ) 
+                            ) ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" ).on( "click" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) ).val( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" ).val() ) } ) ; 
+                        }
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).on( "input" , () => 
                         {
                             if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).is( ":checked" ) ) 
