@@ -7,6 +7,39 @@ $( () =>
     const ch_cap_num = { ...ch_cap_num_lt_ten , 11: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[1] , 12: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[2] , 13: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[3] , 14: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[4] , 15: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[5] , 16: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[6] , 17: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[7] , 18: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[8] , 19: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[9] , 100: "佰" , 110: "佰壹拾" } ; 
     const ch_cap = { "○": "零" , "一": "壹" , "二": "貳" , "三": "參" , "四": "肆" , "五": "伍" , "六": "陸" , "七": "柒" , "八": "捌" , "九": "玖" , "十": "拾" , "百": "佰" } ; 
     const spaces = { /* "條": "" , */ "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
+    function to_arabic( str ) 
+    {
+        if( !isNaN( str ) ) 
+        {
+            return Number( str ) ; 
+        }
+        let num = 0 ; 
+        let c ; 
+        let arr = Array() ; 
+        const ch = { "○": 0 , "一": 1 , "二": 2 , "三": 3 , "四": 4 , "五": 5 , "六": 6 , "七": 7 , "八": 8 , "九": 9 }
+        if( str === "十" ) 
+        {
+            return 10 ; 
+        }
+        str = str.split( "" ) ; 
+        if( str[0] === "十" ) 
+        {
+            str.unshift( "一" ) ; 
+        }
+        while( c = str.shift() ) 
+        {
+            if( c == "十" && str[0] ) 
+            {
+                continue ; 
+            }
+            arr.push( c == "十" || c == "零" ? "○" : c ) ; 
+        }
+        for( let a of arr ) 
+        {
+            num = num * 10 + ch[a] ; 
+        }
+        return num ; 
+    }
     function parse_text_area( text_area_val )
     {
         let temp = text_area_val.split( /\r\n|\r|\n/g ) ; 
