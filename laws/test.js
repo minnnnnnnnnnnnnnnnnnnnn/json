@@ -6,6 +6,131 @@ $( () =>
     const ch_cap_num_lt_ten = "零壹貳參肆伍陸柒捌玖拾" ; 
     const ch_cap_num = { ...ch_cap_num_lt_ten , 11: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[1] , 12: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[2] , 13: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[3] , 14: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[4] , 15: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[5] , 16: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[6] , 17: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[7] , 18: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[8] , 19: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[9] , 100: "佰" , 110: "佰壹拾" } ; 
     const ch_cap = { "○": "零" , "一": "壹" , "二": "貳" , "三": "參" , "四": "肆" , "五": "伍" , "六": "陸" , "七": "柒" , "八": "捌" , "九": "玖" , "十": "拾" , "百": "佰" } ; 
+    function parse_text_area( inn )
+    {
+        let temp = inn.split( /\r\n|\r|\n/g ) ; 
+        let return_val = "\t\t\t{\n" ; 
+        return_val += "\t\t\t\t\"LawLevel\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawName\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawURL\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawCategory\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawModifiedDate\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawEffectiveDate\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawEffectiveNote\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawAbandonNote\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawHasEngVersion\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"EngLawName\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        return_val += "\t\t\t\t\"LawAttachments\": [" ; 
+        let tempp , i = 0 ; 
+        while( tempp = temp.shift() )
+        {
+            return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+            return_val += "\t\t\t\t\t{\n" ; 
+            return_val += "\t\t\t\t\t\t\"FileName\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+            return_val += "\t\t\t\t\t\t\"FileURL\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+            return_val += "\t\t\t\t\t}" ; 
+            return_val += ( temp[0] ? "" : "\n\t\t\t\t" ) ; 
+            ++ i ; 
+        }
+        return_val += "], \n" ; 
+        return_val += "\t\t\t\t\"LawHistories\": \"" ; 
+        while( tempp = temp.shift() )
+        {
+            return_val += tempp ? tempp : "" ; 
+            return_val += temp[0] ? "\\r\\n" : "" ; 
+        }
+        return_val += "\", \n" ; 
+        return_val += "\t\t\t\t\"LawForeword\": \"" ; 
+        while( tempp = temp.shift() )
+        {
+            return_val += tempp ? tempp : "" ; 
+            return_val += temp[0] ? "\\r\\n" : "" ; 
+        }
+        return_val += "\", \n" ; 
+        return_val += "\t\t\t\t\"LawArticles\": [\n" ; 
+        i = 0 ; 
+        while( tempp = temp.shift() ) 
+        {
+            if( /^第 [一二三四五六七八九十百壹貳參肆伍陸柒捌玖拾佰]+ [編章節款目]/.test( tempp ) ) 
+            {
+                return_val += ( i ? ", \n" : "" ) + "\t\t\t\t\t{ \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleType\": \"C\" \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleNo\": \"\" \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleContent\": \"" + tempp + "\" \n" ; 
+                return_val += "\t\t\t\t\t}" ; 
+                temp.shift() ; 
+            }
+            else 
+            {
+                return_val += ( i ? ", \n" : "" ) + "\t\t\t\t\t{ \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleType\": \"A\" \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleNo\": \"" + tempp + "\" \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleContent\": \"" ; 
+                while( !/^C$|^Rel$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) ) 
+                {
+                    return_val += tempp ? tempp : "" ; 
+                    return_val += ( !/^C$|^Rel$|^Ref$/.test( temp[0] ) && temp[0] ) ? "\\r\\n" : "" ; 
+                }
+                return_val += "\", \n" ; 
+                return_val += "\t\t\t\t\t\t\"Cases\": [" ; 
+                if( /^C$/.test( temp[0] ) ) 
+                {
+                    temp.shift() ; 
+                    i = 0 ; 
+                    while( !/^Rel$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) )
+                    {
+                        return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        return_val += "\t\t\t\t\t\t\t{\n" ; 
+                        return_val += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+                        return_val += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+                        return_val += "\t\t\t\t\t\t\t}" ; 
+                        return_val += ( temp[0] ? "" : "\n\t\t\t\t\t\t" ) ; 
+                        ++ i ; 
+                    }
+                }
+                return_val += "], \n" ; 
+                return_val += "\t\t\t\t\t\t\"Rel\": [" ; 
+                if( /^Rel$/.test( temp[0] ) ) 
+                {
+                    temp.shift() ; 
+                    i = 0 ; 
+                    while( !/^C$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) )
+                    {
+                        return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        return_val += "\t\t\t\t\t\t\t{\n" ; 
+                        return_val += "\t\t\t\t\t\t\t\t\"Name\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+                        return_val += "\t\t\t\t\t\t\t\t\"Url\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+                        return_val += "\t\t\t\t\t\t\t}" ; 
+                        return_val += ( temp[0] ? "" : "\n\t\t\t\t\t\t" ) ; 
+                        ++ i ; 
+                    }
+                }
+                return_val += "], \n" ; 
+                return_val += "\t\t\t\t\t\t\"Ref\": [" ; 
+                if( /^Ref$/.test( temp[0] ) ) 
+                {
+                    temp.shift() ; 
+                    i = 0 ; 
+                    while( !/^C$|^Rel$/.test( temp[0] ) && ( tempp = temp.shift() ) )
+                    {
+                        return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        return_val += "\t\t\t\t\t\t\t{\n" ; 
+                        return_val += "\t\t\t\t\t\t\t\t\"Name\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+                        return_val += "\t\t\t\t\t\t\t\t\"Url\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+                        return_val += "\t\t\t\t\t\t\t}" ; 
+                        return_val += ( temp[0] ? "" : "\n\t\t\t\t\t\t" ) ; 
+                        ++ i ; 
+                    }
+                }
+                return_val += "] \n" ; 
+                return_val += "\t\t\t\t\t}" ; 
+            }
+            ++ i ; 
+        }
+        return_val += "\n\t\t\t\t] \n" ; 
+        return_val += "\t\t\t} \n" ; 
+        return return_val ; 
+    } 
     fetch( new Request( domain + "/json/laws.json" ) ).then( r => r.json() ).then( lll => 
     {
         lr = lll[0] ; 
