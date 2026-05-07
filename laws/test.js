@@ -6,9 +6,10 @@ $( () =>
     const ch_cap_num_lt_ten = "零壹貳參肆伍陸柒捌玖拾" ; 
     const ch_cap_num = { ...ch_cap_num_lt_ten , 11: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[1] , 12: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[2] , 13: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[3] , 14: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[4] , 15: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[5] , 16: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[6] , 17: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[7] , 18: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[8] , 19: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[9] , 100: "佰" , 110: "佰壹拾" } ; 
     const ch_cap = { "○": "零" , "一": "壹" , "二": "貳" , "三": "參" , "四": "肆" , "五": "伍" , "六": "陸" , "七": "柒" , "八": "捌" , "九": "玖" , "十": "拾" , "百": "佰" } ; 
-    function parse_text_area( inn )
+    const spaces = { /* "條": "" , */ "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
+    function parse_text_area( text_area_val )
     {
-        let temp = inn.split( /\r\n|\r|\n/g ) ; 
+        let temp = text_area_val.split( /\r\n|\r|\n/g ) ; 
         let return_val = "\t\t\t{\n" ; 
         return_val += "\t\t\t\t\"LawLevel\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
         return_val += "\t\t\t\t\"LawName\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
@@ -56,7 +57,7 @@ $( () =>
                 return_val += ( i ? ", \n" : "" ) + "\t\t\t\t\t{ \n" ; 
                 return_val += "\t\t\t\t\t\t\"ArticleType\": \"C\" \n" ; 
                 return_val += "\t\t\t\t\t\t\"ArticleNo\": \"\" \n" ; 
-                return_val += "\t\t\t\t\t\t\"ArticleContent\": \"" + tempp + "\" \n" ; 
+                return_val += "\t\t\t\t\t\t\"ArticleContent\": \"" + spaces[ tempp.replace( /^第 [一二三四五六七八九十百壹貳參肆伍陸柒捌玖拾佰]+ / , "" )[0] ] + tempp + "\" \n" ; 
                 return_val += "\t\t\t\t\t}" ; 
                 temp.shift() ; 
             }
@@ -224,21 +225,28 @@ $( () =>
                                 type: "text", 
                                 value: a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ), 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
-                            } ) ) ) ; 
-                        for( let aa of a.LawArticles )
-                        {
-                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , 
+                            } ) ) )
+                        .append( $( "<textarea />" , 
                             {
-                                append: $( "<span />" , { text: aa.ArticleType == "C" ? aa.ArticleContent : aa.ArticleNo } ) 
-                            } ) )
-                                .append( $( "<div />" , { append: "<small style=\"margin-left:.5rem;\"><button id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" + "\" style=\"width:.8rem;margin:0;padding:0;\" type=\"button\">↓</button>原條文 </small>" } )
-                                    .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) , disabled: true } ) ) 
-                                    .append( "<br />" ) 
-                                    .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
-                                    .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) } ) ) 
-                            ) ; 
-                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" ).on( "click" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) ).val( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" ).val() ) } ) ; 
-                        }
+                                id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_art" , 
+                                rows: 30, 
+                                cols: 100 
+                            }
+                            ) ) ; 
+                        // for( let aa of a.LawArticles )
+                        // {
+                        //     $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , 
+                        //     {
+                        //         append: $( "<span />" , { text: aa.ArticleType == "C" ? aa.ArticleContent : aa.ArticleNo } ) 
+                        //     } ) )
+                        //         .append( $( "<div />" , { append: "<small style=\"margin-left:.5rem;\"><button id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" + "\" style=\"width:.8rem;margin:0;padding:0;\" type=\"button\">↓</button>原條文 </small>" } )
+                        //             .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) , disabled: true } ) ) 
+                        //             .append( "<br />" ) 
+                        //             .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
+                        //             .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) } ) ) 
+                        //     ) ; 
+                        //     $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" ).on( "click" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) ).val( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" ).val() ) } ) ; 
+                        // }
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).on( "input" , () => 
                         {
                             if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_he" ).is( ":checked" ) ) 
@@ -636,7 +644,6 @@ $( () =>
             out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "lh" ).val() == undefined ? "" : $( id + "lh" ).val() ) + "\", \n" ; 
             out += "\t\t\t\t\"LawForeword\": \"" + ( $( id + "lf" ).val() == undefined ? "" : $( id + "lf" ).val() ) + "\", \n" ; 
             out += "\t\t\t\t\"LawArticles\": [" ; 
-            const spaces = { /* "條": "" , */ "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
             function a_n( n , a , t , nf ) 
             {
                 let nn = n.split( "." ) ; 
