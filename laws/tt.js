@@ -1,7 +1,6 @@
 $( () => 
 {
     let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la = Array() , lfirst = Array() , l_att_i = Array() , n_art = Array() , art_i , art_m_1 ; 
-    let arts ; 
     const ch_num_lt_ten = "○一二三四五六七八九十" ; 
     const ch_num = { ...ch_num_lt_ten , 11: ch_num_lt_ten[10] + ch_num_lt_ten[1] , 12: ch_num_lt_ten[10] + ch_num_lt_ten[2] , 13: ch_num_lt_ten[10] + ch_num_lt_ten[3] , 14: ch_num_lt_ten[10] + ch_num_lt_ten[4] , 15: ch_num_lt_ten[10] + ch_num_lt_ten[5] , 16: ch_num_lt_ten[10] + ch_num_lt_ten[6] , 17: ch_num_lt_ten[10] + ch_num_lt_ten[7] , 18: ch_num_lt_ten[10] + ch_num_lt_ten[8] , 19: ch_num_lt_ten[10] + ch_num_lt_ten[9] , 100: "百" , 110: "百一十" } ; 
     const ch_cap_num_lt_ten = "零壹貳參肆伍陸柒捌玖拾" ; 
