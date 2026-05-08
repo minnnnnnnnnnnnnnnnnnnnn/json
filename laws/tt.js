@@ -914,6 +914,7 @@ $( () =>
             {
                 out += ", \n\t\t\t{ \n"
             }
+            // abandoned
             if( aNote[iii] )
             {
                 out += "\t\t\t\t\"LawLevel\": \"" + a.LawLevel.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
@@ -989,6 +990,7 @@ $( () =>
                 out += "] \n" ; 
                 out += "\t\t\t}" ; 
             }
+            // modified( art & cases & rel & ref working)
             else if( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) 
             {
                 const id = "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" ; 
@@ -1019,55 +1021,56 @@ $( () =>
                 out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "lh" ).val() == undefined ? a.LawHistories.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lh" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawForeword\": \"" + ( $( id + "lf" ).val() == undefined ? a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lf" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawArticles\": [" ; 
-                for( let i = 0 ; i < a.LawArticles.length ; i ++ )
-                {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                    out += "\t\t\t\t\t{\n" ; 
-                    out += "\t\t\t\t\t\t\"ArticleType\": \"" + a.LawArticles[i].ArticleType + "\", \n" ; 
-                    out += "\t\t\t\t\t\t\"ArticleNo\": \"" + a.LawArticles[i].ArticleNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
-                    out += "\t\t\t\t\t\t\"ArticleContent\": \"" + a.LawArticles[i].ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) + "\"" + ( a.LawArticles[i].ArticleType == "A" ? "," : "" ) + " \n" ; 
-                    if( a.LawArticles[i].ArticleType == "A" ) 
-                    {
-                        out += "\t\t\t\t\t\t\"Cases\": [" ; 
-                        for( let j = 0 ; j < a.LawArticles[i].Cases.length ; j ++ )
-                        {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
-                            out += "\t\t\t\t\t\t\t{\n" ; 
-                            out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[i].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
-                            out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[i].Cases[j].CaseUrl + "\" \n" ; 
-                            out += "\t\t\t\t\t\t\t}" ; 
-                            out += ( j == a.LawArticles[i].Cases.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
-                        }
-                        out += "], \n" ; 
-                        out += "\t\t\t\t\t\t\"Rel\": [" ; 
-                        for( let j = 0 ; j < a.LawArticles[i].Rel.length ; j ++ )
-                        {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
-                            out += "\t\t\t\t\t\t\t{\n" ; 
-                            out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
-                            out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Rel[j].Url + "\" \n" ; 
-                            out += "\t\t\t\t\t\t\t}" ; 
-                            out += ( j == a.LawArticles[i].Rel.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
-                        }
-                        out += "], \n" ; 
-                        out += "\t\t\t\t\t\t\"Ref\": [" ; 
-                        for( let j = 0 ; j < a.LawArticles[i].Ref.length ; j ++ )
-                        {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
-                            out += "\t\t\t\t\t\t\t{\n" ; 
-                            out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
-                            out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Ref[j].Url + "\" \n" ; 
-                            out += "\t\t\t\t\t\t\t}" ; 
-                            out += ( j == a.LawArticles[i].Ref.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
-                        }
-                        out += "] \n" ; 
-                    }
-                    out += "\t\t\t\t\t}" ; 
-                    out += ( i == a.LawArticles.length - 1 ? "\n\t\t\t\t" : "" ) ; 
-                }
+                // for( let i = 0 ; i < a.LawArticles.length ; i ++ )
+                // {
+                    // out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                    // out += "\t\t\t\t\t{\n" ; 
+                    // out += "\t\t\t\t\t\t\"ArticleType\": \"" + a.LawArticles[i].ArticleType + "\", \n" ; 
+                    // out += "\t\t\t\t\t\t\"ArticleNo\": \"" + a.LawArticles[i].ArticleNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                    // out += "\t\t\t\t\t\t\"ArticleContent\": \"" + a.LawArticles[i].ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) + "\"" + ( a.LawArticles[i].ArticleType == "A" ? "," : "" ) + " \n" ; 
+                    // if( a.LawArticles[i].ArticleType == "A" ) 
+                    // {
+                    //     out += "\t\t\t\t\t\t\"Cases\": [" ; 
+                    //     for( let j = 0 ; j < a.LawArticles[i].Cases.length ; j ++ )
+                    //     {
+                    //         out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                    //         out += "\t\t\t\t\t\t\t{\n" ; 
+                    //         out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[i].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                    //         out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[i].Cases[j].CaseUrl + "\" \n" ; 
+                    //         out += "\t\t\t\t\t\t\t}" ; 
+                    //         out += ( j == a.LawArticles[i].Cases.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
+                    //     }
+                    //     out += "], \n" ; 
+                    //     out += "\t\t\t\t\t\t\"Rel\": [" ; 
+                    //     for( let j = 0 ; j < a.LawArticles[i].Rel.length ; j ++ )
+                    //     {
+                    //         out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                    //         out += "\t\t\t\t\t\t\t{\n" ; 
+                    //         out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                    //         out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Rel[j].Url + "\" \n" ; 
+                    //         out += "\t\t\t\t\t\t\t}" ; 
+                    //         out += ( j == a.LawArticles[i].Rel.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
+                    //     }
+                    //     out += "], \n" ; 
+                    //     out += "\t\t\t\t\t\t\"Ref\": [" ; 
+                    //     for( let j = 0 ; j < a.LawArticles[i].Ref.length ; j ++ )
+                    //     {
+                    //         out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                    //         out += "\t\t\t\t\t\t\t{\n" ; 
+                    //         out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                    //         out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Ref[j].Url + "\" \n" ; 
+                    //         out += "\t\t\t\t\t\t\t}" ; 
+                    //         out += ( j == a.LawArticles[i].Ref.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
+                    //     }
+                    //     out += "] \n" ; 
+                    // }
+                    // out += "\t\t\t\t\t}" ; 
+                    // out += ( i == a.LawArticles.length - 1 ? "\n\t\t\t\t" : "" ) ; 
+                // }
                 out += "] \n" ; 
                 out += "\t\t\t}" ; 
             }
+            // not modified
             else 
             {
                 out += "\t\t\t\t\"LawLevel\": \"" + a.LawLevel.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
@@ -1144,7 +1147,7 @@ $( () =>
                 out += "\t\t\t}" ; 
             }
             ++ iii ; 
-            // last of each category check
+            // last of each category check( add new law here )
             if( ( a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] != "j" && a.LawURL.replace( domain + "/laws/law?a=" , "" )[0] != l[iii].LawURL.replace( domain + "/laws/law?a=" , "" )[0] ) || a == l[l.length - 1] ) 
             {
                 for( let ii of la ) 
@@ -1205,8 +1208,8 @@ $( () =>
                             }
                             break ; 
                         default: 
-                          console.log( "something went wrong" ) ; 
-                          break ; 
+                            console.log( "something went wrong" ) ; 
+                            break ; 
                     }
                 }
             }
