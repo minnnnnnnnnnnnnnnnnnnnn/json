@@ -263,6 +263,7 @@ $( () =>
                                 value: a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ), 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
                             } ) ) )
+                        // -1 add articles
                         .append( $( "<div />" , { append: [ $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_div" } ) , $( "<button />" , { text: "+" , id: "add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1" , type: "button" } ) ] } ) ) ; 
                         $( "#add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1" ).on( "click" , () => 
                         {
@@ -294,13 +295,6 @@ $( () =>
                             ++ art_m_1[l.indexOf( a )] ; 
                         } ) ; 
                         // law articles 
-                        // .append( $( "<textarea />" , 
-                            // {
-                                // id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_art" , 
-                                // rows: 30, 
-                                // cols: 100 
-                            // }
-                            // ) ) ; 
                         for( let aa of a.LawArticles )
                         {
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , { append: $( "<div />" , 
