@@ -819,7 +819,7 @@ $( () =>
             $( "#" + String( li ) + "_art_add" ).on( "click" , () => 
        			{
                 const a_l = n_art[iii].art.length , constant = String( iii ) + "_art_" + n_art[iii].art.length ; 
-                $( "#" + String( iii ) + "_art" ).append( $( "<div />" , { id: constant } )
+                $( "#" + String( iii ) + "_art" ).append( $( "<div />" , { id: constant ,style: "background-image:linear-gradient(270deg,#ff0,#0ff);color:#f00;border:3px solid #f0f7;margin:.5rem .25rem;" } )
                     .append( "<span>第</span>" )
                     .append( $( "<input />" , { id: constant + "_n" , type: "number" , required: true , value: a_l + 1 , min: 1 , step: .01 , style: "width:5em;" } ) )
                     .append( $( "<select />" , { id: constant + "_t" } )
