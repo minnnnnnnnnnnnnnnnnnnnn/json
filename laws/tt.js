@@ -419,16 +419,12 @@ $( () =>
                                   $( "<span />" , { text: "×" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_x" , style: "cursor:pointer;-webkit-user-select:none;user-select:none;" } ) 
                                 ]
                             } ) } )
-                                .append( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_b" , style: "display: none" , append: [ 
+                                .append( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_b" , style: "display:none;border-left:15px solid #fc0;border-bottom:25px solid #0000;margin-left:3px;padding-left:.5em;" , append: [ 
                                     $( "<div />" , { append: [ 
-                                        $( "<button />" , { text: "→" , type: "button" } ) , 
+                                        $( "<button />" , { id: "" , text: "→" , type: "button" } ) , 
                                         $( "<span />" , { text: "第" } ) , 
-                                        $( "<input />" , { type: "number" } ) , 
-                                        $( "<select />" , { append: [ 
-                                            $( "<option />" , { value: "" , text: "" , disabled: true , selected: true } ) , 
-                                            $( "<option />" , { value: "" , text: "" } ) , 
-                                            $( "<option />" , { value: "" , text: "" } ) 
-                                        ] } ) , 
+                                        $( "<input />" , { id: "" , type: "number" , required: true , value: 1 , min: 1 , step: .01 , style: "width:5em;" } ) , 
+                                        $( "<select />" , { id: "" , append: [ $( "<option />" , { value: "條" , text: "條" } ) , $( "<option />" , { value: "編" , text: "編" } ) , $( "<option />" , { value: "章" , text: "章" } ) , $( "<option />" , { value: "節" , text: "節" } ) , $( "<option />" , { value: "款" , text: "款" } ) , $( "<option />" , { value: "目" , text: "目" } ) ] } ) , 
                                         $( "<span />" , { text: "【" , class: "" } ) , 
                                         $( "<input />" , { type: "text" , id: "" , class: "" } ) , 
                                         $( "<span />" , { text: "】" , class: "" } ) , 
