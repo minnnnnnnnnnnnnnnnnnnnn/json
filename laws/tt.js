@@ -421,6 +421,14 @@ $( () =>
                         for( let aa of a.LawArticles )
                         {
                             const art_t = aa.ArticleType == "A" ? "條" : aa.ArticleContent.replace( /\s*第 *[一二三四五六七八九十百壹貳參肆伍陸柒捌玖拾佰]+ */ , "" )[0] ; 
+                            const refresh = () => 
+                            {
+                                const nu = aa.ArticleType == "C" ? aa.ArticleContent.replace( /^\s*第 */ , "" ).replaceAll( " " , "" ).split( /[編章節款目]/ )[0] : aa.ArticleNo.replace( /^\s*第 */ , "" ).replaceAll( " " , "" ).split( '條' )[0] ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_n" ).val( nu.includes( "之" ) || nu.includes( "-" ) ? to_arabic( nu.split( /[之\-]/ )[0] ) + "." + String( to_arabic( nu.split( /[之\-]/ )[1] ) ).padStart( 2 , "0" ) : to_arabic( nu ) ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t option[value=" + art_t + "]" ).prop( "selected" , true ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_a" ).val( aa.ArticleType == "C" ? "" : ( aa.ArticleNo.includes( "【" ) ? aa.ArticleNo.slice( 0 , -1 ).split( "【" )[1] : "" ) ) ; 
+                                $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , aa.ArticleType == "C" ? "none" : "" ) ; 
+                            } ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_b" ).append( $( "<div />" , { append: $( "<div />" , 
                             {
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_c" ,
@@ -446,18 +454,12 @@ $( () =>
                                         .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
                                         .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) } ) ) ) 
                             ) ; 
+                            refresh() ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_b" ).after( $( "<button />" , { text: "+" , id: "add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) , type: "button" } ) ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).on( "input" , () => { $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).val() == "條" ? "" : "none" ) ; } ) ; 
                             $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , art_t == "條" ? "" : "none" ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" ).on( "click" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) ).val( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" ).val() ) ; } ) ; 
-                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rbtn" ).on( "click" , () => 
-                            {
-                                const nu = aa.ArticleType == "C" ? aa.ArticleContent.replace( /^\s*第 */ , "" ).replaceAll( " " , "" ).split( /[編章節款目]/ )[0] : aa.ArticleNo.replace( /^\s*第 */ , "" ).replaceAll( " " , "" ).split( '條' )[0] ; 
-                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_n" ).val( nu.includes( "之" ) || nu.includes( "-" ) ? to_arabic( nu.split( /[之\-]/ )[0] ) + "." + String( to_arabic( nu.split( /[之\-]/ )[1] ) ).padStart( 2 , "0" ) : to_arabic( nu ) ) ; 
-                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t option[value=" + art_t + "]" ).prop( "selected" , true ) ; 
-                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_a" ).val( aa.ArticleType == "C" ? "" : ( aa.ArticleNo.includes( "【" ) ? aa.ArticleNo.slice( 0 , -1 ).split( "【" )[1] : "" ) ) ; 
-                                $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , aa.ArticleType == "C" ? "none" : "" ) ; 
-                            } ) ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rbtn" ).on( "click" , refresh ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) ).on( "input" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_b" ).css( "display" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) ).is( ":checked" ) ? "block" : "none" ) ; } ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_x" ).on( "click" , () => 
                             { 
