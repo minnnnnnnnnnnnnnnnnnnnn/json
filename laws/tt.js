@@ -6,15 +6,13 @@ $( () =>
     const ch_cap_num_lt_ten = "零壹貳參肆伍陸柒捌玖拾" ; 
     const ch_cap_num = { ...ch_cap_num_lt_ten , 11: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[1] , 12: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[2] , 13: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[3] , 14: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[4] , 15: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[5] , 16: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[6] , 17: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[7] , 18: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[8] , 19: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[9] , 100: "佰" , 110: "佰壹拾" } ; 
     const ch_cap = { "○": "零" , "一": "壹" , "二": "貳" , "三": "參" , "四": "肆" , "五": "伍" , "六": "陸" , "七": "柒" , "八": "捌" , "九": "玖" , "十": "拾" , "百": "佰" } ; 
-    const spaces = { /* "條": "" , */ "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
-    function a_n( n , a , t , nf ) 
+    const spaces = { "條": "" , "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
+    function to_ch( n , nf ) 
     {
         let nn = n.split( "." ) ; 
         nn[0] = String( Number( nn[0] ) ) ; 
         nn[1] = String( Number( nn[1] ) ) ; 
-        let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
         let num = "" ; 
-        let tt = t + ( t == "條" ? "" : " " ) ; 
         switch( nf ) 
         {
             case "ch":
@@ -113,6 +111,13 @@ $( () =>
                 }
                 break ; 
         }
+        return num ; 
+    }
+    function a_n( n , a , t , nf ) 
+    {
+        let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
+        let tt = t + ( t == "條" ? "" : " " ) ; 
+        let num = to_ch( n , nf ) ; 
         if( t == "條" && ( nf == "ch" || nf == "ch_cap" ) )
         {
             return "第" + num + tt + aa ; 
@@ -382,6 +387,7 @@ $( () =>
                             {
                                 type: "text", 
                                 value: a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ), 
+                                style: "min-width:50%", 
                                 id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lf"
                             } ) ) )
                         // 分隔線
@@ -449,10 +455,10 @@ $( () =>
                                     ] } ) , 
                                     $( "<small />" , { text: "原條文 " , style: "margin-left:.5rem;" , append: $( "<button />" , { text: "↓" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" , style: "width:.8rem;margin:0;padding:0;" , type: "button" } ) } ) 
                                 ] } )
-                                        .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) , disabled: true } ) ) 
+                                        .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleType == "A" ? aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) : aa.ArticleContent.split( /[編章節款目]/ )[1].replace( /^ */ , "" ) , disabled: true } ) ) 
                                         .append( "<br />" ) 
                                         .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
-                                        .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) } ) ) ) 
+                                        .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleType == "A" ? aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) : aa.ArticleContent.split( /[編章節款目]/ )[1].replace( /^ */ , "" ) } ) ) ) 
                             ) ; 
                             refresh() ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_b" ).after( $( "<button />" , { text: "+" , id: "add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) , type: "button" } ) ) ; 
@@ -635,7 +641,7 @@ $( () =>
                     }
                 } ) ; 
             }
-            ++ai ; 
+            ++ ai ; 
         }
         $( "#gen" ).before( $( "<button />" , { id: "add_law" , type: "button" , text: "+" } ) ) ; 
         $( "#add_law" ).on( "click" , () => 
@@ -1093,36 +1099,36 @@ $( () =>
                 out += "\t\t\t\t\"LawHistories\": \"" + ( $( id + "lh" ).val() == undefined ? a.LawHistories.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lh" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawForeword\": \"" + ( $( id + "lf" ).val() == undefined ? a.LawForeword.replaceAll( "\r\n" , "\\r\\n" ) : $( id + "lf" ).val() ) + "\", \n" ; 
                 out += "\t\t\t\t\"LawArticles\": [" ; 
+                let nf_c_ = "" , nf_a_ = "" ; 
+                const c_c = a.LawArticles.filter( o => o.ArticleType == "C" ) , c_a = a.LawArticles.filter( o => o.ArticleType == "A" ) ; 
+                for( let c of c_c ) 
+                {
+                    let prev = nf_c_ ; 
+                    console.log( prev ) ; 
+                    nf_c_ = /[一二三四五六七八九十壹貳參肆伍陸柒捌玖拾]/.test( c.ArticleContent.replace( /^\s*第 */ , "" )[0] ) ? ( /[一二三四五六七八九十]/.test( c.ArticleContent.replace( /^\s*第 */ , "" )[0] ) ? "ch" : "" ) : "" ; 
+                    if( prev != nf_c_ && c_c.indexOf( c ) ) 
+                    {
+                        console.log( out ) ; 
+                        console.log( "prev: " + prev + ", current: " + nf_a_ ) ; 
+                        $( "#out" ).text( "ERR! 看不懂！" ) ; 
+                        return ; 
+                    }
+                }
+                for( let a of c_a ) 
+                {
+                    let prev = nf_a_ ; 
+                    console.log( prev ) ; 
+                    nf_a_ = /[一二三四五六七八九十壹貳參肆伍陸柒捌玖拾]/.test( a.ArticleNo.replace( /^\s*第 */ , "" )[0] ) ? ( /[一二三四五六七八九十]/.test( a.ArticleNo.replace( /^\s*第 */ , "" )[0] ) ? "ch" : "" ) : "" ; 
+                    if( prev != nf_a_ && c_a.indexOf( a ) ) 
+                    {
+                        console.log( out ) ; 
+                        console.log( "prev: " + prev + ", current: " + nf_a_ ) ; 
+                        $( "#out" ).text( "ERR! 看不懂！" ) ; 
+                        return ; 
+                    }
+                }
                     if( $( id + "-1_0_div" ).length ) 
                     {
-                        let nf_c_ = "" , nf_a_ = "" ; 
-                        const c_c = a.LawArticles.filter( o => o.ArticleType == "C" ) , c_a = a.LawArticles.filter( o => o.ArticleType == "A" ) ; 
-                        for( let c of c_c ) 
-                        {
-                            let prev = nf_c_ ; 
-                            console.log( prev ) ; 
-                            nf_c_ = /[一二三四五六七八九十壹貳參肆伍陸柒捌玖拾]/.test( c.ArticleContent.replace( /^\s*第 */ , "" )[0] ) ? ( /[一二三四五六七八九十]/.test( c.ArticleContent.replace( /^\s*第 */ , "" )[0] ) ? "ch" : "" ) : "" ; 
-                            if( prev != nf_c_ && c_c.indexOf( c ) ) 
-                            {
-                                console.log( out ) ; 
-                                console.log( "prev: " + prev + ", current: " + nf_a_ ) ; 
-                                $( "#out" ).text( "ERR! 看不懂！" ) ; 
-                                return ; 
-                            }
-                        }
-                        for( let a of c_a ) 
-                        {
-                            let prev = nf_a_ ; 
-                            console.log( prev ) ; 
-                            nf_a_ = /[一二三四五六七八九十壹貳參肆伍陸柒捌玖拾]/.test( a.ArticleNo.replace( /^\s*第 */ , "" )[0] ) ? ( /[一二三四五六七八九十]/.test( a.ArticleNo.replace( /^\s*第 */ , "" )[0] ) ? "ch" : "" ) : "" ; 
-                            if( prev != nf_a_ && c_a.indexOf( a ) ) 
-                            {
-                                console.log( out ) ; 
-                                console.log( "prev: " + prev + ", current: " + nf_a_ ) ; 
-                                $( "#out" ).text( "ERR! 看不懂！" ) ; 
-                                return ; 
-                            }
-                        }
                         let lia = 0 ; 
                         while( $( id + "-1_" + lia + "_div" ).length ) 
                         {
@@ -1148,11 +1154,12 @@ $( () =>
                         {
                             continue ; 
                         }
-                        const AorC = a.LawArticles[lia].ArticleType == "A" ; 
+                        const AorC = $( id + lia + "_t" ).val() == "條" , AorC_o = a.LawArticles[lia].ArticleType == "A" ; 
+                        let nf = "ch" ; 
                         out += ( ( $( id + "-1_0_div" ).length || lia ) ? ", " : "" ) + "\n\t\t\t\t\t{\n" ; 
-                        out += "\t\t\t\t\t\t\"ArticleType\": \"" + a.LawArticles[lia].ArticleType + "\", \n" ; 
-                        out += "\t\t\t\t\t\t\"ArticleNo\": \"" + a.LawArticles[lia].ArticleNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
-                        out += "\t\t\t\t\t\t\"ArticleContent\": \"" + ( $( id + lia ).is( ":checked" ) ? $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() : a.LawArticles[lia].ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
+                        out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\"ArticleNo\": \"" + spaces[$( id + lia + "_t" ).val()] + "第" + to_ch( $( id + lia + "_n" ).val() , ( AorC ? nf_a_ : nf_c_ ) ) + $( id + lia + "_t" ).val() + ( AorC ? ( $( id + lia + "_a" ).val() ? "【" + $( id + lia + "_a" ).val() + "】" : "" ) : " " + $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() ) + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\"ArticleContent\": \"" + ( AorC ? $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() : "" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
                         out += "\t\t\t\t\t}" ; 
                         out += ( lia == a.LawArticles.length - 1 ? "\n\t\t\t\t" : "" ) ; 
                         all_abandoned = false ; 
