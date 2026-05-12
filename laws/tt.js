@@ -1155,11 +1155,19 @@ $( () =>
                             continue ; 
                         }
                         const AorC = $( id + lia + "_t" ).val() == "條" , AorC_o = a.LawArticles[lia].ArticleType == "A" ; 
-                        let nf = "ch" ; 
                         out += ( ( $( id + "-1_0_div" ).length || lia ) ? ", " : "" ) + "\n\t\t\t\t\t{\n" ; 
-                        out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
-                        out += "\t\t\t\t\t\t\"ArticleNo\": \"" + spaces[$( id + lia + "_t" ).val()] + "第" + to_ch( $( id + lia + "_n" ).val() , ( AorC ? nf_a_ : nf_c_ ) ) + $( id + lia + "_t" ).val() + ( AorC ? ( $( id + lia + "_a" ).val() ? "【" + $( id + lia + "_a" ).val() + "】" : "" ) : " " + $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() ) + "\", \n" ; 
-                        out += "\t\t\t\t\t\t\"ArticleContent\": \"" + ( AorC ? $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() : "" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
+                        if( !$( id + lia ).is( ":checked" ) ) 
+                        {
+                            out += "\t\t\t\t\t\t\"ArticleType\": \"" + a.LawArticles[lia].ArticleType + "\", \n" ; 
+                            out += "\t\t\t\t\t\t\"ArticleNo\": \"" + a.LawArticles[lia].ArticleNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                            out += "\t\t\t\t\t\t\"ArticleContent\": \"" + a.LawArticles[lia].ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) + "\"" + ( a.LawArticles[lia].ArticleType == "A" ? "," : "" ) + " \n" ; 
+                        } 
+                        else 
+                        {
+                            out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
+                            out += "\t\t\t\t\t\t\"ArticleNo\": \"" + spaces[$( id + lia + "_t" ).val()] + "第" + to_ch( $( id + lia + "_n" ).val() , ( AorC ? nf_a_ : nf_c_ ) ) + $( id + lia + "_t" ).val() + ( AorC ? ( $( id + lia + "_a" ).val() ? "【" + $( id + lia + "_a" ).val() + "】" : "" ) : " " + $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() ) + "\", \n" ; 
+                            out += "\t\t\t\t\t\t\"ArticleContent\": \"" + ( AorC ? $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() : "" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
+                        }
                         out += "\t\t\t\t\t}" ; 
                         out += ( lia == a.LawArticles.length - 1 ? "\n\t\t\t\t" : "" ) ; 
                         all_abandoned = false ; 
