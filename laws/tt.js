@@ -532,6 +532,7 @@ $( () =>
                                 $( "<div />" , 
                                 {
                                     id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_" + att_i[i] , 
+                                    style: "background-image:linear-gradient(45deg,#f00,#0f0);border:5px solid #00f;margin:.5rem .25rem;" , 
                                     append : "<span>附件 " + ( att_i[i] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + att_i[i] + "\" /><br /><span>附件 " + ( att_i[i] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_u_" + att_i[i] + "\" />" , 
                                     appendTo : "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att" 
                                 } ) ; 
@@ -548,6 +549,7 @@ $( () =>
                                     $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_add_att" ).before( $( "<div />" , 
                                     {
                                         id : a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_" + att_i[i] , 
+                                        style: "background-image:linear-gradient(45deg,#f00,#0f0);border:5px solid #00f;margin:.5rem .25rem;" , 
                                         append : "<span>附件 " + ( att_i[i] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_n_" + att_i[i] + "\" /><br /><span>附件 " + ( att_i[i] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_att_f_u_" + att_i[i] + "\" />" , 
                                     } ) ) ; 
                                     ++ att_i[i] ; 
@@ -767,6 +769,7 @@ $( () =>
                     $( "<div />" , 
                     {
                         id : String( iii ) + "_att_" + l_att_i[iii] , 
+                        style: "background-image:linear-gradient(45deg,#f00,#0f0);border:5px solid #00f;margin:.5rem .25rem;" , 
                         append : "<span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + String( iii ) + "_att_f_n_" + l_att_i[iii] + "\" /><br /><span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + String( iii ) + "_att_f_u_" + l_att_i[iii] + "\" />" , 
                         appendTo : "#" + String( iii ) + "_att" 
                     } ) ; 
@@ -783,6 +786,7 @@ $( () =>
                         $( "#" + String( iii ) + "_add_att" ).before( $( "<div />" , 
                         {
                             id : String( iii ) + "_att_" + l_att_i[iii] , 
+                            style: "background-image:linear-gradient(45deg,#f00,#0f0);border:5px solid #00f;margin:.5rem .25rem;" , 
                             append : "<span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"" + String( iii ) + "_att_f_n_" + l_att_i[iii] + "\" /><br /><span>附件 " + ( l_att_i[iii] + 1 ) + " 檔案網址</span><input type=\"text\" id=\"" + String( iii ) + "_att_f_u_" + l_att_i[iii] + "\" />" , 
                         } ) ) ; 
                         ++ l_att_i[iii] ; 
@@ -1167,6 +1171,42 @@ $( () =>
                             out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\"ArticleNo\": \"" + spaces[$( id + lia + "_t" ).val()] + "第" + to_ch( $( id + lia + "_n" ).val() , ( AorC ? nf_a_ : nf_c_ ) ) + $( id + lia + "_t" ).val() + ( AorC ? ( $( id + lia + "_a" ).val() ? "【" + $( id + lia + "_a" ).val() + "】" : "" ) : " " + $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\"ArticleContent\": \"" + ( AorC ? $( id + a.LawArticles[lia].ArticleType.toLowerCase() + "_" + lia ).val() : "" ) + "\"" + ( AorC ? "," : "" ) + " \n" ; 
+                        }
+                        if( AorC ) 
+                        {
+                            out += "\t\t\t\t\t\t\"Cases\": [" ; 
+                            for( let j = 0 ; j < a.LawArticles[lia].Cases.length ; j ++ )
+                            {
+                                out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                                out += "\t\t\t\t\t\t\t{\n" ; 
+                                out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[lia].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                                out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[lia].Cases[j].CaseUrl + "\" \n" ; 
+                                out += "\t\t\t\t\t\t\t}" ; 
+                                out += ( j == a.LawArticles[lia].Cases.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
+                            }
+                            out += "], \n" ; 
+                            out += "\t\t\t\t\t\t\"Rel\": [" ; 
+                            for( let j = 0 ; j < a.LawArticles[lia].Rel.length ; j ++ )
+                            {
+                                out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                                out += "\t\t\t\t\t\t\t{\n" ; 
+                                out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[lia].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                                out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[lia].Rel[j].Url + "\" \n" ; 
+                                out += "\t\t\t\t\t\t\t}" ; 
+                                out += ( j == a.LawArticles[lia].Rel.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
+                            }
+                            out += "], \n" ; 
+                            out += "\t\t\t\t\t\t\"Ref\": [" ; 
+                            for( let j = 0 ; j < a.LawArticles[lia].Ref.length ; j ++ )
+                            {
+                                out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                                out += "\t\t\t\t\t\t\t{\n" ; 
+                                out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[lia].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
+                                out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[lia].Ref[j].Url + "\" \n" ; 
+                                out += "\t\t\t\t\t\t\t}" ; 
+                                out += ( j == a.LawArticles[lia].Ref.length - 1 ? "\n\t\t\t\t\t\t" : "" ) ; 
+                            }
+                            out += "] \n" ; 
                         }
                         out += "\t\t\t\t\t}" ; 
                         out += ( lia == a.LawArticles.length - 1 ? "\n\t\t\t\t" : "" ) ; 
