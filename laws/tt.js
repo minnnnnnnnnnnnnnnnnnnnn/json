@@ -1363,7 +1363,7 @@ $( () =>
         out += "\t} \n" ; 
         out += "] " ; 
         out = out.replaceAll( "\t" , "    " ) ; 
-        console.log( out ) ; 
+        console.log( out.length ) ; 
         $( "#out" ).text( out ) ; 
         if( f !== null ) 
         {

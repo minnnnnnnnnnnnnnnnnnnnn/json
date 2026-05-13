@@ -1,158 +1,129 @@
 $( () => 
 {
-    let lr , l ; 
-    let first = true ; 
-    let att_i = 0 ; 
-    let f = null ; 
-    fetch( new Request( "https://tcfshsu.github.io/law/json/laws.json" ) ).then( ( res ) => res.json() ).then( ( lll ) => 
+    $( "#in" ).on( "change" , () => 
     {
-        lr = lll[0] ; 
-        l = lll[0].Laws ; 
-        console.log( l ) ; 
-    } ) ; 
-    $( "#he" ).on( "input" , () => 
-    {
-        if( $( "#he" ).is( ":checked" ) ) 
+        let temp = $( "#in" ).val().split( /\r\n|\r|\n/g ) ; 
+        let out = "\t\t\t{\n" ; 
+        out += "\t\t\t\t\"LawLevel\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawName\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawURL\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawCategory\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawModifiedDate\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawEffectiveDate\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawEffectiveNote\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawAbandonNote\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"EngLawName\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\", \n" ; 
+        out += "\t\t\t\t\"LawAttachments\": [" ; 
+        let tempp , i = 0 ; 
+        while( tempp = temp.shift() )
         {
-            $( "#he" ).after( $( "<div />" , { id : "en_container" , append : "<span>法規英文名稱</span><input type=\"text\" required id=\"en\" />" } ) ) ; 
-        }
-        else 
-        {
-            $( "#en_container" ).remove() ; 
-        }
-    } ) ; 
-    $( "#lat" ).on( "input" , () => 
-    {
-        if( first && $( "#lat" ).is( ":checked" ) ) 
-        {
-            first = false ; 
-            $( "<div />" , 
-            {
-                id : "att_" + att_i , 
-                append : "<span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" />" , 
-                appendTo : "#att" 
-            } ) ; 
-            ++ att_i ; 
-            $( "<button />" , 
-            {
-                id : "add_att" , 
-                type : "button" , 
-                text : "+" , 
-                appendTo : "#att" 
-            } ) ; 
-            $( "#add_att" ).on( "click" , () => 
-            {
-                $( "#add_att" ).before( $( "<div />" , 
-                {
-                    id : "att_" + att_i , 
-                    append : "<span>附件 " + ( att_i + 1 ) + " 檔案名稱</span><input type=\"text\" required id=\"att_f_n_" + att_i + "\" /><br /><span>附件 " + ( att_i + 1 ) + " 檔案網址</span><input type=\"text\" id=\"att_f_u_" + att_i + "\" />" , 
-                } ) ) ; 
-                ++ att_i ; 
-                if( $( "#rem_att" ).length ) 
-                {
-                    $( "#rem_att" ).remove() ; 
-                }
-                $( "<button />" , 
-                {
-                    id : "rem_att" , 
-                    type : "button" , 
-                    text : "-" , 
-                    appendTo : "#att" 
-                } ) ; 
-                $( "#rem_att" ).on( "click" , () => 
-                {
-                    -- att_i ; 
-                    $( "#att_" + att_i ).remove() ; 
-                    if( att_i < 2 ) 
-                    {
-                        console.log( att_i ) ; 
-                        $( "#rem_att" ).remove() ; 
-                    }
-                } ) ; 
-            } ) ; 
-            return ; 
-        }
-        if( $( "#lat" ).is( ":checked" ) ) 
-        {
-            $( "#att" ).prop( "style" , "display:block;" ) ; 
-        }
-        else 
-        {
-            $( "#att" ).prop( "style" , "display:none;" ) ; 
-        }
-        for( let i = 0 ; i < att_i ; i ++ ) 
-        {
-            $( "#att_f_n_" + i ).prop( "required" , $( "#lat" ).is( ":checked" ) ) ; 
-        }
-    } ) ; 
-    $( "#l" ).on( "submit" , () => 
-    {
-        const now = new Date() ; 
-        const u = String( now.getFullYear() ).padStart( 4 , "0" ) + "/" + String( now.getMonth() + 1 ).padStart( 2 , "0" ) + "/" + String( now.getDate() ).padStart( 2 , "0" ) ; 
-        console.log( u ) ; 
-        let out = "[\n" ; 
-        out += "\t{\n" ; 
-        out += "\t\t\"UpdateDate\": \"" + u + "\",\n" ; 
-        out += "\t\t\"Laws\": [\n" ; 
-        out += "\t\t\t{\n" ; 
-        out += "\t\t\t\t\"LawLevel\": \"" + ( $( "#ll" ).val() == null ? "" : $( "#ll" ).val() ) + "\", \n" ; 
-        out += "\t\t\t\t\"LawName\": \"" + $( "#ln" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawURL\": \"" ; 
-        for( let a of l ) 
-        {
-            if( a.LawName == $( "#ln" ).val() ) 
-            {
-                out += a.LawURL ; 
-                break ; 
-            }
-        }
-        out += "\", \n" ; 
-        // out += "\t\t\t\t\"LawURL\": \"" + $( "#lu" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawCategory\": \"" + ( $( "#lc" ).val() == null ? "" : $( "#lc" ).val() ) + "\", \n" ; 
-        out += "\t\t\t\t\"LawModifiedDate\": \"" + $( "#lm" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawEffectiveDate\": \"" + $( "#led" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawEffectiveNote\": \"\", \n" ; 
-        out += "\t\t\t\t\"LawAbandonNote\": \"" + ( $( "#lan" ).is( ":checked" ) ? "廢" : "" ) + "\", \n" ; 
-        out += "\t\t\t\t\"LawHasEngVersion\": \"" + ( $( "#he" ).is( ":checked" ) ? "Y" : "N" ) + "\", \n" ; 
-        out += "\t\t\t\t\"EngLawName\": \"" + ( $( "#he" ).is( ":checked" ) ? $( "#en" ).val() : "" ) + "\", \n" ; 
-        out += "\t\t\t\t\"LawAttachments\": [" // + ( $( "#lat" ).is( ":checked" ) ? "\n\n\t\t\t" : "" ) + "], \n" ; 
-        if( $( "#lat" ).is( ":checked" ) ) 
-        {
-            for( let i = 0 ; i < att_i ; i ++ )
-            {
-                out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                out += "\t\t\t\t\t{\n" ; 
-                out += "\t\t\t\t\t\t\"FileName\": \"" + $( "#att_f_n_" + i ).val() + "\", \n" ; 
-                out += "\t\t\t\t\t\t\"FileURL\": \"" + $( "#att_f_u_" + i ).val() + "\" \n" ; 
-                out += "\t\t\t\t\t}" ; 
-                out += ( i == att_i - 1 ? "\n\t\t\t\t" : "" ) ; 
-            }
+            out += ( i == 0 ? "" : ", " ) + "\n" ; 
+            out += "\t\t\t\t\t{\n" ; 
+            out += "\t\t\t\t\t\t\"FileName\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+            out += "\t\t\t\t\t\t\"FileURL\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+            out += "\t\t\t\t\t}" ; 
+            out += ( temp[0] ? "" : "\n\t\t\t\t" ) ; 
+            ++ i ; 
         }
         out += "], \n" ; 
-        out += "\t\t\t\t\"LawHistories\": \"" + $( "#lh" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawForeword\": \"" + $( "#lf" ).val() + "\", \n" ; 
-        out += "\t\t\t\t\"LawArticles\": [\n\n\t\t\t\t] \n" ; 
+        out += "\t\t\t\t\"LawHistories\": \"" ; 
+        while( tempp = temp.shift() )
+        {
+            out += tempp ? tempp : "" ; 
+            out += temp[0] ? "\\r\\n" : "" ; 
+        }
+        out += "\", \n" ; 
+        out += "\t\t\t\t\"LawForeword\": \"" ; 
+        while( tempp = temp.shift() )
+        {
+            out += tempp ? tempp : "" ; 
+            out += temp[0] ? "\\r\\n" : "" ; 
+        }
+        out += "\", \n" ; 
+        out += "\t\t\t\t\"LawArticles\": [\n" ; 
+        i = 0 ; 
+        while( tempp = temp.shift() ) 
+        {
+            if( /^第 [一二三四五六七八九十百壹貳參肆伍陸柒捌玖拾佰]+ [編章節款目]/.test( tempp ) ) 
+            {
+                out += ( i ? ", \n" : "" ) + "\t\t\t\t\t{ \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleType\": \"C\" \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleNo\": \"\" \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleContent\": \"" + tempp + "\" \n" ; 
+                out += "\t\t\t\t\t}" ; 
+                temp.shift() ; 
+            }
+            else 
+            {
+                out += ( i ? ", \n" : "" ) + "\t\t\t\t\t{ \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleType\": \"A\" \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleNo\": \"" + tempp + "\" \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleContent\": \"" ; 
+                while( !/^C$|^Rel$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) ) 
+                {
+                    out += tempp ? tempp : "" ; 
+                    out += ( !/^C$|^Rel$|^Ref$/.test( temp[0] ) && temp[0] ) ? "\\r\\n" : "" ; 
+                }
+                out += "\", \n" ; 
+                out += "\t\t\t\t\t\t\"Cases\": [" ; 
+                if( /^C$/.test( temp[0] ) ) 
+                {
+                    temp.shift() ; 
+                    i = 0 ; 
+                    while( !/^Rel$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) )
+                    {
+                        out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        out += "\t\t\t\t\t\t\t{\n" ; 
+                        out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+                        out += "\t\t\t\t\t\t\t}" ; 
+                        out += ( temp[0] ? "" : "\n\t\t\t\t\t\t" ) ; 
+                        ++ i ; 
+                    }
+                }
+                out += "], \n" ; 
+                out += "\t\t\t\t\t\t\"Rel\": [" ; 
+                if( /^Rel$/.test( temp[0] ) ) 
+                {
+                    temp.shift() ; 
+                    i = 0 ; 
+                    while( !/^C$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) )
+                    {
+                        out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        out += "\t\t\t\t\t\t\t{\n" ; 
+                        out += "\t\t\t\t\t\t\t\t\"Name\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\t\t\"Url\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+                        out += "\t\t\t\t\t\t\t}" ; 
+                        out += ( temp[0] ? "" : "\n\t\t\t\t\t\t" ) ; 
+                        ++ i ; 
+                    }
+                }
+                out += "], \n" ; 
+                out += "\t\t\t\t\t\t\"Ref\": [" ; 
+                if( /^Ref$/.test( temp[0] ) ) 
+                {
+                    temp.shift() ; 
+                    i = 0 ; 
+                    while( !/^C$|^Rel$/.test( temp[0] ) && ( tempp = temp.shift() ) )
+                    {
+                        out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        out += "\t\t\t\t\t\t\t{\n" ; 
+                        out += "\t\t\t\t\t\t\t\t\"Name\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
+                        out += "\t\t\t\t\t\t\t\t\"Url\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
+                        out += "\t\t\t\t\t\t\t}" ; 
+                        out += ( temp[0] ? "" : "\n\t\t\t\t\t\t" ) ; 
+                        ++ i ; 
+                    }
+                }
+                out += "] \n" ; 
+                out += "\t\t\t\t\t}" ; 
+            }
+            ++ i ; 
+        }
+        out += "\n\t\t\t\t] \n" ; 
         out += "\t\t\t} \n" ; 
-        out += "\t\t] \n" ; 
-        out += "\t} \n" ; 
-        out += "] " ; 
-        out = out.replaceAll( "\t" , "    " ) ; 
+        console.log( out ) ; 
         $( "#out" ).text( out ) ; 
-        // let d = new Blob( [ out ] , { type : "application/json" } ) ; 
-        if( f !== null ) 
-        {
-            window.URL.revokeObjectURL( f ) ; 
-        }
-        f = window.URL.createObjectURL( /* d */ new Blob( [ out ] , { type : "application/json" } ) ) ; 
-        if( $( "#dl" ).length ) 
-        {
-            $( "#dl" ).remove() ; 
-        }
-        $( "<div />" , 
-        {
-            id: "dl", 
-            append: "<a href=\"" + f + "\" download=\"laws.json\">下載</a>", 
-            appendTo: "main" 
-        } ) ; 
     } ) ; 
 } ) ; 
