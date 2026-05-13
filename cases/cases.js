@@ -467,7 +467,7 @@ $( () =>
                 out += "\t\t\t\t\t}" ; 
                 out += ( ii == c[i].Rulings.length - 1 ? "\n\t\t\t\t" : "" ) ; 
             }
-            if( $( pre ).is( ":checked" ) && $( pre + "cr" ).is( ":checked" ) ) 
+            if( $( "#" + i ).is( ":checked" ) && $( pre + "cr" ).is( ":checked" ) ) 
             {
                 for( let ii = c[i].Rulings.length ; ii < cr_i[i] ; ii ++ )
                 {
@@ -491,7 +491,7 @@ $( () =>
                 out += "\t\t\t\t\t}" ; 
                 out += ( ii == c[i].Opinions.length - 1 ? "\n\t\t\t\t" : "" ) ; 
             }
-            if( $( pre ).is( ":checked" ) && $( pre + "co" ).is( ":checked" ) ) 
+            if( $( "#" + i ).is( ":checked" ) && $( pre + "co" ).is( ":checked" ) ) 
             {
                 for( let ii = c[i].Opinions.length ; ii < co_i[i] ; ii ++ )
                 {
