@@ -465,14 +465,17 @@ $( () =>
                 out += "\t\t\t\t\t\t\"RulingNo\": \"" + c[i].Rulings[ii].RulingNo + "\", \n" ; 
                 out += "\t\t\t\t\t\t\"FullRulingURL\": \"" + c[i].Rulings[ii].FullRulingURL + "\" \n" ; 
                 out += "\t\t\t\t\t}" ; 
-                out += ( ii == c[i].Rulings.length - 1 ? "\n\t\t\t\t" : "" ) ; 
+                if( ii == c[i].Rulings.length - 1 ) 
+                {
+                    out += ( $( "#" + i ).is( ":checked" ) && $( pre + "cr" ).is( ":checked" ) ? ", " : "" ) + "\n" ; 
+                }
             }
             if( $( "#" + i ).is( ":checked" ) && $( pre + "cr" ).is( ":checked" ) ) 
             {
                 for( let ii = c[i].Rulings.length ; ii < cr_i[i] ; ii ++ )
                 {
-                    out += ( ii == 0 ? "" : ", " ) + "\n" ; 
-                    out += "\t\t\t\t\t{\n" ; 
+                    out += ( ii == c[i].Rulings.length ? ( c[i].Rulings.length ? "" : "\n\t\t\t\t\t" ) : ", \n\t\t\t\t\t" ) ; 
+                    out += "{\n" ; 
                     out += "\t\t\t\t\t\t\"RulingNo\": \"" + $( pre + "cr_n_" + ii ).val() + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"FullRulingURL\": \"" + $( pre + "cr_u_" + ii ).val() + "\" \n" ; 
                     out += "\t\t\t\t\t}" ; 
@@ -489,14 +492,17 @@ $( () =>
                 out += "\t\t\t\t\t\t\"Member\": \"" + c[i].Opinions[ii].Member + "\" \n" ; 
                 out += "\t\t\t\t\t\t\"URL\": \"" + c[i].Opinions[ii].URL + "\" \n" ; 
                 out += "\t\t\t\t\t}" ; 
-                out += ( ii == c[i].Opinions.length - 1 ? "\n\t\t\t\t" : "" ) ; 
+                if( ii == c[i].Opinions.length - 1 ) 
+                {
+                    out += ( $( "#" + i ).is( ":checked" ) && $( pre + "co" ).is( ":checked" ) ? ", " : "" ) + "\n\t\t\t\t\t" ; 
+                }
             }
             if( $( "#" + i ).is( ":checked" ) && $( pre + "co" ).is( ":checked" ) ) 
             {
                 for( let ii = c[i].Opinions.length ; ii < co_i[i] ; ii ++ )
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
-                    out += "\t\t\t\t\t{\n" ; 
+                    out += ( ii == c[i].Opinions.length ? ( c[i].Opinions.length ? "" : "\n\t\t\t\t\t" ) : ", \n\t\t\t\t\t" ) ; 
+                    out += "{\n" ; 
                     out += "\t\t\t\t\t\t\"Type\": \"" + $( pre + "co_t_" + ii ).val() + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"Member\": \"" + $( pre + "co_m_" + ii ).val() + "\" \n" ; 
                     out += "\t\t\t\t\t\t\"URL\": \"" + $( pre + "co_u_" + ii ).val() + "\" \n" ; 
