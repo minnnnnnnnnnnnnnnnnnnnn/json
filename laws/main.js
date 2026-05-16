@@ -1,5 +1,6 @@
 $( () => 
 {
+    const spaces = { "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
     $( "#in" ).on( "change" , () => 
     {
         let temp = $( "#in" ).val().split( /\r\n|\r|\n/g ) ; 
@@ -50,7 +51,7 @@ $( () =>
                 out += ( i ? ", \n" : "" ) + "\t\t\t\t\t{ \n" ; 
                 out += "\t\t\t\t\t\t\"ArticleType\": \"C\" \n" ; 
                 out += "\t\t\t\t\t\t\"ArticleNo\": \"\" \n" ; 
-                out += "\t\t\t\t\t\t\"ArticleContent\": \"" + tempp + "\" \n" ; 
+                out += "\t\t\t\t\t\t\"ArticleContent\": \"" + spaces[ tempp.replace( /^第 [一二三四五六七八九十百壹貳參肆伍陸柒捌玖拾佰]+ / , "" )[0] ] + tempp + "\" \n" ; 
                 out += "\t\t\t\t\t}" ; 
                 temp.shift() ; 
             }
