@@ -600,9 +600,9 @@ $( () =>
                 }
                 $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lm" ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) ; 
                 $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_lh" ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) ; 
-                let kkk = 0 ; 
                 for( let jjj = -1 ; jjj < a.LawArticles.length ; ++ jjj ) 
                 {
+                    let kkk = 0 ; 
                     while( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + jjj + "_" + kkk + "_div" ).length ) 
                     {
                         $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + jjj + "_" + kkk + "_n" ).prop( "required" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) ).is( ":checked" ) ) ; 
