@@ -112,7 +112,7 @@ $( () =>
                                     {
                                         -- cr_i[id] ; 
                                         $( "#rul_" + cr_i[id] ).remove() ; 
-                                        if( cr_i[id] < 2 ) 
+                                        if( cr_i[id] < 2 + a.Rulings.length ) 
                                         {
                                             $( "#rem_" + id + "_rul" ).remove() ; 
                                         }
@@ -176,7 +176,7 @@ $( () =>
                                     {
                                         -- co_i[id] ; 
                                         $( "#" + id + "_op_" + co_i[id] ).remove() ; 
-                                        if( co_i[id] < 2 ) 
+                                        if( co_i[id] < 2 + a.Opinions.length ) 
                                         {
                                             $( "#rem_" + id + "_op" ).remove() ; 
                                         }
