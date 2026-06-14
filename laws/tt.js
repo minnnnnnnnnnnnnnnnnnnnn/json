@@ -1,11 +1,27 @@
 $( () => 
 {
-    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la = Array() , lfirst = Array() , l_att_i = Array() , n_art = Array() , art_i , art_m_1 ; 
+    let fetch_done = false , lr , l , f = null , /* fl = null , */ domain = "https://tcfshsu.github.io/law" , aNote , first , att_i , ai = 0 , li = 0 , la = Array() , lfirst = Array() , l_att_i = Array() , n_art = Array() , art_i , art_m_1 , cia , ril , rif ; 
+    let ccc ; 
+    let cases_op = Array() , laws_op = Array() , refs_op = Array() ; 
+    fetch( new Request( "https://tcfshsu.github.io/law/json/cases.json" ) ).then( r=> r.json() ).then( lll => 
+    {
+        ccc = lll[0].Cases ; 
+        for( let c of ccc ) 
+        {
+            cases_op.push( $( "<option />" , { text: c.No , value: ccc.indexOf( c ) } ) ) ; 
+            refs_op.push( $( "<option />" , { text: c.No , value: ccc.indexOf( c ) } ) ) ; 
+            for( let cc of c.Rulings ) 
+            {
+                refs_op.push( $( "<option />" , { text: cc.RulingNo , value: ccc.indexOf( c ) + "_" + c.Rulings.indexOf( cc ) } ) ) ; 
+            }
+        }
+    } ) ; 
     const ch_num_lt_ten = "○一二三四五六七八九十" ; 
     const ch_num = { ...ch_num_lt_ten , 11: ch_num_lt_ten[10] + ch_num_lt_ten[1] , 12: ch_num_lt_ten[10] + ch_num_lt_ten[2] , 13: ch_num_lt_ten[10] + ch_num_lt_ten[3] , 14: ch_num_lt_ten[10] + ch_num_lt_ten[4] , 15: ch_num_lt_ten[10] + ch_num_lt_ten[5] , 16: ch_num_lt_ten[10] + ch_num_lt_ten[6] , 17: ch_num_lt_ten[10] + ch_num_lt_ten[7] , 18: ch_num_lt_ten[10] + ch_num_lt_ten[8] , 19: ch_num_lt_ten[10] + ch_num_lt_ten[9] , 100: "百" , 110: "百一十" } ; 
     const ch_cap_num_lt_ten = "零壹貳參肆伍陸柒捌玖拾" ; 
     const ch_cap_num = { ...ch_cap_num_lt_ten , 11: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[1] , 12: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[2] , 13: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[3] , 14: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[4] , 15: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[5] , 16: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[6] , 17: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[7] , 18: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[8] , 19: ch_cap_num_lt_ten[10] + ch_cap_num_lt_ten[9] , 100: "佰" , 110: "佰壹拾" } ; 
     const ch_cap = { "○": "零" , "一": "壹" , "二": "貳" , "三": "參" , "四": "肆" , "五": "伍" , "六": "陸" , "七": "柒" , "八": "捌" , "九": "玖" , "十": "拾" , "百": "佰" } ; 
+    // Object.keys( ch_cap ).find( k => ch_cap[k] === "零" ) ; 
     const spaces = { "條": "" , "編": "" , "章": "   " , "節" : "      " , "款" : "         " , "目": "            " } ; 
     function to_ch( n , nf ) 
     {
@@ -295,16 +311,31 @@ $( () =>
     {
         lr = lll[0] ; 
         l = lll[0].Laws ; 
+        for( let asdf of l ) 
+        {
+            const asdfn = asdf.LawName.replace( /^臺中市立臺中第一高級中等學校學生自治聯合會|^臺中第一高級中學/ , "" ) , asdfi = asdf.LawURL.replace( domain + "/laws/law?a=" , "" ) ; 
+            laws_op.push( $( "<option />" , { text: asdfn , value: asdfi } ) ) ; 
+            for( let fdsa of asdf.LawArticles ) 
+            {
+              laws_op.push( $( "<option />" , { text: asdfn + ( fdsa.ArticleType == "C" ? fdsa.ArticleContent : fdsa.ArticleNo ) , value: asdfi + "_" + asdf.LawArticles.indexOf( fdsa ) } ) ) ; 
+            }
+        }
         aNote = Array( l.length ).fill( false ) ; 
         first = Array( l.length ).fill( true ) ; 
         att_i = Array( l.length ).fill( 0 ) ; 
         arts = Array( l.length ).fill( Array() ) ; 
         art_i = Array( l.length ).fill( Array() ) ; 
         art_m_1 = Array( l.length ).fill( 0 ) ; 
+        cia = Array( l.length ) ; 
+        ril = Array( l.length ) ; 
+        rif = Array( l.length ) ; 
         for( let a of l ) 
         {
             const i = ai ; 
             art_i[l.indexOf( a )] = Array( a.LawArticles.length ).fill( 0 ) ; 
+            cia[l.indexOf( a )] = Array( a.LawArticles.length ).fill( 0 ) ; 
+            ril[l.indexOf( a )] = Array( a.LawArticles.length ).fill( 0 ) ; 
+            rif[l.indexOf( a )] = Array( a.LawArticles.length ).fill( 0 ) ; 
             $( "#gen" ).before( $( "<div />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_div" ,/* style: "text-decoration:" + ( a.LawAbandonNote == "廢" ? "line-through" : "none" ) + ";text-decoration-color:#f00;" , */append: "<span><span style=\"color:#f00;\">" + a.LawAbandonNote + "</span><span>" + a.LawName + "</span></span>" } ) ) ; 
             $( "<input />" , 
             {
@@ -405,8 +436,15 @@ $( () =>
                                 $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_a" , class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_name" , type: "text" } ) , 
                                 "<span class=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_name\">】</span>" , 
                                 "<br  class=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_name\" />" , 
-                                $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_c" , type: "text" , required: true } ) ] } ) ) ; 
-                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_t" ).on( "input" , () => { $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_name" ).css( "display" , ( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_t" ).val() == "條" ? "inline" : "none" ) ) ; } ) ; 
+                                $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_c" , type: "text" , required: true } ) , 
+                                $( "<div />" , { class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_add_inf" , append: [ $( "<small />" , { text: "相關判例" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_ac" } ) ] } ) , 
+                                $( "<div />" , { class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_add_inf" , append: [ $( "<small />" , { text: "相關法規/條文" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_arel" } ) ] } ) , 
+                                $( "<div />" , { class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_add_inf" , append: [ $( "<small />" , { text: "具參考價值" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_aref" } ) ] } ) ] } ) ) ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_t" ).on( "input" , () => 
+                            {
+                                $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_name" ).css( "display" , ( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_t" ).val() == "條" ? "inline" : "none" ) ) ; 
+                                $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_add_inf" ).css( "display" , ( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1_" + iii + "_t" ).val() == "條" ? "inherit" : "none" ) ) ; 
+                            } ) ; 
                             if( !$( "#rem_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1" ).length ) 
                             {
                                 $( "#add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1" ).after( $( "<button />" , { text: "-" , id: "rem_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_-1" , type: "button" } ) ) ; 
@@ -458,11 +496,22 @@ $( () =>
                                         .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" , type: "text" , width: "70%" , value: aa.ArticleType == "A" ? aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) : aa.ArticleContent.split( /[編章節款目]/ )[1].replace( /^ */ , "" ) , disabled: true } ) ) 
                                         .append( "<br />" ) 
                                         .append( "<small style=\"margin-left:.5rem;\">修正條文 </small>" ) 
-                                        .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleType == "A" ? aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) : aa.ArticleContent.split( /[編章節款目]/ )[1].replace( /^ */ , "" ) } ) ) ) 
+                                        .append( $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) , type: "text" , width: "70%" , value: aa.ArticleType == "A" ? aa.ArticleContent.replaceAll( "\r\n" , "\\r\\n" ) : aa.ArticleContent.split( /[編章節款目]/ )[1].replace( /^ */ , "" ) } ) ) 
+                                        .append( $( "<div />" , { style: "display:" + ( art_t == "條" ? "inherit" : "none" ) , class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_add_inf" , append: [ $( "<small />" , { text: "相關判例" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ac" } ) ] } ) ) 
+                                        .append( $( "<div />" , { style: "display:" + ( art_t == "條" ? "inherit" : "none" ) , class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_add_inf" , append: [ $( "<small />" , { text: "相關法規/條文" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_arel" } ) ] } ) ) 
+                                        .append( $( "<div />" , { style: "display:" + ( art_t == "條" ? "inherit" : "none" ) , class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_add_inf" , append: [ $( "<small />" , { text: "具參考價值" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_aref" } ) ] } ) ) 
+                                        ) 
                             ) ; 
                             refresh() ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ac" ).on( "click" , () => { const tempco = [] ; for( let co of cases_op ) { tempco.push( co.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ac" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ca_" + ( cia[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: tempco } ) ) ; } ) ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_arel" ).on( "click" , () => { const temprl = [] ; for( let lo of laws_op ) { temprl.push( lo.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_arel" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rl_" + ( ril[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprl } ) ) ; } ) ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_aref" ).on( "click" , () => { const temprf = [] ; for( let fo of refs_op ) { temprf.push( fo.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_aref" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rf_" + ( rif[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprf } ) ) ; } ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_b" ).after( $( "<button />" , { text: "+" , id: "add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) , type: "button" } ) ) ; 
-                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).on( "input" , () => { $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).val() == "條" ? "" : "none" ) ; } ) ; 
+                            $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).on( "input" , () => 
+                            {
+                                $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).val() == "條" ? "" : "none" ) ; 
+                                $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_add_inf" ).css( "display" , $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_t" ).val() == "條" ? "" : "none" ) ; 
+                            } ) ; 
                             $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_name" ).css( "display" , art_t == "條" ? "" : "none" ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_btn" ).on( "click" , () => { $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) ).val( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + aa.ArticleType.toLowerCase() + "_" + a.LawArticles.indexOf( aa ) + "_o" ).val() ) ; } ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rbtn" ).on( "click" , refresh ) ; 
@@ -495,8 +544,18 @@ $( () =>
                                     $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_a" , class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_name" , type: "text" } ) , 
                                     "<span class=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_name\">】</span>" , 
                                     "<br  class=\"" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_name\" />" , 
-                                    $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_c" , type: "text" , required: true } ) ] } ) ) ; 
-                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_t" ).on( "input" , () => { $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_name" ).css( "display" , ( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_t" ).val() == "條" ? "" : "none" ) ) ; } ) ; 
+                                    $( "<input />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_c" , type: "text" , required: true } ) , 
+                                    $( "<div />" , { class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_add_inf" , append: [ $( "<small />" , { text: "相關判例" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_ac" } ) ] } ) , 
+                                    $( "<div />" , { class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_add_inf" , append: [ $( "<small />" , { text: "相關法規/條文" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_arel" } ) ] } ) , 
+                                    $( "<div />" , { class: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_add_inf" , append: [ $( "<small />" , { text: "具參考價值" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_aref" } ) ] } ) ] } ) ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_t" ).on( "input" , () => 
+                                {
+                                    $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_name" ).css( "display" , ( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_t" ).val() == "條" ? "" : "none" ) ) ; 
+                                    $( "." + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_add_inf" ).css( "display" , ( $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_t" ).val() == "條" ? "inherit" : "none" ) ) ; 
+                                } ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_ac" ).on( "click" , () => { const tempco = [] ; for( let co of cases_op ) { tempco.push( co.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_ac" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ca_" + ( cia[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: tempco } ) ) ; } ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_arel" ).on( "click" , () => { const temprl = [] ; for( let lo of laws_op ) { temprl.push( lo.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_arel" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rl_" + ( ril[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprl } ) ) ; } ) ; 
+                                $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_aref" ).on( "click" , () => { const temprf = [] ; for( let fo of refs_op ) { temprf.push( fo.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_" + iii + "_aref" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rf_" + ( rif[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprf } ) ) ; } ) ; 
                                 if( !$( "#rem_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) ).length ) 
                                 {
                                     $( "#add_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) ).after( $( "<button />" , { text: "-" , id: "rem_art_" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) , type: "button" } ) ) ; 
@@ -649,6 +708,9 @@ $( () =>
         $( "#gen" ).before( $( "<button />" , { id: "add_law" , type: "button" , text: "+" } ) ) ; 
         $( "#add_law" ).on( "click" , () => 
         {
+            cia.push( Array() ) ; 
+            ril.push( Array() ) ; 
+            rif.push( Array() ) ; 
             $( "#add_law" ).before( $( "<div />" , { id: String( li ) , style: "position:relative;background:#333;color:#fff;border:#f00 3pt solid;margin:1rem;" } )
             .append( $( "<span />" , { id: String( li ) + "_x" , text: "×" , style: "cursor:pointer;position:absolute;right:0;top:0;-webkit-user-select:none;user-select:none;" , onmouseenter: "$( this ).css( \"background\" , \"#f00\" )" , onmouseleave: "$( this ).css( \"background\" , \"\" )" } ) )
             .append( $( "<select />" , { id: String( li ) + "_ll" , required: true } )
@@ -748,6 +810,9 @@ $( () =>
                 }
                 $( "#" + String( iii ) ).remove() ; 
                 la.splice( la.indexOf( iii ) ) ; 
+                cia.pop();
+                ril.pop();
+                rif.pop();
             } ) ; 
             $( "#" + String( li ) + "_he" ).on( "input" , () => 
             {
@@ -829,6 +894,9 @@ $( () =>
             } ) ; 
             $( "#" + String( li ) + "_art_add" ).on( "click" , () => 
        			{
+                cia[cia.length - 1].push( 0 ) ; 
+                ril[ril.length - 1].push( 0 ) ; 
+                rif[rif.length - 1].push( 0 ) ; 
                 const a_l = n_art[iii].art.length , constant = String( iii ) + "_art_" + n_art[iii].art.length ; 
                 $( "#" + String( iii ) + "_art" ).append( $( "<div />" , { id: constant ,style: "background-image:linear-gradient(270deg,#ff0,#0ff);color:#f00;border:3px solid #f0f7;margin:.5rem .25rem;" } )
                     .append( "<span>第</span>" )
@@ -846,18 +914,18 @@ $( () =>
                     .append( "<span class=\"" + constant + "_name\">】</span>" )
                     .append( "<br  class=\"" + constant + "_name\" />" )
                     .append( $( "<input />" , { id: constant + "_c" , type: "text" , required: true } ) )
+                    .append($( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "相關判例" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_ac" } ) ] } ) ) 
+                    .append($( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "相關法規/條文" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_arel" } ) ] } ) ) 
+                    .append($( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "具參考價值" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_aref" } ) ] } ) ) 
                 ) ; 
                 $( "#" + constant + "_t" ).on( "input" , () => 
                 {
-                    if( $( "#" + constant + "_t" ).val() != "條" )
-                    {
-                        $( "." + constant + "_name" ).hide() ; 
-                    }
-                    else 
-                    {
-                        $( "." + constant + "_name" ).show() ; 
-                    }
+                    $( "." + constant + "_name" ).css( "display" , $( "#" + constant + "_t" ).val() == "條" ? "inline" : "none" ) ; 
+                    $( "." + constant + "_add_inf" ).css( "display" , $( "#" + constant + "_t" ).val() == "條" ? "inherit" : "none" ) ; 
                 } ) ; 
+                $( "#" + constant + "_ac" ).on( "click" , () => { const tempco = [] ; for( let co of cases_op ) { tempco.push( co.clone() ) ; } $( "#" + constant + "_ac" ).before( $( "<select />" , { id: constant + "_ca_" + ( cia[cia.length - 1][cia[cia.length - 1].length - 1] ++ ) , append: tempco } ) ) ; } ) ; 
+                $( "#" + constant + "_arel" ).on( "click" , () => { const templo = [] ; for( let lo of laws_op ) { templo.push( lo.clone() ) ; } $( "#" + constant + "_arel" ).before( $( "<select />" , { id: constant + "_rl_" + ( ril[ril.length - 1][ril[ril.length - 1].length - 1] ++ ) , append: templo } ) ) ; } ) ; 
+                $( "#" + constant + "_aref" ).on( "click" , () => { const tempfo = [] ; for( let fo of refs_op ) { tempfo.push( fo.clone() ) ; } $( "#" + constant + "_aref" ).before( $( "<select />" , { id: constant + "_rf_" + ( rif[rif.length - 1][rif[rif.length - 1].length - 1] ++ ) , append: tempfo } ) ) ; } ) ; 
                 n_art[iii].art.push( { id: "#" + String( iii ) + "_art_" + n_art[iii].art.length } ) ; 
                 if( n_art[iii].first ) 
                 {
@@ -870,6 +938,9 @@ $( () =>
                         if( !n_art[iii].art.length ) 
                         {
                             $( "#" + String( iii ) + "_art_rem" ).remove() ; 
+                            cia[cia.length - 1].pop() ; 
+                            ril[ril.length - 1].pop() ; 
+                            rif[rif.length - 1].pop() ; 
                             n_art[iii].first = true ; 
                         }
                     } ) ; 
