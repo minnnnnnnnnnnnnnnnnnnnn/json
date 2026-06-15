@@ -131,7 +131,7 @@ $( () =>
     }
     function a_n( n , a , t , nf ) 
     {
-        let aa = ( a == "" ? "" + a + "" : "【" + a + "】" ) ; 
+        let aa = ( a ? "【" + a + "】" : "" + a + "" ) ;
         let tt = t + ( t == "條" ? "" : " " ) ; 
         let num = to_ch( n , nf ) ; 
         if( t == "條" && ( nf == "ch" || nf == "ch_cap" ) )
@@ -154,11 +154,11 @@ $( () =>
         {
             return 10 ; 
         }
-        if( /^[一二三四五六七八九]{1}百$/.test( str ) ) 
+        if( /^[一二三四五六七八九]百$/.test( str ) ) 
         {
             return ch[str[0]] * 100 ; 
         }
-        if( /^[一二三四五六七八九]{1}百/.test( str ) ) 
+        if( /^[一二三四五六七八九]百/.test( str ) ) 
         {
             num = ch[str[0]] ; 
             str = str.substring( 2 ) ; 
@@ -200,7 +200,7 @@ $( () =>
         let tempp , i = 0 ; 
         while( tempp = temp.shift() )
         {
-            return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+            return_val += ( i ? ", " : "" ) + "\n" ; 
             return_val += "\t\t\t\t\t{\n" ; 
             return_val += "\t\t\t\t\t\t\"FileName\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
             return_val += "\t\t\t\t\t\t\"FileURL\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
@@ -255,7 +255,7 @@ $( () =>
                     i = 0 ; 
                     while( !/^Rel$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) )
                     {
-                        return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        return_val += ( i ? ", " : "" ) + "\n" ; 
                         return_val += "\t\t\t\t\t\t\t{\n" ; 
                         return_val += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
                         return_val += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
@@ -272,7 +272,7 @@ $( () =>
                     i = 0 ; 
                     while( !/^C$|^Ref$/.test( temp[0] ) && ( tempp = temp.shift() ) )
                     {
-                        return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        return_val += ( i ? ", " : "" ) + "\n" ; 
                         return_val += "\t\t\t\t\t\t\t{\n" ; 
                         return_val += "\t\t\t\t\t\t\t\t\"Name\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
                         return_val += "\t\t\t\t\t\t\t\t\"Url\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
@@ -289,7 +289,7 @@ $( () =>
                     i = 0 ; 
                     while( !/^C$|^Rel$/.test( temp[0] ) && ( tempp = temp.shift() ) )
                     {
-                        return_val += ( i == 0 ? "" : ", " ) + "\n" ; 
+                        return_val += ( i ? ", " : "" ) + "\n" ; 
                         return_val += "\t\t\t\t\t\t\t{\n" ; 
                         return_val += "\t\t\t\t\t\t\t\t\"Name\": \"" + ( tempp ? tempp : "" ) + "\", \n" ; 
                         return_val += "\t\t\t\t\t\t\t\t\"Url\": \"" + ( temp[0] ? temp.shift() : ( temp[0] === "" ? temp.shift() : "" ) ) + "\" \n" ; 
@@ -323,7 +323,6 @@ $( () =>
         aNote = Array( l.length ).fill( false ) ; 
         first = Array( l.length ).fill( true ) ; 
         att_i = Array( l.length ).fill( 0 ) ; 
-        arts = Array( l.length ).fill( Array() ) ; 
         art_i = Array( l.length ).fill( Array() ) ; 
         art_m_1 = Array( l.length ).fill( 0 ) ; 
         cia = Array( l.length ) ; 
@@ -778,7 +777,7 @@ $( () =>
                 {
                     for( const v of $( "#" + String( iii ) + " input[type=\"text\"]" ) ) 
                     {
-                        if( v.value != "" ) 
+                        if( v.value )
                         {
                             return true ; 
                         }
@@ -793,7 +792,7 @@ $( () =>
                     }
                     for( const v of $( "#" + String( iii ) + " select" ) ) 
                     {
-                        if( v.value != "" ) 
+                        if( v.value )
                         {
                             console.log( v ) ; 
                             return true ; 
@@ -984,7 +983,7 @@ $( () =>
             {
                 for( let i = 0 ; i < l_att_i[ii] ; i ++ )
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                    out += ( i ? ", " : "" ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
                     out += "\t\t\t\t\t\t\"FileName\": \"" + $( id + "att_f_n_" + i ).val() + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"FileURL\": \"" + $( id + "att_f_u_" + i ).val() + "\" \n" ; 
@@ -998,7 +997,7 @@ $( () =>
             out += "\t\t\t\t\"LawArticles\": [" ; 
             for( let i = 0 ; i < $( id + "art div" ).length ; i ++ )
             {
-                out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                out += ( i ? ", " : "" ) + "\n" ; 
                 out += "\t\t\t\t\t{\n" ; 
                 const AorC = $( id + "art_" + i + "_t" ).val() == "條" ; 
                 out += "\t\t\t\t\t\t\"ArticleType\": \"" + ( AorC ? "A" : "C" ) + "\", \n" ; 
@@ -1009,7 +1008,7 @@ $( () =>
                     out += "\t\t\t\t\t\t\"Cases\": [" ; 
                     // for( let j = 0 ; j < a.LawArticles[i].Cases.length ; j ++ )
                     // {
-                    //     out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                    //     out += ( j ? ", " : "" ) + "\n" ; 
                     //     out += "\t\t\t\t\t\t\t{\n" ; 
                     //     out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[i].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                     //     out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[i].Cases[j].CaseUrl + "\" \n" ; 
@@ -1020,7 +1019,7 @@ $( () =>
                     out += "\t\t\t\t\t\t\"Rel\": [" ; 
                     // for( let j = 0 ; j < a.LawArticles[i].Rel.length ; j ++ )
                     // {
-                    //     out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                    //     out += ( j ? ", " : "" ) + "\n" ; 
                     //     out += "\t\t\t\t\t\t\t{\n" ; 
                     //     out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                     //     out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Rel[j].Url + "\" \n" ; 
@@ -1031,7 +1030,7 @@ $( () =>
                     out += "\t\t\t\t\t\t\"Ref\": [" ; 
                     // for( let j = 0 ; j < a.LawArticles[i].Ref.length ; j ++ )
                     // {
-                    //     out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                    //     out += ( j ? ", " : "" ) + "\n" ; 
                     //     out += "\t\t\t\t\t\t\t{\n" ; 
                     //     out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                     //     out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Ref[j].Url + "\" \n" ; 
@@ -1072,7 +1071,7 @@ $( () =>
                 out += "\t\t\t\t\"LawAttachments\": [" ; 
                 for( let i = 0 ; i < a.LawAttachments.length ; i ++ )
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                    out += ( i ? ", " : "" ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
                     out += "\t\t\t\t\t\t\"FileName\": \"" + a.LawAttachments[i].FileName + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"FileURL\": \"" + a.LawAttachments[i].FileURL + "\" \n" ; 
@@ -1085,7 +1084,7 @@ $( () =>
                 out += "\t\t\t\t\"LawArticles\": [" ; 
                 for( let i = 0 ; i < a.LawArticles.length ; i ++ )
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                    out += ( i ? ", " : "" ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
                     out += "\t\t\t\t\t\t\"ArticleType\": \"" + a.LawArticles[i].ArticleType + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"ArticleNo\": \"" + a.LawArticles[i].ArticleNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
@@ -1095,7 +1094,7 @@ $( () =>
                         out += "\t\t\t\t\t\t\"Cases\": [" ; 
                         for( let j = 0 ; j < a.LawArticles[i].Cases.length ; j ++ )
                         {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( j ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[i].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[i].Cases[j].CaseUrl + "\" \n" ; 
@@ -1106,7 +1105,7 @@ $( () =>
                         out += "\t\t\t\t\t\t\"Rel\": [" ; 
                         for( let j = 0 ; j < a.LawArticles[i].Rel.length ; j ++ )
                         {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( j ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Rel[j].Url + "\" \n" ; 
@@ -1117,7 +1116,7 @@ $( () =>
                         out += "\t\t\t\t\t\t\"Ref\": [" ; 
                         for( let j = 0 ; j < a.LawArticles[i].Ref.length ; j ++ )
                         {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( j ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Ref[j].Url + "\" \n" ; 
@@ -1151,7 +1150,7 @@ $( () =>
                     {
                         for( let i = 0 ; i < att_i[iii] ; i ++ )
                         {
-                            out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( i ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\"FileName\": \"" + $( id + "att_f_n_" + i ).val() + "\", \n" ; 
                             out += "\t\t\t\t\t\t\"FileURL\": \"" + $( id + "att_f_u_" + i ).val() + "\" \n" ; 
@@ -1163,7 +1162,7 @@ $( () =>
                     {
                         for( let i = 0 ; i < a.LawAttachments.length ; i ++ )
                         {
-                            out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( i ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\"FileName\": \"" + a.LawAttachments[i].FileName + "\", \n" ; 
                             out += "\t\t\t\t\t\t\"FileURL\": \"" + a.LawAttachments[i].FileURL + "\" \n" ; 
@@ -1230,7 +1229,7 @@ $( () =>
                         {
                             continue ; 
                         }
-                        const AorC = $( id + lia + "_t" ).val() == "條" , AorC_o = a.LawArticles[lia].ArticleType == "A" ; 
+                        const AorC = $( id + lia + "_t" ).val() == "條" ;//, AorC_o = a.LawArticles[lia].ArticleType == "A" ; 
                         out += ( ( $( id + "-1_0_div" ).length || lia ) ? ", " : "" ) + "\n\t\t\t\t\t{\n" ; 
                         if( !$( id + lia ).is( ":checked" ) ) 
                         {
@@ -1249,7 +1248,7 @@ $( () =>
                             out += "\t\t\t\t\t\t\"Cases\": [" ; 
                             for( let j = 0 ; j < a.LawArticles[lia].Cases.length ; j ++ )
                             {
-                                out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                                out += ( j ? ", " : "" ) + "\n" ; 
                                 out += "\t\t\t\t\t\t\t{\n" ; 
                                 out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[lia].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                                 out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[lia].Cases[j].CaseUrl + "\" \n" ; 
@@ -1260,7 +1259,7 @@ $( () =>
                             out += "\t\t\t\t\t\t\"Rel\": [" ; 
                             for( let j = 0 ; j < a.LawArticles[lia].Rel.length ; j ++ )
                             {
-                                out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                                out += ( j ? ", " : "" ) + "\n" ; 
                                 out += "\t\t\t\t\t\t\t{\n" ; 
                                 out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[lia].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                                 out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[lia].Rel[j].Url + "\" \n" ; 
@@ -1271,7 +1270,7 @@ $( () =>
                             out += "\t\t\t\t\t\t\"Ref\": [" ; 
                             for( let j = 0 ; j < a.LawArticles[lia].Ref.length ; j ++ )
                             {
-                                out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                                out += ( j ? ", " : "" ) + "\n" ; 
                                 out += "\t\t\t\t\t\t\t{\n" ; 
                                 out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[lia].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                                 out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[lia].Ref[j].Url + "\" \n" ; 
@@ -1303,7 +1302,7 @@ $( () =>
                 out += "\t\t\t\t\"LawAttachments\": [" ; 
                 for( let i = 0 ; i < a.LawAttachments.length ; i ++ )
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                    out += ( i ? ", " : "" ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
                     out += "\t\t\t\t\t\t\"FileName\": \"" + a.LawAttachments[i].FileName + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"FileURL\": \"" + a.LawAttachments[i].FileURL + "\" \n" ; 
@@ -1316,7 +1315,7 @@ $( () =>
                 out += "\t\t\t\t\"LawArticles\": [" ; 
                 for( let i = 0 ; i < a.LawArticles.length ; i ++ )
                 {
-                    out += ( i == 0 ? "" : ", " ) + "\n" ; 
+                    out += ( i ? ", " : "" ) + "\n" ; 
                     out += "\t\t\t\t\t{\n" ; 
                     out += "\t\t\t\t\t\t\"ArticleType\": \"" + a.LawArticles[i].ArticleType + "\", \n" ; 
                     out += "\t\t\t\t\t\t\"ArticleNo\": \"" + a.LawArticles[i].ArticleNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
@@ -1326,7 +1325,7 @@ $( () =>
                         out += "\t\t\t\t\t\t\"Cases\": [" ; 
                         for( let j = 0 ; j < a.LawArticles[i].Cases.length ; j ++ )
                         {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( j? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\t\t\"CaseNo\": \"" + a.LawArticles[i].Cases[j].CaseNo.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\t\t\"CaseUrl\": \"" + a.LawArticles[i].Cases[j].CaseUrl + "\" \n" ; 
@@ -1337,7 +1336,7 @@ $( () =>
                         out += "\t\t\t\t\t\t\"Rel\": [" ; 
                         for( let j = 0 ; j < a.LawArticles[i].Rel.length ; j ++ )
                         {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( j ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Rel[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Rel[j].Url + "\" \n" ; 
@@ -1348,7 +1347,7 @@ $( () =>
                         out += "\t\t\t\t\t\t\"Ref\": [" ; 
                         for( let j = 0 ; j < a.LawArticles[i].Ref.length ; j ++ )
                         {
-                            out += ( j == 0 ? "" : ", " ) + "\n" ; 
+                            out += ( j ? ", " : "" ) + "\n" ; 
                             out += "\t\t\t\t\t\t\t{\n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Name\": \"" + a.LawArticles[i].Ref[j].Name.replaceAll( "\r\n" , "\\r\\n" ) + "\", \n" ; 
                             out += "\t\t\t\t\t\t\t\t\"Url\": \"" + a.LawArticles[i].Ref[j].Url + "\" \n" ; 

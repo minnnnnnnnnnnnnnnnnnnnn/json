@@ -471,7 +471,7 @@ $( () =>
                 {
                     for( const v of $( "#" + String( iii ) + " input[type=\"text\"]" ) ) 
                     {
-                        if( v.value != "" ) 
+                        if( v.value )
                         {
                             return true ; 
                         }
@@ -486,7 +486,7 @@ $( () =>
                     }
                     for( const v of $( "#" + String( iii ) + " select" ) ) 
                     {
-                        if( v.value != "" ) 
+                        if( v.value )
                         {
                             console.log( v ) ; 
                             return true ; 
