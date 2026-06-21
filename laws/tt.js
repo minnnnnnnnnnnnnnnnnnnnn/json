@@ -502,6 +502,37 @@ $( () =>
                                         ) 
                             ) ; 
                             refresh() ; 
+                            // load original crfl
+                            if( aa.ArticleType == "A" ) 
+                            {
+                                for( let cco of aa.Cases )
+                                {
+                                    const tempco = [] ; 
+                                    for( let co of cases_op ) 
+                                    { 
+                                        tempco.push( co.clone().prop( "selected" , co.text() == cco.CaseNo ) ) ; 
+                                    } 
+                                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ac" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ca_" + ( cia[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: tempco } ) ) ; 
+                                }
+                                for( let llo of aa.Rel )
+                                { 
+                                    const temprl = [] ; 
+                                    for( let lo of laws_op ) 
+                                    { 
+                                        temprl.push( lo.clone().prop( "selected" , lo.text() == llo.CaseNo ) ) ; 
+                                    } 
+                                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_arel" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rl_" + ( ril[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprl } ) ) ; 
+                                }
+                                for( let ffo of aa.Ref )
+                                { 
+                                    const temprf = [] ; 
+                                    for( let fo of refs_op ) 
+                                    { 
+                                        temprf.push( fo.clone().prop( "selected" , fo.text() == ffo.CaseNo ) ) ; 
+                                    } 
+                                    $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_aref" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rf_" + ( rif[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprf } ) ) ; 
+                                }
+                            }
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ac" ).on( "click" , () => { const tempco = [] ; for( let co of cases_op ) { tempco.push( co.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ac" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_ca_" + ( cia[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: tempco } ) ) ; } ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_arel" ).on( "click" , () => { const temprl = [] ; for( let lo of laws_op ) { temprl.push( lo.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_arel" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rl_" + ( ril[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprl } ) ) ; } ) ; 
                             $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_aref" ).on( "click" , () => { const temprf = [] ; for( let fo of refs_op ) { temprf.push( fo.clone() ) ; } $( "#" + a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_aref" ).before( $( "<select />" , { id: a.LawURL.replace( domain + "/laws/law?a=" , "" ) + "_" + a.LawArticles.indexOf( aa ) + "_rf_" + ( rif[l.indexOf(a)][ a.LawArticles.indexOf( aa ) ] ++ ) , append: temprf } ) ) ; } ) ; 
@@ -897,26 +928,26 @@ $( () =>
                 ril[ril.length - 1].push( 0 ) ; 
                 rif[rif.length - 1].push( 0 ) ; 
                 const a_l = n_art[iii].art.length , constant = String( iii ) + "_art_" + n_art[iii].art.length ; 
-                $( "#" + String( iii ) + "_art" ).append( $( "<div />" , { id: constant ,style: "background-image:linear-gradient(270deg,#ff0,#0ff);color:#f00;border:3px solid #f0f7;margin:.5rem .25rem;" } )
-                    .append( "<span>第</span>" )
-                    .append( $( "<input />" , { id: constant + "_n" , type: "number" , required: true , value: a_l + 1 , min: 1 , step: .01 , style: "width:5em;" } ) )
-                    .append( $( "<select />" , { id: constant + "_t" } )
-                        .append( $( "<option />" , { value: "條" , text: "條" } ) )
-                        .append( $( "<option />" , { value: "編" , text: "編" } ) )
-                        .append( $( "<option />" , { value: "章" , text: "章" } ) )
-                        .append( $( "<option />" , { value: "節" , text: "節" } ) )
-                        .append( $( "<option />" , { value: "款" , text: "款" } ) )
-                        .append( $( "<option />" , { value: "目" , text: "目" } ) )
-                    )
-                    .append( "<span class=\"" + constant + "_name\">【</span>" )
-                    .append( $( "<input />" , { id: constant + "_a" , class: constant + "_name" , type: "text" } ) )
-                    .append( "<span class=\"" + constant + "_name\">】</span>" )
-                    .append( "<br  class=\"" + constant + "_name\" />" )
-                    .append( $( "<input />" , { id: constant + "_c" , type: "text" , required: true } ) )
-                    .append($( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "相關判例" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_ac" } ) ] } ) ) 
-                    .append($( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "相關法規/條文" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_arel" } ) ] } ) ) 
-                    .append($( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "具參考價值" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_aref" } ) ] } ) ) 
-                ) ; 
+                $( "#" + String( iii ) + "_art" ).append( $( "<div />" , { id: constant ,style: "background-image:linear-gradient(270deg,#ff0,#0ff);color:#f00;border:3px solid #f0f7;margin:.5rem .25rem;" , append: [ 
+                    "<span>第</span>" , 
+                    $( "<input />" , { id: constant + "_n" , type: "number" , required: true , value: a_l + 1 , min: 1 , step: .01 , style: "width:5em;" } ) , 
+                    $( "<select />" , { id: constant + "_t" , append: [ 
+                        $( "<option />" , { value: "條" , text: "條" } ) , 
+                        $( "<option />" , { value: "編" , text: "編" } ) , 
+                        $( "<option />" , { value: "章" , text: "章" } ) , 
+                        $( "<option />" , { value: "節" , text: "節" } ) , 
+                        $( "<option />" , { value: "款" , text: "款" } ) , 
+                        $( "<option />" , { value: "目" , text: "目" } ) 
+                    ] } ) , 
+                    "<span class=\"" + constant + "_name\">【</span>" , 
+                    $( "<input />" , { id: constant + "_a" , class: constant + "_name" , type: "text" } ) , 
+                    "<span class=\"" + constant + "_name\">】</span>" , 
+                    "<br  class=\"" + constant + "_name\" />" , 
+                    $( "<input />" , { id: constant + "_c" , type: "text" , required: true } ) , 
+                    $( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "相關判例" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_ac" } ) ] } ) , 
+                    $( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "相關法規/條文" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_arel" } ) ] } ) , 
+                    $( "<div />" , { class: constant + "_add_inf" , append: [ $( "<small />" , { text: "具參考價值" , style: "margin-left:.5rem;" } ) , $( "<button />" , { text: "+" , type: "button" , id: constant + "_aref" } ) ] } ) , 
+                ] } ) ) ; 
                 $( "#" + constant + "_t" ).on( "input" , () => 
                 {
                     $( "." + constant + "_name" ).css( "display" , $( "#" + constant + "_t" ).val() == "條" ? "inline" : "none" ) ; 
